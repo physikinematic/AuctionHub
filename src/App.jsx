@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { createTheme, ThemeProvider, Box, Grid2, Container as MuiContainer } from "@mui/material";
-import { deepOrange, grey, red } from "@mui/material/colors";
+import { brown, deepOrange, grey, orange, red } from "@mui/material/colors";
 
 import './App.css';
 
@@ -25,10 +25,10 @@ const Layout = () => {
 
   return (
     <Grid2 container sx={{ height: '100vh', bgcolor: 'background.default' }}>
-      <Grid2 sx={{ width: '5%', height: '100%' }}>
+      <Grid2 sx={{ width: {xs: '0%', sm: '5%'}, height: '100%' }}>
         <Sidebar />
       </Grid2>
-      <Grid2 sx={{ width: '95%', display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <Grid2 sx={{ width: {xs: '100%', sm: '95%'}, display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Box sx={{ p: 2 }}>
           <Header />
         </Box>
@@ -59,12 +59,15 @@ const App = () => {
         main: deepOrange[700],
       },
       background: {
-        default: '#f0f0f0',
+        default: brown[50],
       },
     },
     typography: {
       fontFamily: 'Montserrat',
-      fontSize: { xs: 8, sm: 16 },
+      fontSize: '1vw',
+      button: {
+        textTransform: 'none'
+      }
     },
     components: {
       MuiButton: {
@@ -76,7 +79,7 @@ const App = () => {
             color: grey[700],
             borderColor: grey[700],
             '&:hover': {
-              backgroundColor: grey[300],
+              backgroundColor: red[300],
             }
           },
         },

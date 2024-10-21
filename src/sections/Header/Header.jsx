@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+
 import { Toolbar, Typography, Button, Box, IconButton, TextField, InputAdornment } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+
+import { Searchbar } from "../../components/index";
 
 const Header = () => {
   const buttons = { 'Sign in': '/login' };
@@ -8,21 +10,7 @@ const Header = () => {
   return (
     <Box sx={{ position: 'relative' }}>
       <Toolbar sx={{ justifyContent: "flex-end" }}>
-        <TextField
-          label="Search"
-          variant="outlined"
-          slotProps={{
-            input: {
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton type="button" aria-label="search">
-                    <SearchIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
+        <Searchbar size='small' sx={{ width: {sm: '70%', md: '20%'} }} />
         {Object.entries(buttons).map(([label, path]) => (
           <Button key={path} component={Link} to={path} sx={{ marginInlineStart: 2 }}>
             <Typography sx={{ fontWeight: 'bold' }}>{label}</Typography>

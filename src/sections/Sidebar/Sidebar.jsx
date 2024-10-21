@@ -10,7 +10,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
-import Logo from '../../static/images/hublogo-low.png';
+import { LogoButton } from '../../components/index';
 
 const navItems = [
   { path: '/', label: 'Home', icon: <HomeIcon /> },
@@ -46,11 +46,7 @@ const Sidebar = () => {
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Link to='/'>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', m: 3 }}>
-                <Box component='img' src={Logo} alt="Logo" sx={{ width: '60%', height: 'auto' }} />
-              </Box>
-            </Link>
+            <LogoButton glowOff sx={{ width: '25%', height: 'auto', m: 3}} />
           </Box>
 
           <Divider sx={{ width: '80%', borderColor: 'black' }} variant="middle" />
@@ -101,19 +97,19 @@ const Sidebar = () => {
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'right',
+              vertical: 'top',
+              horizontal: 'center',
             }}
             transformOrigin={{
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'center',
             }}
           >
             <Box>
               {(logged ? (<>
-              <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-              <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Logout</MenuItem> 
+                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
               </>) : <MenuItem onClick={handleMenuClose}>Sign in</MenuItem>)}
             </Box>
           </Menu>
