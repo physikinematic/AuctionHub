@@ -1,5 +1,3 @@
-import './Payment.css';
-
 const Payment = () => {
   return (
     <>

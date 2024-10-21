@@ -1,5 +1,3 @@
-import './AddAuction.css';
-
 const AddAuction = () => {
   return (
     <>
