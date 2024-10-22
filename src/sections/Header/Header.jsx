@@ -1,23 +1,34 @@
 import { Link } from "react-router-dom";
 
-import { Toolbar, Typography, Button, Box, IconButton, TextField, InputAdornment } from "@mui/material";
+import { Typography, Button, Grid2, Hidden, useMediaQuery } from "@mui/material";
 
-import { Searchbar } from "../../components/index";
+import { ButtonDrawer, Searchbar } from "../../components/index";
 
 const Header = () => {
-  const buttons = { 'Sign in': '/login' };
+  const buttons = { 'Sign in': '/signin' };
+  const isMediumDevice = useMediaQuery(
+    "only screen and (min-width : 600px)"
+  );
+  const size = isMediumDevice ? 'medium' : 'small';
 
   return (
-    <Box sx={{ position: 'relative' }}>
-      <Toolbar sx={{ justifyContent: "flex-end" }}>
-        <Searchbar size='small' sx={{ width: {sm: '70%', md: '20%'} }} />
+    <Grid2 container spacing={2} sx={{ m: 2.5 }}>
+      <Grid2 item container size='auto'>
+        <Hidden smUp>
+          <ButtonDrawer />
+        </Hidden>
+      </Grid2>
+      <Grid2 item container size='grow'>
+        <Searchbar size={size} sx={{ width: { xs: '100%', sm: '100%' } }} />
+      </Grid2>
+      <Grid2 item container size='auto'>
         {Object.entries(buttons).map(([label, path]) => (
-          <Button key={path} component={Link} to={path} sx={{ marginInlineStart: 2 }}>
+          <Button key={path} component={Link} to={path}>
             <Typography sx={{ fontWeight: 'bold' }}>{label}</Typography>
           </Button>
         ))}
-      </Toolbar>
-    </Box>
+      </Grid2>
+    </Grid2>
   );
 };
 

@@ -6,7 +6,6 @@ export {default as Home} from './Home/Home';
 export {default as Auctions} from './Auctions/Auctions';
 export {default as Bids} from './Bids/Bids';
 export {default as Payment} from './Payment/Payment';
-export {default as Login} from './Login/Login';
-export {default as Register} from './Register/Register';
+export {default as SignIn} from './SignIn/SignIn';
 export {default as Legal} from './Legal/Legal';
 export {default as PrivacyPolicy} from './PrivacyPolicy/PrivacyPolicy';

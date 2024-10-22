@@ -1,5 +1,5 @@
-import { Box, Typography } from "@mui/material";
-import { Form } from "../index";
+import { Box, Hidden, Typography } from "@mui/material";
+import { Form, LogoButton } from "../index";
 
 
 const RegistrationForm = (props) => {
@@ -8,20 +8,39 @@ const RegistrationForm = (props) => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      flexDirection='column'
-      {...props.sx}
+      sx={{ height: '100vh', bgcolor: 'black' }}
     >
-      <Typography sx={{ fontWeight: 'bold', fontSize: '3vw', m: 6 }}>
-        {[props.label]}
-      </Typography>
-      <Form
-        sx={props.formStyle}
-        fields={props.fields}
-        submit={props.submit}
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection='column'
+        sx={{bgcolor: 'white', borderRadius: 45, ...props.sx}}
       >
-        {props.children}
-      </Form>
-    </Box>
+        <Typography sx={{ fontWeight: 'bold', fontSize: { xs: '8vw', sm: '3vw' }, m: 6 }}>
+          {[props.label]}
+        </Typography>
+        <Form
+          sx={props.form_sx}
+          fields={props.fields}
+          submit={props.submit}
+        >
+          {props.children}
+        </Form>
+      </Box>
+      <Hidden smDown>
+        {props.includeLogo &&
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection='column'
+            sx={{ width: '50%', height: '100%' }}
+          >
+            <LogoButton sx={{ width: '20%' }} />
+          </Box>}
+      </Hidden>
+    </Box >
   )
 }
 

@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Avatar, Box, Divider, Menu, Tab, Tabs, IconButton, MenuItem } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
@@ -39,14 +39,15 @@ const Sidebar = () => {
     <>
       <Box
         sx={{
-          height: '100vh',
-          display: 'flex',
+          height: '100%',
+          width: 80,
+          display: 'inline-flex',
           flexDirection: 'row',
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <LogoButton glowOff sx={{ width: '25%', height: 'auto', m: 3}} />
+        <Box sx={{ display: 'inline-flex', flexDirection: 'column', flexGrow: 1, alignItems: 'center' }}>
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+            <LogoButton glowOff sx={{ width: '50%', height: 'auto', m: 3 }} />
           </Box>
 
           <Divider sx={{ width: '80%', borderColor: 'black' }} variant="middle" />
@@ -79,7 +80,7 @@ const Sidebar = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                   textTransform: 'none',
-                  minHeight: 60,
+                  minHeight: 80,
                   height: 'auto',
                 }}
               />

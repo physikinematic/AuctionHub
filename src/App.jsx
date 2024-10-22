@@ -1,22 +1,21 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { createTheme, ThemeProvider, Box, Grid2, Container as MuiContainer } from "@mui/material";
-import { brown, deepOrange, grey, orange, red } from "@mui/material/colors";
+import { createTheme, ThemeProvider, Grid2, Hidden } from "@mui/material";
+import { brown, grey, red } from "@mui/material/colors";
 
 import './App.css';
 
 import { Sidebar, Header } from './sections/index';
-import { About, AddAuction, Contact, Help, Home, Auctions, Bids, Payment, Login, Register, Legal, PrivacyPolicy } from './pages/index';
+import { About, AddAuction, Contact, Help, Home, Auctions, Bids, Payment, SignIn, Legal, PrivacyPolicy } from './pages/index';
 
 const Layout = () => {
   const location = useLocation();
 
-  const separatePages = ['/login', '/register', '/legal', '/privacy-policy'];
+  const separatePages = ['/signin', '/register', '/legal', '/privacy-policy'];
 
   if (separatePages.includes(location.pathname)) {
     return (
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
+        <Route path='/signin' element={<SignIn />} />
         <Route path='/legal' element={<Legal />} />
         <Route path='/privacy-policy' element={<PrivacyPolicy />} />
       </Routes>
@@ -24,15 +23,17 @@ const Layout = () => {
   }
 
   return (
-    <Grid2 container sx={{ height: '100vh', bgcolor: 'background.default' }}>
-      <Grid2 sx={{ width: {xs: '0%', sm: '5%'}, height: '100%' }}>
-        <Sidebar />
+    <Grid2 container direction='row' sx={{ height: '100vh', bgcolor: 'background.default' }}>
+      <Grid2 item size={{ xs: 0, sm: 'auto' }}>
+        <Hidden smDown>
+          <Sidebar />
+        </Hidden>
       </Grid2>
-      <Grid2 sx={{ width: {xs: '100%', sm: '95%'}, display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <Box sx={{ p: 2 }}>
+      <Grid2 item direction="column" size='grow' container>
+        <Grid2 item sx={{ height: '10%' }}>
           <Header />
-        </Box>
-        <MuiContainer sx={{ flex: 1, p: 3 }}>
+        </Grid2>
+        <Grid2 item sx={{ height: '90%' }}>
           <Routes>
             <Route index element={<Home />} />
             <Route path='/add-auction' element={<AddAuction />} />
@@ -43,7 +44,7 @@ const Layout = () => {
             <Route path='/about' element={<About />} />
             <Route path='/contact' element={<Contact />} />
           </Routes>
-        </MuiContainer>
+        </Grid2>
       </Grid2>
     </Grid2>
   );
@@ -55,19 +56,12 @@ const App = () => {
       primary: {
         main: red[600],
       },
-      secondary: {
-        main: deepOrange[700],
-      },
       background: {
-        default: brown[50],
-      },
+        default: brown[50]
+      }
     },
     typography: {
-      fontFamily: 'Montserrat',
-      fontSize: '1vw',
-      button: {
-        textTransform: 'none'
-      }
+      fontFamily: 'Montserrat'
     },
     components: {
       MuiButton: {
@@ -79,8 +73,43 @@ const App = () => {
             color: grey[700],
             borderColor: grey[700],
             '&:hover': {
-              backgroundColor: red[300],
-            }
+              borderColor: red[500],
+              color: red[500]
+            },
+            fontWeight: 'bold',
+            textTransform: 'none',
+          },
+        },
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            fontFamily: 'typography.fontFamily',
+            fontSize: { xs: '2vw', sm: '1vw' }
+          },
+        },
+      },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: grey[500],
+              },
+              '&:hover fieldset': {
+                borderColor: red[800],
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: grey[500],
+              },
+            },
+            '& .MuiInputLabel-root': {
+              color: grey[400],
+              fontSize: { xs: '2vw', sm: '1vw' },
+              '&.Mui-focused': {
+                color: grey[500],
+              },
+            },
           },
         },
       },
@@ -95,8 +124,8 @@ const App = () => {
         styleOverrides: {
           root: {
             fontSize: '1.5rem',
-          },
-        },
+          }
+        }
       },
       MuiDivider: {
         styleOverrides: {
