@@ -19,7 +19,6 @@ const Searchbar = (props) => {
         },
       }}
       {...props}
-      InputProps={{ sx: { hieght: 200 } }}
     />
   )
 }

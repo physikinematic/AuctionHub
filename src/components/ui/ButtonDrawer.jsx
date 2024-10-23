@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Box, Button, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Button, Divider, Drawer, Grid2, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import ListIcon from '@mui/icons-material/List';
 
 const ButtonDrawer = ({ label, includeIcon = true, lists = [],  button_sx, sx }) => {
@@ -11,7 +11,7 @@ const ButtonDrawer = ({ label, includeIcon = true, lists = [],  button_sx, sx })
   };
 
   const DrawerList = (
-    <Box role="presentation" onClick={toggleDrawer(false)}>
+    <Grid2 role="presentation" onClick={toggleDrawer(false)}>
       {lists.map((list, index) =>
         <>
           <List>
@@ -29,7 +29,7 @@ const ButtonDrawer = ({ label, includeIcon = true, lists = [],  button_sx, sx })
           {index < list.length && <Divider />}
         </>)
       }
-    </Box>
+    </Grid2>
   );
 
   return (

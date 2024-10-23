@@ -1,7 +1,7 @@
-export {default as CustomLink} from './ui/CustomLink/CustomLink';
-export {default as LogoButton} from './ui/LogoButton/LogoButton';
-export {default as Form} from './ui/Form/Form';
-export {default as RegistrationForm} from './RegistrationForm/RegistrationForm';
-export {default as Searchbar} from './ui/Searchbar/Searchbar';
-export {default as ButtonMenu} from './ui/ButtonMenu/ButtonMenu';
-export {default as ButtonDrawer} from './ui/ButtonDrawer/ButtonDrawer';
+export {default as CustomLink} from './ui/CustomLink';
+export {default as LogoButton} from './ui/LogoButton';
+export {default as Form} from './ui/Form';
+export {default as RegistrationForm} from './RegistrationForm';
+export {default as Searchbar} from './ui/Searchbar';
+export {default as ButtonMenu} from './ui/ButtonMenu';
+export {default as ButtonDrawer} from './ui/ButtonDrawer';

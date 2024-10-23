@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { Typography, Button, Grid2, Hidden, useMediaQuery } from "@mui/material";
 
-import { ButtonDrawer, Searchbar } from "../../components/index";
+import { ButtonDrawer, Searchbar } from "../components/index";
 
 const Header = () => {
   const buttons = { 'Sign in': '/signin' };

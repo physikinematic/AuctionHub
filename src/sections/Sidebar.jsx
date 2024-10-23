@@ -10,7 +10,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
-import { LogoButton } from '../../components/index';
+import { LogoButton } from '../components/index';
 
 const navItems = [
   { path: '/', label: 'Home', icon: <HomeIcon /> },
@@ -47,7 +47,7 @@ const Sidebar = () => {
       >
         <Box sx={{ display: 'inline-flex', flexDirection: 'column', flexGrow: 1, alignItems: 'center' }}>
           <Box sx={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-            <LogoButton glowOff sx={{ width: '50%', height: 'auto', m: 3 }} />
+            <LogoButton glowOff sx={{ width: '50%', height: 'auto', m: 4 }} />
           </Box>
 
           <Divider sx={{ width: '80%', borderColor: 'black' }} variant="middle" />
