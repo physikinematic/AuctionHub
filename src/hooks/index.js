@@ -1,0 +1,1 @@
+export {useMediaQueryShort} from './useMediaQueryShort';

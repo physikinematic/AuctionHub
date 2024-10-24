@@ -1,45 +1,58 @@
 import { useState } from "react";
 
-import { Button, Divider, Drawer, Grid2, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Button, Divider, Drawer, Grid2, Typography } from "@mui/material";
 import ListIcon from '@mui/icons-material/List';
 
-const ButtonDrawer = ({ label, includeIcon = true, lists = [],  button_sx, sx }) => {
+const ButtonDrawer = ({ label, includeIcon = true, lists }) => {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  const DrawerList = (
-    <Grid2 role="presentation" onClick={toggleDrawer(false)}>
-      {lists.map((list, index) =>
-        <>
-          <List>
-            {list.items.map((item) => (
-              <ListItem key={item.text} disablePadding>
-                <ListItemButton onClick={item.onClick}>
-                  <ListItemIcon>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          {index < list.length && <Divider />}
-        </>)
-      }
+  const DrawerGrid = (
+    <Grid2
+      container
+      direction='column'
+      onClick={toggleDrawer(false)}
+      sx={{ bgcolor: 'background.default', height: '100%' }}
+    >
+      {lists.map((list, index) => (
+        <Grid2 key={index} size='grow' item container direction='column'>
+          {list.map((item) => (
+            <Grid2 item key={item.label} sx={{ flexGrow: 1 }}> 
+              <Button
+                onClick={item.onClick}
+                sx={{ 
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: 0,
+                  justifyContent: 'flex-start', 
+                  borderColor: 'transparent' }}
+              >
+                {item.icon}
+                <Typography>{item.label}</Typography>
+              </Button>
+            </Grid2>
+          ))}
+          {index < lists.length - 1 && (
+            <Grid2 item>
+              <Divider sx={{ width: '100%' }} variant="middle" />
+            </Grid2>
+          )}
+        </Grid2>
+      ))}
     </Grid2>
   );
 
   return (
     <>
-      <Button { ...button_sx} onClick={toggleDrawer(true)}>
-        {includeIcon && <ListIcon/>}
+      <Button onClick={toggleDrawer(true)}>
+        {includeIcon && <ListIcon />}
         {label && <Typography sx={{ fontWeight: 'bold', marginInlineStart: 1 }}>{label}</Typography>}
       </Button>
-      <Drawer {...sx} open={open} onClose={toggleDrawer(false)}>
-        {DrawerList}
+      <Drawer open={open} onClose={toggleDrawer(false)} sx={{ '& .MuiDrawer-paper': { width: '50%' } }}>
+        {DrawerGrid}
       </Drawer>
     </>
   );

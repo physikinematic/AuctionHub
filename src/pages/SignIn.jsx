@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import { CustomLink, RegistrationForm } from '../components/index';
+import { CustomLink, RegistrationForm } from '../components';
 
 const regex = {
-  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
-  text: /^[a-zA-Z]+$/
+  'email': /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  'password': /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+  'first name': /^[a-zA-Z]+$/,
+  'last name': /^[a-zA-Z]+$/
 };
 
 const layouts = {
@@ -44,9 +45,15 @@ const layouts = {
 };
 
 const SignIn = () => {
-  const [targetLayout, setTargetLayout] = useState(layouts.signin);
   const [formValues, setFormValues] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [updatedLayouts, setUpdatedLayouts] = useState({});
+  const [targetLayout, setTargetLayout] = useState(layouts.signin);
+
+  const altTextEvents = {
+    'Sign In': () => setTargetLayout(updatedLayouts.signup),
+    'Sign Up': () => setTargetLayout(updatedLayouts.signin),
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,48 +61,60 @@ const SignIn = () => {
 
     let isValid = false;
     if (regex[name]) {
-      isValid = regex[name].test(value);
+      isValid = !value || regex[name].test(value);
     }
 
     setFormErrors({ ...formErrors, [name]: !isValid });
   };
 
-  const resetFields = () => {
-    setFormErrors({});
+  const handleInputErrorMessage = (field) => {
+    let message = '';
+    switch (field.type) {
+      case 'password':
+        message = `${field.label} shall be a minimum of 8 characters, and contain at least one capital letter, one small letter, and one symbol.`;
+        break;
+      default:
+        message = `${field.label} is not valid.`;
+        break;
+    }
+    return message;
+  }
+
+  useEffect(() => {
+    const newLayout = Object.fromEntries(
+      Object.entries(layouts).map(([key, layout]) => {
+        console.log('called');
+        layout.fields.forEach(field => {
+          Object.assign(field, {
+            onChange: handleInputChange,
+            error: formErrors[field.label.toLowerCase()],
+            helperText: formErrors[field.label.toLowerCase()] ? handleInputErrorMessage(field) : '',
+            name: field.label.toLowerCase(),
+            value: formValues[field.label.toLowerCase()]
+          });
+        });
+        return [key, layout];
+      }));
+    setUpdatedLayouts(newLayout);
+  }, [formErrors, formValues]);
+
+
+  useEffect(() => {
     setFormValues({});
-  }
-
-  const resetLayout = label => {
-    resetFields();
-    setTargetLayout(label);
-  }
-
-  const altTextEvents = {
-    'Sign In': () => { resetLayout(layouts.signup) },
-    'Sign Up': () => { resetLayout(layouts.signin) },
-  };
-
-  const updatedFields = targetLayout.fields.map((field) => ({
-    ...field,
-    onBlur: handleInputChange,
-    error: formErrors[field.label.toLowerCase()],
-    helperText: formErrors[field.label.toLowerCase()] ? `${field.label} is invalid` : '',
-    name: field.label.toLowerCase(),
-  }));
+    setFormErrors({});
+  }, [targetLayout]);
 
   return (
     <RegistrationForm
       label={targetLayout.label}
-      fields={updatedFields}
-      form_sx={{ width: { xs: '70%', sm: '60%' } }}
-      sx={{ bgcolor: 'background.default', height: '100%' }}
+      fields={targetLayout.fields}
       submit={{
         label: targetLayout.submit.label,
         onClick: targetLayout.submit.onClick
       }}
       includeLogo
     >
-      <Typography variant="body2" sx={{ marginTop: 2 }}>
+      <Typography sx={{ marginTop: 2 }}>
         {targetLayout.altText.text} <CustomLink onClick={altTextEvents[targetLayout.label]}>{targetLayout.altText.linkText}</CustomLink>
       </Typography>
     </RegistrationForm>

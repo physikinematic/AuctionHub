@@ -1,25 +1,30 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Typography, Button, Grid2, Hidden, useMediaQuery } from "@mui/material";
 
-import { ButtonDrawer, Searchbar } from "../components/index";
+import { ButtonDrawer, Searchbar } from "../components";
+import { navItems } from './Sidebar';
+import { useMediaQueryShort } from "../hooks";
 
 const Header = () => {
   const buttons = { 'Sign in': '/signin' };
-  const isMediumDevice = useMediaQuery(
-    "only screen and (min-width : 600px)"
-  );
+  const isMediumDevice = useMediaQueryShort().md;
   const size = isMediumDevice ? 'medium' : 'small';
+
+  const navigate = useNavigate();
+  const drawerItems = navItems.map(item => {
+    return {...item, onClick: () => { navigate(item.path); }}
+  });
 
   return (
     <Grid2 container spacing={2} sx={{ m: 2.5 }}>
       <Grid2 item container size='auto'>
-        <Hidden smUp>
-          <ButtonDrawer />
+        <Hidden mdUp>
+          <ButtonDrawer lists={[drawerItems]} />
         </Hidden>
       </Grid2>
       <Grid2 item container size='grow'>
-        <Searchbar size={size} sx={{ width: { xs: '100%', sm: '100%' } }} />
+        <Searchbar size={size} sx={{ width: '100%' }} />
       </Grid2>
       <Grid2 item container size='auto'>
         {Object.entries(buttons).map(([label, path]) => (

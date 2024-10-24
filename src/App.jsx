@@ -4,8 +4,10 @@ import { brown, grey, red } from "@mui/material/colors";
 
 import './App.css';
 
-import { Sidebar, Header } from './sections/index';
-import { About, AddAuction, Contact, Help, Home, Auctions, Bids, Payment, SignIn, Legal, PrivacyPolicy } from './pages/index';
+import { Sidebar, Header } from './sections';
+import { About, AddAuction, Contact, Help, Home, Auctions, Bids, Payment, SignIn, Legal, PrivacyPolicy } from './pages';
+
+import { AccountProvider } from "./contexts";
 
 const Layout = () => {
   const location = useLocation();
@@ -61,7 +63,8 @@ const App = () => {
       }
     },
     typography: {
-      fontFamily: 'Montserrat'
+      fontFamily: 'Montserrat',
+      fontSize: '1vw'
     },
     components: {
       MuiButton: {
@@ -78,14 +81,6 @@ const App = () => {
             },
             fontWeight: 'bold',
             textTransform: 'none',
-          },
-        },
-      },
-      MuiTypography: {
-        styleOverrides: {
-          root: {
-            fontFamily: 'typography.fontFamily',
-            fontSize: { xs: '2vw', sm: '1vw' }
           },
         },
       },
@@ -120,6 +115,13 @@ const App = () => {
           },
         },
       },
+      MuiDivider: {
+        styleOverrides: {
+          root: {
+            bgcolor: 'black',
+          },
+        },
+      },
       MuiSvgIcon: {
         styleOverrides: {
           root: {
@@ -139,9 +141,11 @@ const App = () => {
 
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <Layout />
-      </ThemeProvider>
+      <AccountProvider>
+        <ThemeProvider theme={theme}>
+          <Layout />
+        </ThemeProvider>
+      </AccountProvider>
     </Router>
   );
 };
