@@ -1,0 +1,11 @@
+export {default as About} from './About';
+export {default as AddAuction} from './AddAuction';
+export {default as Contact} from './Contact';
+export {default as Help} from './Help';
+export {default as Home} from './Home';
+export {default as Auctions} from './Auctions';
+export {default as Bids} from './Bids';
+export {default as Payment} from './Payment';
+export {default as SignIn} from './SignIn';
+export {default as Legal} from './Legal';
+export {default as PrivacyPolicy} from './PrivacyPolicy';
