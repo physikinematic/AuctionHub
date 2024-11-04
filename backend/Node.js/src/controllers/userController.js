@@ -2,7 +2,7 @@ const userServices = require('../services/userServices');
 
 const getAllUsers = async (req, res) => {
   try {
-    const all = await userServices.getAll();
+    const all = await userServices.getAll(req.query);
     res.status(200).json(all);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -29,7 +29,7 @@ const signUpUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    await userServices.deleteUser(req.params.id);
+    await userServices.deleteUser(req.params);
     res.status(200).json({ message: 'User deleted successfully!' });
   } catch (err) {
     res.status(500).json({ message: err.message });

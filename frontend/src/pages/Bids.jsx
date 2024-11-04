@@ -5,7 +5,7 @@ import { useEffect } from "react";
 
 const Bids = () => {
   const { bidAuctions } = useAuctions();
-  const {isAuthenticated} = useAccount();
+  const { isAuthenticated } = useAccount();
   const navigate = useNavigate();
 
   useEffect(() => {

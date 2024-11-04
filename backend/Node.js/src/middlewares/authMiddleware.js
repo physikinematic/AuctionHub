@@ -4,11 +4,11 @@ module.exports = async (req, res, next) => {
   try {
     const { id } = req.params;
     const user = await UserModel.findById({ _id: id });
-    if (user.role === 'Admin') {
+    if (user.role === 'admin') {
       next();
     }
     else {
-      throw new Error();
+      res.status(401).send('Unauthorized');
     }
   }
   catch (err) {
