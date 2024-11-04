@@ -12,9 +12,11 @@ const getUser = async (data) => {
       validate('email', data['email'])
       && validate('password', data['password'])
     ) {
+      const userFound = UserModel.findOne({ email: data.email });
+      if (!userFound) return { success: false, message: 'Error signing in', error };
       const encryptedPassword = encrypt(data['password']);
-      await UserModel.findOne({ email: data.email, password: encryptedPassword });
-      return { success: true, message: 'User signed in successfully!' };
+      // TODO
+      return userFound;
     }
   }
   catch (error) {
