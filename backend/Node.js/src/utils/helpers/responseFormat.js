@@ -1,6 +1,5 @@
-module.exports = (success, message, data) => {
+module.exports = (message, data) => {
   return {
-    success: success,
     message: message,
     data: data
   };
