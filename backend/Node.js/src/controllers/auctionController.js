@@ -11,7 +11,7 @@ const getAll = async (req, res) => {
 
 const getAllOwned = async (req, res) => {
   try {
-    const owned = await auctionServices.getAllOwned(req.params);
+    const owned = await auctionServices.getAllOwned(req.params, req.query);
     res.status(200).json(owned);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
@@ -20,7 +20,7 @@ const getAllOwned = async (req, res) => {
 
 const getAllBid = async (req, res) => {
   try {
-    const bid = await auctionServices.getAllBid(req.params);
+    const bid = await auctionServices.getAllBid(req.params, req.query);
     res.status(200).json(bid);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });

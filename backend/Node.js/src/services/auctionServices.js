@@ -12,8 +12,8 @@ const getAll = async (query) => {
   const _page = parseInt(page);
   const _limit = parseInt(limit);
 
-  const auctions = await Auction.findOne().skip((_page - 1) * _limit).limit(_limit);
-  
+  const auctions = await Auction.find().skip((_page - 1) * _limit).limit(_limit);
+
   const total = await Auction.countDocuments();
 
   return response('Batch Auctions Retrieved Successfully',
@@ -31,31 +31,30 @@ const getAll = async (query) => {
 
 const getAllOwned = async (params, query) => {
   const { ownerId } = params;
-  if (User.findOne({ _id: ownerId })) {
-    const { page = 1, limit = 20 } = query;
+  const { page = 1, limit = 20 } = query;
 
-    const _page = parseInt(page);
-    const _limit = parseInt(limit);
-
-    const auctions = await Auction.findOne({ ownerId: ownerId }).skip((_page - 1) * _limit).limit(_limit);
-
-    const total = await Auction.countDocuments({ ownerId: ownerId });
-
-    return response('Owned Auctions Retrieved Successfully',
-      auctions,
-      {
-        pagination: {
-          total: total,
-          page: _page,
-          limit: _limit,
-          totalPages: Math.ceil(total / _limit),
-        }
-      }
-    );
-  }
-  else {
+  if (!User.findOne({ _id: ownerId })) {
     throw new RequestError(404, `User ${ownerId} Not Found`);
   }
+
+  const _page = parseInt(page);
+  const _limit = parseInt(limit);
+
+  const auctions = await Auction.findOne({ ownerId: ownerId }).skip((_page - 1) * _limit).limit(_limit);
+
+  const total = await Auction.countDocuments({ ownerId: ownerId });
+
+  return response('Owned Auctions Retrieved Successfully',
+    auctions,
+    {
+      pagination: {
+        total: total,
+        page: _page,
+        limit: _limit,
+        totalPages: Math.ceil(total / _limit),
+      }
+    }
+  );
 }
 
 const getAllBid = async (params, query) => {
