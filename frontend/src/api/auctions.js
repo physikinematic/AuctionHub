@@ -1,22 +1,35 @@
-import { fetch } from "./fetch";
+import { get } from "./helpers/request";
 
-const prefix = 'auction/';
-const allPath = `${prefix}all`;
-const ownedPath = `${prefix}owned?id=`;
-const bidPath = `${prefix}bid?id=`;
+const mainPath = '/auction';
 
-const all = () => {
-  return fetch(allPath);
+const getAll = async (page, limit) => {
+  return await get(mainPath, 'application/json', { page, limit })
 }
 
-const bid = (id) => {
-  return fetch(`${bidPath}${encodeURIComponent(id)}`);
+const getAllOwned = async (ownerId, page, limit) => {
+  return await get(`${mainPath}/owned/${ownerId}`, 'application/json', { page, limit })
 }
 
-const owned = (id) => {
-  return fetch(`${ownedPath}${encodeURIComponent(id)}`);
+const getAllBid = async (ownerId, page, limit ) => {
+  return await get(`${mainPath}/bid/${ownerId}`, 'application/json', { page, limit })
 }
 
-const auction = { all, bid, owned };
+const addAuction = async () => {
+
+}
+
+const addBid = async () => {
+
+}
+
+const deleteBid = async () => {
+
+}
+
+const deleteAuction = async () => {
+
+}
+
+const auction = { getAll, getAllBid, getAllOwned, addAuction, addBid, deleteAuction, deleteBid };
 
 export { auction };

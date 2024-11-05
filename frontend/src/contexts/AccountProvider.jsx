@@ -8,7 +8,12 @@ export const useAccount = () => {
 }
 
 export const AccountProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    'id': '6729d0fe8cbcba29bfead38d',
+    'first name': "Suhib",
+    'last name': "AK",
+    'email': "test@test.test"
+  });
 
   const signin = (data) => {
     api.user.signIn(data).then((res) => {

@@ -1,118 +1,176 @@
 const Auction = require('../models/Auction');
 const User = require('../models/User');
-
-const fs = require('fs');
-const imgPath = '../static/images';
+const RequestError = require('../utils/errors/RequestError');
 
 const validate = require('../utils/helpers/textValidator');
-const responseFormat = require('../utils/helpers/responseFormat');
+const response = require('../utils/helpers/responseFormat');
+const Bid = require('../models/Bid');
 
 const getAll = async (query) => {
   const { page = 1, limit = 20 } = query;
 
-  page = parseInt(page);
-  limit = parseInt(limit);
+  const _page = parseInt(page);
+  const _limit = parseInt(limit);
 
-  const auctions = await Auction.find().skip((page - 1) * limit).limit(limit);
-
+  const auctions = await Auction.findOne().skip((_page - 1) * _limit).limit(_limit);
+  
   const total = await Auction.countDocuments();
 
-  return responseFormat('Batch auctions retrieved successfully', {
-    data: auctions,
-    pagination: {
-      total: total,
-      page: page,
-      limit: limit,
-      totalPages: Math.ceil(total / limit),
+  return response('Batch Auctions Retrieved Successfully',
+    auctions,
+    {
+      pagination: {
+        total: total,
+        page: _page,
+        limit: _limit,
+        totalPages: Math.ceil(total / _limit),
+      }
     }
-  });
+  );
 }
 
-const getOwned = async (params, query) => {
+const getAllOwned = async (params, query) => {
   const { ownerId } = params;
-  if (User.findById(ownerId)) {
+  if (User.findOne({ _id: ownerId })) {
     const { page = 1, limit = 20 } = query;
 
-    page = parseInt(page);
-    limit = parseInt(limit);
+    const _page = parseInt(page);
+    const _limit = parseInt(limit);
 
-    const auctions = await Auction.find({ ownerId: ownerId }).skip((page - 1) * limit).limit(limit);
+    const auctions = await Auction.findOne({ ownerId: ownerId }).skip((_page - 1) * _limit).limit(_limit);
 
     const total = await Auction.countDocuments({ ownerId: ownerId });
 
-    return responseFormat('Batch auctions retrieved successfully', {
-      data: auctions,
-      pagination: {
-        total: total,
-        page: page,
-        limit: limit,
-        totalPages: Math.ceil(total / limit),
+    return response('Owned Auctions Retrieved Successfully',
+      auctions,
+      {
+        pagination: {
+          total: total,
+          page: _page,
+          limit: _limit,
+          totalPages: Math.ceil(total / _limit),
+        }
       }
-    });
+    );
   }
   else {
-    throw new Error(`User ${ownerId} not found`);
+    throw new RequestError(404, `User ${ownerId} Not Found`);
   }
 }
 
-const getBid = async (params, query) => {
+const getAllBid = async (params, query) => {
   const { ownerId } = params;
-  if (User.findById(ownerId)) {
-    const { page = 1, limit = 20 } = query;
 
-    page = parseInt(page);
-    limit = parseInt(limit);
+  const user = await User.findOne({ _id: ownerId })
+  if (!user) {
+    throw new RequestError(404, `User ${ownerId} Not Found`);
+  }
 
-    const auctions = await Auction.find({ bids: { $elemMatch: { ownerId: ownerId } } }).skip((page - 1) * limit).limit(limit);
+  const { page = 1, limit = 20 } = query;
 
-    const total = await Auction.countDocuments({ bids: { $elemMatch: { ownerId: ownerId } } });
+  const _page = parseInt(page);
+  const _limit = parseInt(limit);
 
-    return responseFormat('Bid auctions retrieved successfully', {
-      data: auctions,
+  const auctions = await Auction.findOne({ bids: { $elemMatch: { ownerId: ownerId } } }).skip((_page - 1) * _limit).limit(_limit);
+
+  const total = await Auction.countDocuments({ bids: { $elemMatch: { ownerId: ownerId } } });
+
+  return response('Bid Auctions Retrieved Successfully', auctions,
+    {
       pagination: {
         total: total,
-        page: page,
-        limit: limit,
-        totalPages: Math.ceil(total / limit),
+        page: _page,
+        limit: _limit,
+        totalPages: Math.ceil(total / _limit),
       }
-    });
-  }
-  else {
-    throw new Error(`User ${ownerId} not found`);
-  }
+    }
+  );
 }
 
 const addAuction = async (body) => {
   const { ownerId, name, endDate } = body;
-  if (User.findById(ownerId)) {
-    if (validate('text', name)
-      && validate('date', endDate)) {
-      const newAuction = new Auction({
-        'name': name,
-        'ownerId': ownerId,
-        'endDate': new Date(endDate)
-      });
-      return responseFormat(`Auction Added Successfully`, await newAuction.save());
-    }
-    else {
-      throw new Error(`Invalid Auction Data`);
-    }
+
+  const user = await User.findOne({ _id: ownerId });
+
+  if (!user) {
+    throw new RequestError(404, `User ${ownerId} Not Found`);
   }
-  else {
-    throw new Error(`User ${ownerId} not found`);
+
+  if (!validate('date', endDate)) {
+    throw new RequestError(400, `Invalid Auction Data`);
   }
-}
+
+  try {
+    const auction = await new Auction({
+      name,
+      ownerId,
+      endDate: new Date(endDate)
+    }).save();
+    return response(`Auction Added Successfully`, auction);
+  }
+  catch (error) {
+    throw new RequestError(500, `Unexpected Server Error: ${error.message}`);
+  }
+
+};
 
 const addBid = async (params, body) => {
+  const { id } = params;
+  const { ownerId, value } = body;
 
+  const user = await User.findOne({ _id: ownerId });
+  if (!user) {
+    throw new RequestError(404, `User ${ownerId} Not Found`);
+  }
+
+  const auction = await Auction.findOne({ _id: id });
+  if (!auction) {
+    throw new RequestError(404, `Auction ${id} Not Found`);
+  }
+
+  if (typeof value !== 'number') {
+    throw new RequestError(400, 'Invalid Value');
+  }
+
+  try {
+    const bid = await new Bid({ ownerId, value }).save();
+    if (!auction.bids) auction.bids = [];
+    auction.bids.push(bid['_id']);
+    return response(`Bid Added Successfully`, await auction.save());
+  }
+  catch (error) {
+    throw new RequestError(500, `Unexpected Server Error: ${error.message}`);
+  }
 }
 
-const removeBid = async (params, body) => {
+const removeBid = async (params) => {
+  const { id, bidId } = params;
+  const auction = await Auction.findOne({ _id: id });
 
+  if (!auction) {
+    throw new RequestError(404, `Auction ${id} Not Found`);
+  }
+
+  if (!auction.bids || !auction.bids.includes(bidId)) {
+    throw new RequestError(404, `Bid ${bidId} Not Found`);
+  }
+
+  const bidIndex = auction.bids.indexOf(bidId);
+  auction.bids.splice(bidIndex, 1);
+  await Bid.findOneAndDelete({ _id: bidId });
+
+  return response(`Bid Removed Successfully`, await auction.save());
 }
 
 const deleteAuction = async (params) => {
+  const { id } = params;
+  const auction = await Auction.findOneAndDelete({ _id: id });
 
+  if (!auction) {
+    throw new RequestError(404, `Auction ${id} Not Found`);
+  }
+
+  return response(`Auction Deleted Successfully`, auction);
 }
 
-module.exports = { getAll, getOwned, getBid, addAuction, addBid, removeBid, deleteAuction };
+module.exports = { getAll, getAllOwned, getAllBid, addAuction, addBid, removeBid, deleteAuction };

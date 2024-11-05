@@ -5,7 +5,7 @@ const getAllUsers = async (req, res) => {
     const all = await userServices.getAll(req.query);
     res.status(200).json(all);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status).json({ message: err.message });
   }
 }
 
@@ -14,7 +14,7 @@ const signInUser = async (req, res) => {
     const user = await userServices.getUser(req.body);
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status).json({ message: err.message });
   }
 }
 
@@ -23,7 +23,7 @@ const signUpUser = async (req, res) => {
     const user = await userServices.addUser(req.body);
     res.status(200).json(user);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status).json({ message: err.message });
   }
 }
 
@@ -32,7 +32,7 @@ const deleteUser = async (req, res) => {
     await userServices.deleteUser(req.params);
     res.status(200).json({ message: 'User deleted successfully!' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status).json({ message: err.message });
   }
 }
 

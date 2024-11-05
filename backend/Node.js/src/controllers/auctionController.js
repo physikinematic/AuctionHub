@@ -5,62 +5,62 @@ const getAll = async (req, res) => {
     const all = await auctionServices.getAll(req.query);
     res.status(200).json(all);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
-const getOwned = async (req, res) => {
+const getAllOwned = async (req, res) => {
   try {
-    const all = await auctionServices.getOwned(req.params);
-    res.status(200).json(all);
+    const owned = await auctionServices.getAllOwned(req.params);
+    res.status(200).json(owned);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
-const getBid = async (req, res) => {
+const getAllBid = async (req, res) => {
   try {
-    const all = await auctionServices.getBid(req.params);
-    res.status(200).json(all);
+    const bid = await auctionServices.getAllBid(req.params);
+    res.status(200).json(bid);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
 const addAuction = async (req, res) => {
   try {
-    const all = await auctionServices.addAuction(req.body);
-    res.status(200).json(all);
+    const added = await auctionServices.addAuction(req.body);
+    res.status(200).json(added);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
 const addBid = async (req, res) => {
   try {
-    const all = await auctionServices.addBid(req.params, req.body);
-    res.status(200).json(all);
+    const added = await auctionServices.addBid(req.params, req.body);
+    res.status(200).json(added);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
-const removeBid = async (req, res) => {
+const deleteBid = async (req, res) => {
   try {
-    const all = await auctionServices.removeBid(req.params, req.body);
-    res.status(200).json(all);
+    const removed = await auctionServices.removeBid(req.params);
+    res.status(200).json(removed);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
 const deleteAuction = async (req, res) => {
   try {
-    const all = await auctionServices.deleteAuction(req.params);
-    res.status(200).json(all);
+    const deleted = await auctionServices.deleteAuction(req.params);
+    res.status(200).json(deleted);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(err.status || 500).json({ message: err.message });
   }
 }
 
-module.exports = {getAll, getOwned, getBid, addAuction, addBid, removeBid, deleteAuction};
+module.exports = { getAll, getAllOwned, getAllBid, addAuction, addBid, deleteBid, deleteAuction };

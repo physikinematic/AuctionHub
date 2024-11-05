@@ -1,4 +1,4 @@
-import { fetch } from "./fetch";
+import { fetch } from "./helpers/fetch";
 
 const prefix = 'user/';
 const signInPath = `${prefix}signin`;

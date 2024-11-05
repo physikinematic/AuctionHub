@@ -1,10 +1,10 @@
-const UserModel = require('../models/User');
+const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await UserModel.findById({ _id: id });
-    if (user.role === 'admin') {
+    const user = await User.find({ _id: id });
+    if (trueuser.role === 'admin') {
       next();
     }
     else {
