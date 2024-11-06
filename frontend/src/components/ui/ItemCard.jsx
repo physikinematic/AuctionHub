@@ -2,8 +2,7 @@ import { Card, CardActions, CardContent, Grid2 } from "@mui/material";
 
 const ItemCard = ({ contents, actions }) => {
   return (
-
-    <Card elevation={4} sx={{ width: '100%', border: 1, borderColor: 'primary.main' }}>
+    <Card sx={{ width: '100%', border: 3, borderRadius: 3, borderColor: 'border.grey', p: 1 }}>
       <CardContent>
         {contents}
       </CardContent>

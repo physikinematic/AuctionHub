@@ -6,10 +6,9 @@ import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 import Logo from '../static/images/hublogo.png';
 
 import { ActionButton, ItemCard } from "./";
-import { useAccount, useAuctions } from "../contexts";
+import { useAccount } from "../contexts";
 
-const AuctionItemCard = ({ item }) => {
-  const { bids } = useAuctions();
+const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   const [highestBid, setHighestBid] = useState({});
   const theme = useTheme();
   const cardTime = new Date(item.endDate);
@@ -22,42 +21,33 @@ const AuctionItemCard = ({ item }) => {
     console.log(id);
   };
 
-  const state = isAuthenticated() ? {
-    owned: item.ownerId === user.id,
-    bid: item.bids.some(bid => bids.some(userBid => userBid.id === bid.id))
+  const buttonState = isAuthenticated() ? {
+    owned: type.owned || item['ownerId'] === user['_id'],
+    bid: type.bid || item.bids.some(bid => bid['ownerId'] === user['_id'])
   } : null;
 
   const actionButton = (label, color) => {
-    return <ActionButton sx={{ height: '5vh', ...textStyle}} color={color} label={label} onClick={() => handleDetailsClick(item.id)} />
+    return <ActionButton sx={{ height: '5vh', ...textStyle }} color={color} label={label} onClick={() => handleDetailsClick(item.id)} />
   }
-  
+
   const actions = (
     <Grid2 container columnSpacing={1} sx={{ width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
-      {state?.owned && // does the user own the item?
+      {buttonState?.owned && // does the user own the item?
         actionButton('Remove')
       }
-      {state?.bid && // is user placing bid on item?
+      {buttonState?.bid && // is user placing bid on item?
         actionButton('Withdraw')
       }
       {actionButton('Detials', 'secondary')}
     </Grid2>
   );
 
-  const getBidFromID = (id) => {
-    return bids.find(bid => bid.id === id);
-  };
-
   useEffect(() => {
-    if (item.bids.length > 0) {
-      const highestBidId = item.bids.reduce((highest, bid) =>
-        bid.order > highest.order ? bid : highest
-      ).id;
-
-      setHighestBid(getBidFromID(highestBidId));
-    } else {
-      setHighestBid(null);
-    }
-  }, [item.bids, bids]);
+    const highest = item.bids.reduce((highest, bid) =>
+      bid.dateAdded > highest.dateAdded ? bid : highest
+    );
+    setHighestBid(highest);
+  }, [item.bids]);
 
 
   useEffect(() => {
@@ -93,7 +83,7 @@ const AuctionItemCard = ({ item }) => {
   const timePaper = (children, size, bgcolor, fontColor) => {
     return (
       <Grid2 item container size={size || 'grow'} alignItems='center'>
-        <Paper sx={{ bgcolor: [bgcolor], width: '100%', height: {xs: '5vh', sm: 'calc(2.5vh + 1vw)'}, border: 1, borderColor: 'gray', borderRadius: 0 }}>
+        <Paper sx={{ bgcolor: [bgcolor], width: '100%', height: { xs: '5vh', sm: 'calc(2.5vh + 1vw)' }, border: 1, borderColor: 'border.grey', borderRadius: 0 }}>
           <Grid2 item container height='100%' alignItems='center' justifyContent='center'>
             <Typography color={fontColor} fontWeight='bold'  {...textStyle}>
               {children}
@@ -110,7 +100,7 @@ const AuctionItemCard = ({ item }) => {
         <>
           <Tooltip title="Owned by you">
             <Grid2 item container sx={{ position: 'absolute', fontSize: { xs: '5vw', sm: '2.5vw', md: '1.5vw' } }}>
-              {state?.owned && <FaCrown color='#efbf04' />}
+              {buttonState?.owned && <FaCrown color='#efbf04' />}
             </Grid2>
           </Tooltip>
           <Grid2 item container justifyContent='center' alignItems='center'>
@@ -120,7 +110,7 @@ const AuctionItemCard = ({ item }) => {
             {item.name}
           </Typography>
           <Typography {...textStyle}>
-            {highestBid ? `Current Bid: ${highestBid.value}` : 'No bids yet'}
+            {highestBid ? `Current Bid: ${highestBid.value}$` : 'No bids yet'}
           </Typography>
           <Typography {...textStyle} color={closeToEndColor}>
             <Grid2 container size='grow' alignItems='center' justifyContent='center' mt={1}>

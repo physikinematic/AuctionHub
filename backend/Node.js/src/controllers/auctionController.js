@@ -9,18 +9,18 @@ const getAll = async (req, res) => {
   }
 }
 
-const getAllOwned = async (req, res) => {
+const getOwned = async (req, res) => {
   try {
-    const owned = await auctionServices.getAllOwned(req.params, req.query);
+    const owned = await auctionServices.getOwned(req.params, req.query);
     res.status(200).json(owned);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
 }
 
-const getAllBid = async (req, res) => {
+const getBidded = async (req, res) => {
   try {
-    const bid = await auctionServices.getAllBid(req.params, req.query);
+    const bid = await auctionServices.getBidded(req.params, req.query);
     res.status(200).json(bid);
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
@@ -63,4 +63,4 @@ const deleteAuction = async (req, res) => {
   }
 }
 
-module.exports = { getAll, getAllOwned, getAllBid, addAuction, addBid, deleteBid, deleteAuction };
+module.exports = { getAll, getOwned, getBidded, addAuction, addBid, deleteBid, deleteAuction };

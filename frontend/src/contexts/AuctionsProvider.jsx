@@ -12,7 +12,6 @@ export const AuctionsProvider = ({ children }) => {
   const [ownedAuctions, setOwnedAuctions] = useState([]);
   const [bidAuctions, setBidAuctions] = useState([]);
   const [auctions, setAuctions] = useState([]);
-  const [bids, setBids] = useState([]);
   const { user, isAuthenticated } = useAccount();
 
   useEffect(() => {
@@ -21,13 +20,13 @@ export const AuctionsProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      api.auction.getAllOwned(user.id, 1, 20).then((res) => setOwnedAuctions(res.data));
+      api.auction.getOwned(user['_id'], 1, 20).then((res) => setOwnedAuctions(res.data));
     }
   }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (isAuthenticated()) {
-      api.auction.getAllBid(user.id, 1, 20).then((res) => setBidAuctions(res.data));
+      api.auction.getBidded(user['_id'], 1, 20).then((res) => setBidAuctions(res.data));
     }
   }, [isAuthenticated, user]);
 
@@ -52,11 +51,11 @@ export const AuctionsProvider = ({ children }) => {
   };
 
   const addBid = (bidData) => {
-    setBids((prevBids) => [...prevBids, bidData]);
+    
   };
 
   return (
-    <AuctionsContext.Provider value={{ auctions, ownedAuctions, bidAuctions, addAuction, bids, addBid }}>
+    <AuctionsContext.Provider value={{ auctions, ownedAuctions, bidAuctions, addAuction, addBid }}>
       {children}
     </AuctionsContext.Provider>
   );

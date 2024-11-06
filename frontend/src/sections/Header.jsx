@@ -21,7 +21,7 @@ const Header = () => {
     [{ path: '/profile', label: 'Profile', icon: <AccountBoxIcon />, onClick: () => { navigate('/profile'); } }]
     : [{ path: '/signin', label: 'Sign In', icon: <AccountBoxIcon />, onClick: () => { navigate('/signin'); } }];
 
-  const borders = smUp ? { borderBottom: 3, borderColor: 'primary.main', } : { borderBottom: 3, borderColor: 'primary.main', px: 2 };
+  const borders = smUp ? { borderBottom: 3 } : { borderBottom: 3, px: 2 };
 
   return (
     <Grid2
@@ -38,7 +38,8 @@ const Header = () => {
         justifyContent: 'center',
         px: 3.5,
         py: 1.6,
-        ...borders
+        ...borders,
+        borderColor: 'border.grey',
       }}>
 
       {!smUp &&

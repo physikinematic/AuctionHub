@@ -15,7 +15,7 @@ const Bids = () => {
   }, [isAuthenticated]);
 
   return (
-    <AuctionItemSection items={bidAuctions} label={'My Bids'} />
+    <AuctionItemSection items={bidAuctions} label={'My Bids'} type={{bid: true}} />
   );
 }
 

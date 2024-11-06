@@ -15,7 +15,7 @@ const Auctions = () => {
   }, [isAuthenticated]);
 
   return (
-    <AuctionItemSection items={ownedAuctions} label={'My Auctions'} />
+    <AuctionItemSection items={ownedAuctions} label={'My Auctions'} type={{owned: true}} />
   );
 }
 

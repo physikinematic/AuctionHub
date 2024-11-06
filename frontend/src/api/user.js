@@ -1,27 +1,38 @@
-import { fetch } from "./helpers/fetch";
+import { get, post, _delete } from "./helpers/request";
 
-const prefix = 'user/';
-const signInPath = `${prefix}signin`;
-const signOutPath = `${prefix}signout`;
-const signUpPath = `${prefix}signup`;
-const allUsersPath = `${prefix}all`;
+const mainPath = '/user';
 
-const all = () => {
-  return fetch(allUsersPath);
+const getAll = async (page, limit) => {
+  return await get({
+    path: `${mainPath}/all`,
+    query: { page, limit }
+  });
 }
 
-const signIn = (data) => {
-  return fetch(`${signInPath}?email=${encodeURIComponent(data.email)}&password=${encodeURIComponent(data.password)}`) 
+const signIn = async (data) => {
+  return await post({
+    path: `${mainPath}/signin`,
+    body: data
+  });
 }
 
-const signOut = () => {
-  return fetch(`${signOutPath}`) 
+const signOut = async () => {
+  
 }
 
-const signUp = (data) => {
-  return fetch(`${signUpPath}?data=${data}`) 
+const signUp = async (data) => {
+  return await post({
+    path: `${mainPath}/signup`,
+    body: data
+  });
 }
 
-const user = { all, signIn, signOut, signUp };
+const deleteUser = async (id) => {
+  return await _delete({
+    path: `${mainPath}/${id}`,
+  });
+}
+
+const user = { getAll, signIn, signOut, signUp, deleteUser };
 
 export { user };

@@ -6,7 +6,7 @@ const RequestError = require('../utils/errors/RequestError');
 
 const limitData = (data) => {
   return {
-    'id': data['_id'],
+    '_id': data['_id'],
     'first name': data['first name'],
     'last name': data['last name'],
     'email': data['email'],
@@ -37,7 +37,7 @@ const getAll = async (query) => {
   );
 };
 
-const getUser = async (body) => {
+const getOne = async (body) => {
   const { email, password } = body;
 
   if (!(validate('email', email) && validate('password', password))) {
@@ -57,7 +57,7 @@ const getUser = async (body) => {
   return response('User Retrieved Successfully', limitData(user));
 }
 
-const addUser = async (body) => {
+const addOne = async (body) => {
   const { firstName = body['first name'], lastName = body['last name'], email, password } = body;
   
   if (
@@ -81,7 +81,7 @@ const addUser = async (body) => {
   return response('User Added Successfully', limitData(newUser));
 };
 
-const deleteUser = async (params) => {
+const deleteOne = async (params) => {
   const { id } = params;
   
   const user = await User.findOneAndDelete({ _id: id });
@@ -92,4 +92,4 @@ const deleteUser = async (params) => {
   return response('User Deleted Successfully', limitData(user));
 };
 
-module.exports = { getAll, getUser, addUser, deleteUser };
+module.exports = { getAll, getOne, addOne, deleteOne };

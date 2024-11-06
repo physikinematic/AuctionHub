@@ -48,7 +48,7 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
       <MenuButton
         button={
           <IconButton sx={{ m: 2, width: '3vw', height: '5vh' }}>
-            <Avatar alt="User Avatar" src="" sx={{ width: 30, height: 30 }} />
+            <Avatar alt="User Avatar" src="" sx={{ width: '1.8vw', height: 'calc(10vh - 3vw)' }} />
           </IconButton>
         }
         menuOptions={targetOptions}

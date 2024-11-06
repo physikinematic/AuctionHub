@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import { Divider, Grid2, Tab, Tabs, useMediaQuery } from '@mui/material';
+import { collapseClasses, Grid2, Tab, Tabs } from '@mui/material';
 
 import { LogoButton, ProfileMenuButton } from '../components';
 import { useNavItems } from '../hooks';
@@ -19,17 +19,20 @@ const Sidebar = () => {
 
   return (
     <Grid2
+      container
+      direction='column'
       sx={{
         height: '100vh',
         position: 'fixed',
         zIndex: 1000,
       }}
       {...borderDirection}
-      borderColor='primary.main'
+      borderColor='border.grey'
       bgcolor='background.paper'
+      alignItems='center' justifyContent='center'
     >
-      <Grid2 container sx={{ maxWidth: 90, maxHeight: 85, width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
-        <LogoButton glowOff sx={{ width: 35 }} />
+      <Grid2 item container sx={{ maxWidth: 90, maxHeight: 85, width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
+        <LogoButton glowOff sx={{ width: '1.8vw' }} />
       </Grid2>
 
       <Grid2
@@ -65,9 +68,8 @@ const Sidebar = () => {
                 key={item.path}
                 component={Link}
                 to={item.path}
-                icon={React.cloneElement(item.icon, { sx: { fontSize: 26 } })}
+                icon={React.cloneElement(item.icon, { sx: { fontSize: '1.4vw' } })}
                 value={item.path}
-
                 sx={{
                   flexGrow: 1,
                   alignItems: 'center',
@@ -75,7 +77,7 @@ const Sidebar = () => {
                   textTransform: 'none',
                   height: '11.5vh',
                   minHeight: 70,
-                  maxHeight: 90,
+                  maxHeight: 300,
                 }}
               />
             )}
@@ -86,10 +88,8 @@ const Sidebar = () => {
             container
             sx={{
               height: '11.5vh',
-              minHeight: 70,
-              maxHeight: 90,
-              borderTop: 2,
-              borderColor: 'primary.main'
+              borderTop: 3,
+              borderColor: 'border.grey',
             }}
             alignItems='center'
             justifyContent='center'

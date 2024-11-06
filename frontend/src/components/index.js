@@ -11,3 +11,4 @@ export {default as AuctionItemCard} from './AuctionItemCard';
 export {default as AuctionItemSection} from './AuctionItemSection';
 export {default as ActionButton} from './ui/ActionButton';
 export {default as DialogBox} from './ui/DialogBox';
+export {default as ItemSection} from './ui/ItemSection';

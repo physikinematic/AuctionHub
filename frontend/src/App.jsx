@@ -37,9 +37,10 @@ const Layout = () => {
           item
           container
           sx={{
-            m: { xs: '10%', sm: 8 },
-            mt: { xs: 15, sm: 17 },
-            marginInlineStart: { xs: '10%', sm: 19 },
+            m: { xs: '10%', sm: '6vw', md: '6vw' },
+            mt: { xs: 15, sm: 17, md: 17 },
+            marginInlineStart: { xs: '10%', sm: '20vw', md: '13vw', lg: '8vw' },
+            marginInlineEnd: { xs: '10%', sm: '6vw', md: '4vw' },
             flexGrow: 1,
             flexShrink: 0,
             flexBasis: 'auto',
@@ -76,6 +77,10 @@ const App = () => {
       background: {
         default: brown[50],
         paper: brown[50],
+      },
+      border: {
+        lightGrey: grey[400],
+        grey: grey[700],
       }
     },
     typography: {
@@ -116,6 +121,11 @@ const App = () => {
             textTransform: 'none',
           },
         },
+      },
+      MuiPaper: {
+        defaultProps: {
+          elevation: 0
+        }
       },
       MuiTextField: {
         styleOverrides: {
@@ -162,13 +172,6 @@ const App = () => {
           }
         }
       },
-      MuiDivider: {
-        styleOverrides: {
-          root: {
-            borderColor: grey[700]
-          },
-        },
-      }
     },
   });
 
