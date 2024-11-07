@@ -17,7 +17,7 @@ const DrawerButton = ({ label, includeIcon = true, lists }) => {
       onClick={toggleDrawer(false)}
       sx={{ height: '100%' }}
     >
-      {lists.map((list, index) => (
+      {lists?.map((list, index) => (
         <Grid2 key={index} item container size='grow' sx={{ maxHeight: `${list.length * 12}%` }} direction='column'>
           {list.map((item) => (
             <Grid2 item key={item.label} sx={{ flexGrow: 1 }}>

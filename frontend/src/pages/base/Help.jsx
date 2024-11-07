@@ -1,5 +1,5 @@
 import { Grid2, Typography } from "@mui/material";
-import { CustomLink, ItemSection } from "../components";
+import { CustomLink, ItemSection } from "../../components";
 
 const Help = () => {
   const text = ({ t, size, weight, br }) => {

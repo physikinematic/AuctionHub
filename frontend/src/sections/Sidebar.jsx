@@ -1,16 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 
-import { collapseClasses, Grid2, Tab, Tabs } from '@mui/material';
+import { Grid2, Tab, Tabs, Typography, useTheme } from '@mui/material';
 
-import { LogoButton, ProfileMenuButton } from '../components';
-import { useNavItems } from '../hooks';
-import { useAccount } from '../contexts';
-import { useTheme } from '@emotion/react';
+import { LogoButton } from '../components';
 import React from 'react';
 
-const Sidebar = () => {
-  const { isAuthenticated } = useAccount();
-  const navItems = useNavItems(isAuthenticated);
+const Sidebar = ({ items, fullLogo, itemAlignment, withLabels, children}) => {
   const location = useLocation();
   const theme = useTheme();
 
@@ -24,22 +19,31 @@ const Sidebar = () => {
       sx={{
         height: '100vh',
         position: 'fixed',
-        zIndex: 1000,
+        zIndex: 998,
       }}
-      {...borderDirection}
-      borderColor='border.grey'
+      boxShadow='rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px'
       bgcolor='background.paper'
-      alignItems='center' justifyContent='center'
+      alignItems='center'
     >
-      <Grid2 item container sx={{ maxWidth: 90, maxHeight: 85, width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
-        <LogoButton glowOff sx={{ width: '1.8vw' }} />
+      <Grid2
+        item
+        container
+        maxHeight={fullLogo ? '8vw' : 85}
+        maxWidth={fullLogo ? '20vw' : 85}
+        height='100%'
+        alignItems='center'
+        justifyContent='center'
+      >
+        <LogoButton sx={{width: '40%'}} fullLogo={fullLogo} glowOff />
       </Grid2>
 
       <Grid2
         item
         container
-        alignItems='flex-end'
-        height='calc(100% - 85px)'
+        alignItems={itemAlignment || 'flex-start'}
+        size='grow'
+        width='100%'
+        minWidth={85}
       >
         <Grid2
           container
@@ -54,7 +58,7 @@ const Sidebar = () => {
               width: '100%',
               height: '100%',
               justifyContent: 'space-between',
-              mb: '10%'
+
             }}
             TabIndicatorProps={{
               sx: {
@@ -63,47 +67,30 @@ const Sidebar = () => {
               },
             }}
           >
-            {navItems.map((item) =>
+            {items?.map((item) =>
               <Tab
+                label={withLabels && 
+                <Typography fontWeight='bold' fontSize={{xs: '7vw', sm: '2vw', md: '1.6vw', lg: '1vw'}}>
+                  {item.label}
+                </Typography>}
                 key={item.path}
                 component={Link}
                 to={item.path}
-                icon={React.cloneElement(item.icon, { sx: { fontSize: '1.4vw' } })}
+                icon={item.icon && React.cloneElement(item.icon, { sx: { fontSize: {xs: '7vw', sm: '3vw', md: '2vw', lg: '1.4vw'} } })}
                 value={item.path}
                 sx={{
                   flexGrow: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
                   textTransform: 'none',
-                  height: '11.5vh',
-                  minHeight: 70,
+                  height: '10vh',
+                  minWidth: '100%',
                   maxHeight: 300,
                 }}
               />
             )}
           </Tabs>
-
-          <Grid2
-            item
-            container
-            sx={{
-              height: '11.5vh',
-              borderTop: 3,
-              borderColor: 'border.grey',
-            }}
-            alignItems='center'
-            justifyContent='center'
-          >
-            <ProfileMenuButton
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'center',
-              }}
-              transformOrigin={{
-                vertical: 'bottom',
-                horizontal: 'center',
-              }} />
-          </Grid2>
+          {children}
         </Grid2>
       </Grid2>
     </Grid2>

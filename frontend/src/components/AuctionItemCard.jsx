@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaCrown } from "react-icons/fa6";
 
-import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
+import { Grid2, Paper, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 
 import Logo from '../static/images/hublogo.png';
 
@@ -27,11 +27,11 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   } : null;
 
   const actionButton = (label, color) => {
-    return <ActionButton sx={{ height: '5vh', ...textStyle }} color={color} label={label} onClick={() => handleDetailsClick(item.id)} />
+    return <ActionButton size={{ xs: 12, sm: 'grow' }} sx={{ height: { xs: '8vw', sm: '5vw', md: '2.5vw' }, ...textStyle }} color={color} label={label} onClick={() => handleDetailsClick(item.id)} />
   }
 
   const actions = (
-    <Grid2 container columnSpacing={1} sx={{ width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
+    <Grid2 container spacing={1} sx={{ width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
       {buttonState?.owned && // does the user own the item?
         actionButton('Remove')
       }
@@ -83,9 +83,16 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   const timePaper = (children, size, bgcolor, fontColor) => {
     return (
       <Grid2 item container size={size || 'grow'} alignItems='center'>
-        <Paper sx={{ bgcolor: [bgcolor], width: '100%', height: { xs: '5vh', sm: 'calc(2.5vh + 1vw)' }, border: 1, borderColor: 'border.grey', borderRadius: 0 }}>
+        <Paper sx={{
+          bgcolor: [bgcolor],
+          width: '100%',
+          height: { xs: '8vw', sm: '5.5vw', md: '3vw' },
+          borderRadius: 1,
+          boxShadow: 'rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;',
+        }}
+        >
           <Grid2 item container height='100%' alignItems='center' justifyContent='center'>
-            <Typography color={fontColor} fontWeight='bold'  {...textStyle}>
+            <Typography color={fontColor} fontWeight='bold' {...textStyle}>
               {children}
             </Typography>
           </Grid2>
@@ -94,8 +101,10 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
     )
   }
 
+  const containerSize = { xs: 12, md: 6, lg: 4, xl: 3 };
+
   return (
-    <Grid2 item container size={{ xs: 12, sm: 6, md: 3 }}>
+    <Grid2 item container size={containerSize}>
       <ItemCard contents={
         <>
           <Tooltip title="Owned by you">

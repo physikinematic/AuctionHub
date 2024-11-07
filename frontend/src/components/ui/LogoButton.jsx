@@ -3,30 +3,32 @@ import { Link } from 'react-router-dom';
 import { Grid2 } from '@mui/material';
 
 import Logo from '../../static/images/hublogo.png';
+import FullLogo from '../../static/images/hublogo_full.png';
 
-const LogoButton = ({glowOff, sx}) => {
+const LogoButton = ({ glowOff, sx, fullLogo }) => {
   return (
-    <Grid2 
-      component={Link} 
-      to='/' 
+    <Grid2
+      container
+      component={Link}
+      to='/'
       sx={{
-        alignItems: 'center', 
+        alignItems: 'center',
         justifyContent: 'center',
         textDecoration: 'none',
         ...sx
       }}
     >
       <Grid2
+        item
         component='img'
-        src={Logo}
+        src={fullLogo ? FullLogo : Logo}
         alt="Logo"
         sx={{
           transition: 'filter 0.3s ease',
           width: '100%',
-          height: 'auto',
-          mt: 1.5,
-          ':hover':{
-            filter: !glowOff && 'drop-shadow(0 0 10px rgba(255, 0, 0, 1))' ,
+          height: '100%',
+          ':hover': {
+            filter: !glowOff && 'drop-shadow(0 0 10px rgba(255, 0, 0, 1))',
           }
         }}
       />

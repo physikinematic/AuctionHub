@@ -11,12 +11,11 @@ const ItemSection = ({ sections = [] }) => {
       sx={{
         minHeight: '100%',
         minWidth: '100%',
-        p: { xs: 3, sm: 6 },
+        p: { xs: 4, sm: 6 },
         bgcolor: 'background.paper',
-        border: 3,
-        borderColor: 'border.grey',
         borderRadius: 4,
-        mb: 10
+        mb: 10,
+        boxShadow: 'rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset',
       }}
     >
       {sections.map(section => {

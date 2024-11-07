@@ -6,26 +6,48 @@ import CardMembershipIcon from '@mui/icons-material/CardMembership';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import InfoIcon from '@mui/icons-material/Info';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import { useAccount } from "../contexts";
 
-const navItems = [
-    { path: '/', label: 'Home', icon: <HomeIcon /> },
-    { path: '/auctions', label: 'Auctions', icon: <LocalOfferIcon /> },
-    { path: '/bids', label: 'Bids', icon: <CardMembershipIcon /> },
-    { path: '/help', label: 'Help', icon: <HelpOutlineIcon /> },
-    { path: '/about', label: 'About', icon: <InfoIcon /> },
-    { path: '/contact', label: 'Contact', icon: <LocalPhoneIcon /> },
-];
+import { About, Contact, Help, Home, Auctions, Bids, Payment, SignIn, Legal, PrivacyPolicy, Profile } from '../pages';
 
-export const useNavItems = (isAuthenticated) => {
-    const [updatedNavItems, setUpdatedNavItems] = useState(navItems);
+
+const navItems = () => (
+    {
+        main: [
+            { path: '/', label: 'Home', icon: <HomeIcon />, element: <Home /> },
+            { path: '/auctions', label: 'Auctions', icon: <LocalOfferIcon />, element: <Auctions /> },
+            { path: '/bids', label: 'Bids', icon: <CardMembershipIcon />, element: <Bids /> },
+            { path: '/help', label: 'Help', icon: <HelpOutlineIcon />, element: <Help /> },
+            { path: '/about', label: 'About', icon: <InfoIcon />, element: <About /> },
+            { path: '/contact', label: 'Contact', icon: <LocalPhoneIcon />, element: <Contact /> },
+        ],
+        settings: [
+            { path: '/profile', label: 'Profile', element: <Profile /> },
+            { path: '/payment', label: 'Payment', element: <Payment /> },
+        ],
+        separate: [
+            { path: '/signin', element: <SignIn /> },
+            { path: '/legal', element: <Legal /> },
+            { path: '/privacy-policy', element: <PrivacyPolicy /> },
+        ],
+    }
+);
+
+export const useNavItems = () => {
+    const n = navItems()
+    const { isAuthenticated } = useAccount();
+    const [main, setMain] = useState(n.main);
 
     useEffect(() => {
         const filteredNavItems = isAuthenticated()
-            ? navItems
-            : navItems.filter(item => !['Auctions', 'Bids', 'Payment'].includes(item.label));
-
-        setUpdatedNavItems(filteredNavItems);
+            ? n.main
+            : n.main.filter(item => !['Auctions', 'Bids', 'Payment'].includes(item.label));
+        setMain(filteredNavItems);
     }, [isAuthenticated])
 
-    return updatedNavItems;
+    return {
+        main,
+        separate: n.separate,
+        settings: n.settings
+    };
 };

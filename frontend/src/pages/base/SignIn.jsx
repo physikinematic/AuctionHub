@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
-import { CustomLink, RegistrationForm } from '../components';
-import { useAccount } from '../contexts';
+import { CustomLink, RegistrationForm } from '../../components';
+import { useAccount } from '../../contexts';
 import { useNavigate } from 'react-router-dom';
+import { useRedirect } from '../../hooks';
 
 const regex = {
   'email': /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -28,8 +29,8 @@ const layouts = {
     fields: [
       { label: 'First Name', required: true, type: 'text', validate: true, size: 6 },
       { label: 'Last Name', required: true, type: 'text', validate: true, size: 6 },
-      { label: 'Email', required: true, type: 'email', validate: true },
-      { label: 'Password', required: true, type: 'password', validate: true },
+      { label: 'Email', required: true, type: 'text', validate: true },
+      { label: 'Password', required: true, type: 'text', validate: true },
     ],
     altText: {
       text: "Already have an account?",
@@ -43,14 +44,13 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
   const [updatedLayouts, setUpdatedLayouts] = useState({});
   const [targetLayout, setTargetLayout] = useState(layouts.signin);
-  const { isAuthenticated, signin, signup } = useAccount();
+  const { isAuthenticated, signin, signup, user } = useAccount();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isAuthenticated()) {
-      navigate('/');
-    }
-  }, [isAuthenticated]);
+  useRedirect(() => {
+    const auth = isAuthenticated();
+    return auth;
+  }, [user], '/');
 
   const altTextEvents = {
     'Sign In': () => setTargetLayout(updatedLayouts.signup),
@@ -71,8 +71,8 @@ const SignIn = () => {
 
   const handleInputErrorMessage = (field) => {
     let message = '';
-    switch (field.type) {
-      case 'password':
+    switch (field.label) {
+      case 'Password':
         message = `${field.label} shall be a minimum of 8 characters, and contain at least one capital letter, one small letter, and one symbol.`;
         break;
       default:
@@ -89,7 +89,7 @@ const SignIn = () => {
     return noEmptyFields && noErrors;
   };
 
-  const handlSubmit = (event, action) => {
+  const handlSubmit = (action) => {
     let success;
 
     if (validateInput())
@@ -139,7 +139,7 @@ const SignIn = () => {
       fields={targetLayout.fields}
       submit={{
         label: 'Submit',
-        onClick: (event) => handlSubmit(event, targetLayout.label)
+        onClick: () => handlSubmit(targetLayout.label)
       }}
       includeLogo
     >

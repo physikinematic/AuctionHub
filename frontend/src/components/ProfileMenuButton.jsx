@@ -29,6 +29,7 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
   const handleMenuItemClick = (event, optionName) => {
     switch (optionName) {
       case 'Profile':
+        navigate('/profile');
         break;
       case 'Sign Out':
         setDialogOpen(true);
@@ -47,8 +48,8 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
     <Grid2 item container alignItems='center' justifyContent='center'>
       <MenuButton
         button={
-          <IconButton sx={{ m: 2, width: '3vw', height: '5vh' }}>
-            <Avatar alt="User Avatar" src="" sx={{ width: '1.8vw', height: 'calc(10vh - 3vw)' }} />
+          <IconButton sx={{ minHeight: {xs: 40, sm: 30}, minWidth: {xs: 40, sm: 30}, width: {xs: '10vw', sm: '6vw', md: '5vw', lg: '3vw'}, height: {xs: '10vw', sm: '6vw', md: '5vw', lg: '3vw'} }}>
+            <Avatar alt="User Avatar" src="" sx={{ width: '100%', height: '100%' }} />
           </IconButton>
         }
         menuOptions={targetOptions}

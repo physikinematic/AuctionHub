@@ -1,5 +1,5 @@
-import { AuctionItemSection } from "../components";
-import { useAuctions } from "../contexts";
+import { AuctionItemSection } from "../../components";
+import { useAuctions } from "../../contexts";
 
 const Home = () => {
   const { auctions } = useAuctions();

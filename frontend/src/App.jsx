@@ -1,66 +1,26 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
-import { createTheme, ThemeProvider, Grid2, Hidden, CssBaseline } from "@mui/material";
-import { blue, brown, grey, red } from "@mui/material/colors";
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { blue, brown, common, grey, red } from "@mui/material/colors";
 
-import { Sidebar, Header } from './sections';
-import { About, AddAuction, Contact, Help, Home, Auctions, Bids, Payment, SignIn, Legal, PrivacyPolicy } from './pages';
+import { Main, Settings, Separate } from './pages';
 import { AccountProvider } from "./contexts";
 import { AuctionsProvider } from "./contexts/";
+import { useNavItems } from "./hooks";
 
 const Layout = () => {
   const location = useLocation();
-
-  const separatePages = ['/signin', '/payment', '/legal', '/privacy-policy'];
-
-  if (separatePages.includes(location.pathname)) {
-    return (
-      <Routes>
-        <Route path='/signin' element={<SignIn />} />
-        <Route path='/payment' element={<Payment />} />
-        <Route path='/legal' element={<Legal />} />
-        <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-      </Routes>
-    );
+  const {main, separate, settings} = useNavItems();
+  
+  if (main.some(item => item.path === location.pathname)) {
+    return <Main items={main}/>;
+  }
+  
+  if (settings.some(item => item.path === location.pathname)) {
+    return <Settings items={settings}/>;
   }
 
-  return (
-    <Grid2 container direction='row' sx={{ height: '100vh' }}>
-      <Grid2 item >
-        <Hidden smDown>
-          <Sidebar />
-        </Hidden>
-      </Grid2>
-      <Grid2 item container direction="column" size='grow'>
-        <Header />
-        <Grid2
-          item
-          container
-          sx={{
-            m: { xs: '10%', sm: '6vw', md: '6vw' },
-            mt: { xs: 15, sm: 17, md: 17 },
-            marginInlineStart: { xs: '10%', sm: '20vw', md: '13vw', lg: '8vw' },
-            marginInlineEnd: { xs: '10%', sm: '6vw', md: '4vw' },
-            flexGrow: 1,
-            flexShrink: 0,
-            flexBasis: 'auto',
-          }}
-          justifyContent='center'
-          alignItems='center'
-        >
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path='/add-auction' element={<AddAuction />} />
-            <Route path='/auctions' element={<Auctions />} />
-            <Route path='/bids' element={<Bids />} />
-            <Route path='/help' element={<Help />} />
-            <Route path='/about' element={<About />} />
-            <Route path='/contact' element={<Contact />} />
-          </Routes>
-        </Grid2>
-      </Grid2>
-    </Grid2 >
-  );
+  return <Separate items={separate}/>;
 };
 
 const App = () => {
@@ -75,8 +35,8 @@ const App = () => {
         main: blue[600],
       },
       background: {
-        default: brown[50],
-        paper: brown[50],
+        default: common.white,
+        paper: grey[200],
       },
       border: {
         lightGrey: grey[400],
