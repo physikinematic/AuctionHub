@@ -138,11 +138,11 @@ const removeBid = async (params) => {
   const auction = await Auction.findOne({ _id: id });
 
   if (!auction) {
-    throw new RequestError(204, `Auction ${id} Not Found`);
+    throw new RequestError(404, `Auction ${id} Not Found`);
   }
 
   if (!auction.bids.some(bid => bid['_id'].equals(bidId))) {
-    throw new RequestError(204, `Bid ${bidId} Not Found`);
+    throw new RequestError(404, `Bid ${bidId} Not Found`);
   }
 
   const bidIndex = auction.bids.indexOf(bidId);

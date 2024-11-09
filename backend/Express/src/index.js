@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config({path: __dirname + '/.env'});
+require('dotenv').config({ path: __dirname + '/../../.env' });
 const dbConnection = require('./config/db.js');
 const userRoutes = require('./routes/userRoutes.js');
 const auctionRoutes = require('./routes/auctionRoutes.js');
