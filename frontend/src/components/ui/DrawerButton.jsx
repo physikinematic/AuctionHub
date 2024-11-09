@@ -52,7 +52,7 @@ const DrawerButton = ({ label, includeIcon = true, lists }) => {
         {includeIcon && <ListIcon />}
         {label && <Typography sx={{ fontWeight: 'bold', marginInlineStart: 1 }}>{label}</Typography>}
       </Button>
-      <Drawer open={open} onClose={toggleDrawer(false)} sx={{ '& .MuiDrawer-paper': { bgcolor: 'background.default', width: '50%' } }}>
+      <Drawer anchor='right' open={open} onClose={toggleDrawer(false)} sx={{ '& .MuiDrawer-paper': { bgcolor: 'background.default', width: '50%' } }}>
         {DrawerGrid}
       </Drawer>
     </>

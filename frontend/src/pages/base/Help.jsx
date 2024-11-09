@@ -54,7 +54,7 @@ const Help = () => {
           color: 'primary.main'
         },
         content: (
-          <Grid2 pb={10}>
+          <Grid2>
             {text({
               t: '1. Can\'t Log In',
               weight: 'bold',
@@ -73,27 +73,6 @@ const Help = () => {
             })}
             {text({
               t: 'If your bid is not submitting, check your internet connection and ensure you are meeting all bid requirements. If the problem persists, contact support.',
-            })}
-          </Grid2>
-        )
-      },
-      {
-        label: {
-          text: 'Contact Us',
-          color: 'primary.main'
-        },
-        content: (
-          <Grid2>
-            {text({
-              t: 'If you need further assistance, please reach out to our support team:',
-              br: 1
-            })}
-            {text({
-              t: <>
-                {text({t: <>
-                  Email: <CustomLink>support@auctionhub.com</CustomLink>
-                </>})}
-              </>,
             })}
           </Grid2>
         )

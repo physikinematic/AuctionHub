@@ -34,7 +34,7 @@ const getOwned = async (params, query) => {
 
   const user = await User.findOne({ _id: ownerId });
   if (!user) {
-    throw new RequestError(404, `User ${ownerId} Not Found`);
+    throw new RequestError(204, `User ${ownerId} Not Found`);
   }
 
   const _page = parseInt(page);
@@ -62,7 +62,7 @@ const getBidded = async (params, query) => {
 
   const user = await User.findOne({ _id: ownerId })
   if (!user) {
-    throw new RequestError(404, `User ${ownerId} Not Found`);
+    throw new RequestError(204, `User ${ownerId} Not Found`);
   }
 
   const { page = 1, limit = 20 } = query;
@@ -92,7 +92,7 @@ const addAuction = async (body) => {
   const user = await User.findOne({ _id: ownerId });
 
   if (!user) {
-    throw new RequestError(404, `User ${ownerId} Not Found`);
+    throw new RequestError(204, `User ${ownerId} Not Found`);
   }
 
   if (!validate('date', endDate)) {
@@ -114,23 +114,23 @@ const addBid = async (params, body) => {
 
   const user = await User.findOne({ _id: ownerId });
   if (!user) {
-    throw new RequestError(404, `User ${ownerId} Not Found`);
+    throw new RequestError(204, `User ${ownerId} Not Found`);
   }
 
   const auction = await Auction.findOne({ _id: id });
   if (!auction) {
-    throw new RequestError(404, `Auction ${id} Not Found`);
+    throw new RequestError(204, `Auction ${id} Not Found`);
   }
 
-  if (typeof value !== 'number') {
-    throw new RequestError(400, 'Invalid Value');
-  }
+  // if (typeof value !== 'number') {
+  //   throw new RequestError(400, 'Invalid Value');
+  // } TODO
 
-  const bid = { ownerId, value, dateAdded: new Date() };
+  const bid = { ownerId, value, /* dateAdded: new Date() TODO */ };
   auction.bids.push(bid);
 
   await auction.save();
-  return response(`Bid Added Successfully`, auction);
+  return response(`Bid Added Successfully`);
 };
 
 const removeBid = async (params) => {
@@ -138,11 +138,11 @@ const removeBid = async (params) => {
   const auction = await Auction.findOne({ _id: id });
 
   if (!auction) {
-    throw new RequestError(404, `Auction ${id} Not Found`);
+    throw new RequestError(204, `Auction ${id} Not Found`);
   }
 
   if (!auction.bids.some(bid => bid['_id'].equals(bidId))) {
-    throw new RequestError(404, `Bid ${bidId} Not Found`);
+    throw new RequestError(204, `Bid ${bidId} Not Found`);
   }
 
   const bidIndex = auction.bids.indexOf(bidId);
@@ -156,7 +156,7 @@ const deleteAuction = async (params) => {
   const auction = await Auction.findOneAndDelete({ _id: id });
 
   if (!auction) {
-    throw new RequestError(404, `Auction ${id} Not Found`);
+    throw new RequestError(204, `Auction ${id} Not Found`);
   }
 
   return response(`Auction Deleted Successfully`, auction);

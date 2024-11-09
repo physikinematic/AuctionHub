@@ -10,17 +10,17 @@ import { useNavItems } from "./hooks";
 
 const Layout = () => {
   const location = useLocation();
-  const {main, separate, settings} = useNavItems();
-  
+  const { main, separate, settings } = useNavItems();
+
   if (main.some(item => item.path === location.pathname)) {
-    return <Main items={main}/>;
-  }
-  
-  if (settings.some(item => item.path === location.pathname)) {
-    return <Settings items={settings}/>;
+    return <Main items={main} />;
   }
 
-  return <Separate items={separate}/>;
+  if (settings.some(item => item.path === location.pathname)) {
+    return <Settings items={settings} />;
+  }
+
+  return <Separate items={separate} />;
 };
 
 const App = () => {
@@ -35,7 +35,7 @@ const App = () => {
         main: blue[600],
       },
       background: {
-        default: common.white,
+        default: grey[300],
         paper: grey[200],
       },
       border: {
@@ -59,9 +59,28 @@ const App = () => {
       MuiCssBaseline: {
         styleOverrides: {
           body: {
-            backgroundColor: 'background.default',
+            backgroundColor: grey[300],
             margin: 0,
             padding: 0,
+          },
+          '*': {
+            scrollbarColor: `${grey[400]} ${grey[100]}`,  // Thumb color #888, track color #f0f0f0
+            scrollbarWidth: 'thin',  // Firefox thin width
+          },
+          // Webkit scrollbar styling for Chrome, Edge, Safari, etc.
+          '*::-webkit-scrollbar': {
+            width: '8px',
+            height: '8px',
+          },
+          '*::-webkit-scrollbar-track': {
+            backgroundColor: '#f0f0f0',
+          },
+          '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#888',
+            borderRadius: '4px',
+          },
+          '*::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#555',
           },
         },
       },

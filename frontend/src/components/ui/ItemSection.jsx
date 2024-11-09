@@ -22,7 +22,7 @@ const ItemSection = ({ sections = [] }) => {
         return (
           <>
             <Grid2 item container {...itemAlignment}>
-              <Typography color={section.label.color} sx={{ fontWeight: 'bold', fontSize: { xs: '7vw', sm: '2.5vw', md: '1.5vw' }, mb: 4 }}>
+              <Typography color={section.label.color} sx={{ fontWeight: 'bold', fontSize: { xs: '6vw', sm: '3vw', md: '2.5vw', xl: '2vw' }, mb: 4 }}>
                 {section.label.text}
               </Typography>
             </Grid2>

@@ -1,98 +1,67 @@
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { Grid2, Tab, Tabs, Typography, useTheme } from '@mui/material';
+import { Grid2, Tab, Tabs, Typography } from '@mui/material';
 
-import { LogoButton } from '../components';
-import React from 'react';
 
-const Sidebar = ({ items, fullLogo, itemAlignment, withLabels, children}) => {
+const Sidebar = ({ top, items, withLabels, width, tabMaxHeight = 1000, tabDivider, children }) => {
   const location = useLocation();
-  const theme = useTheme();
-
-  const isRtL = theme.isRtL;
-  const borderDirection = isRtL ? { borderLeft: 3 } : { borderRight: 3 };
 
   return (
     <Grid2
       container
       direction='column'
+      top={top}
       sx={{
-        height: '100vh',
+        height: `calc(100vh - ${top})`,
         position: 'fixed',
         zIndex: 998,
       }}
-      boxShadow='rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px'
+      boxShadow='rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px'
       bgcolor='background.paper'
       alignItems='center'
     >
-      <Grid2
-        item
-        container
-        maxHeight={fullLogo ? '8vw' : 85}
-        maxWidth={fullLogo ? '20vw' : 85}
-        height='100%'
-        alignItems='center'
-        justifyContent='center'
+      <Tabs
+        value={location.pathname}
+        orientation="vertical"
+        variant="scrollable"
+        sx={{
+          width: width || '100%',
+          height: '100%',
+          '& .MuiTabs-flexContainer': {
+            height: '100%',
+            flexGrow: 1,
+          },
+        }}
+        TabIndicatorProps={{
+          sx: {
+            backgroundColor: 'primary.highlight',
+            left: 0,
+          },
+        }}
       >
-        <LogoButton sx={{width: '40%'}} fullLogo={fullLogo} glowOff />
-      </Grid2>
-
-      <Grid2
-        item
-        container
-        alignItems={itemAlignment || 'flex-start'}
-        size='grow'
-        width='100%'
-        minWidth={85}
-      >
-        <Grid2
-          container
-          direction='column'
-          flexGrow={1}
-        >
-          <Tabs
-            value={location.pathname}
-            orientation='vertical'
-            sx={{
-              flexGrow: 1,
-              width: '100%',
-              height: '100%',
-              justifyContent: 'space-between',
-
-            }}
-            TabIndicatorProps={{
-              sx: {
-                backgroundColor: 'primary.highlight',
-                left: 0,
-              },
-            }}
-          >
-            {items?.map((item) =>
-              <Tab
-                label={withLabels && 
-                <Typography fontWeight='bold' fontSize={{xs: '7vw', sm: '2vw', md: '1.6vw', lg: '1vw'}}>
+        {items?.map((item) =>
+            <Tab
+              label={withLabels &&
+                <Typography fontWeight='bold' fontSize={{ xs: '7vw', sm: '2vw', md: '1.6vw', lg: '1vw' }}>
                   {item.label}
                 </Typography>}
-                key={item.path}
-                component={Link}
-                to={item.path}
-                icon={item.icon && React.cloneElement(item.icon, { sx: { fontSize: {xs: '7vw', sm: '3vw', md: '2vw', lg: '1.4vw'} } })}
-                value={item.path}
-                sx={{
-                  flexGrow: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  textTransform: 'none',
-                  height: '10vh',
-                  minWidth: '100%',
-                  maxHeight: 300,
-                }}
-              />
-            )}
-          </Tabs>
-          {children}
-        </Grid2>
-      </Grid2>
+              key={item.path}
+              component={Link}
+              to={item.path}
+              icon={item.icon && React.cloneElement(item.icon, { sx: { fontSize: { xs: '7vw', sm: '3vw', md: '2vw', lg: '1.4vw' } } })}
+              value={item.path}
+              sx={{
+                flexGrow: 1,
+                maxHeight: tabMaxHeight,
+                textTransform: 'none',
+                borderBottom: tabDivider && '1px solid #ccc', 
+              }}
+            />
+        )}
+      </Tabs>
+      {children}
+
     </Grid2>
   );
 };

@@ -11,7 +11,7 @@ const AuctionItemSection = ({ items, label, type }) => {
               text: label
             },
             content:
-              <Grid2 item container size={12} spacing={{ xs: 4, sm: 3 }}>
+              <Grid2 item container size={12} spacing={{ xs: 4, sm: 3 }} pb={2}>
                 {items?.length ? items.map((item) =>
                   <AuctionItemCard key={item.id} item={item} type={type} />
                 ) :

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography } from '@mui/material';
+import { Autocomplete, Typography } from '@mui/material';
 import { CustomLink, RegistrationForm } from '../../components';
 import { useAccount } from '../../contexts';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ const layouts = {
       { label: 'First Name', required: true, type: 'text', validate: true, size: 6 },
       { label: 'Last Name', required: true, type: 'text', validate: true, size: 6 },
       { label: 'Email', required: true, type: 'text', validate: true },
-      { label: 'Password', required: true, type: 'text', validate: true },
+      { label: 'Password', required: true, type: 'password', validate: true, autocomplete: false },
     ],
     altText: {
       text: "Already have an account?",
@@ -89,22 +89,21 @@ const SignIn = () => {
     return noEmptyFields && noErrors;
   };
 
-  const handlSubmit = (action) => {
+  const handlSubmit = async (action) => {
     let success;
 
     if (validateInput())
       switch (action) {
         case 'Sign In':
-          success = !!signin({ 'email': formValues['email'], 'password': formValues['password'] });
+          success = !! await signin({ 'email': formValues['email'], 'password': formValues['password'] });
           break;
         case 'Sign Up':
-          signup({
+          success = !! await signup({
             'first name': formValues['first name'],
             'last name': formValues['last name'],
             'email': formValues['email'],
             'password': formValues['password'],
           });
-          success = true;
           break;
       }
 
@@ -143,7 +142,7 @@ const SignIn = () => {
       }}
       includeLogo
     >
-      <Typography sx={{ marginTop: 2, fontSize: { xs: '3vw', sm: '0.8vw' } }}>
+      <Typography width='100%' align='center' sx={{ marginTop: 2, fontSize: { xs: '3vw', sm: '0.8vw' } }}>
         {targetLayout.altText.text} <CustomLink onClick={altTextEvents[targetLayout.label]}>{targetLayout.altText.linkText}</CustomLink>
       </Typography>
     </RegistrationForm>

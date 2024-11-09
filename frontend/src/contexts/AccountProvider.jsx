@@ -13,14 +13,14 @@ export const AccountProvider = ({ children }) => {
   const signin = (data) => {
     api.user.signIn(data).then((res) => {
       setUser(res.data);
-      return res.date;
+      return res.data;
     });
   };
 
   const signup = (data) => {
     api.user.signUp(data).then((res) => {
       setUser(res.data);
-      return res.date;
+      return res.data;
     });
   };
 

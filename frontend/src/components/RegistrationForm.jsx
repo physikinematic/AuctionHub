@@ -27,7 +27,7 @@ const RegistrationForm = ({ fields, submit, label, includeLogo, children }) => {
       container
       justifyContent="center"
       alignItems="center"
-      sx={{ height: '100vh' }}
+      minHeight='100vh'
     >
       <Grid2
         item
@@ -36,19 +36,20 @@ const RegistrationForm = ({ fields, submit, label, includeLogo, children }) => {
         alignItems="center"
         direction='column'
         size='grow'
-        sx={{ height: '100%', paddingBottom: { xs: 6, sm: 4 } }}
+        height='100%'
+        paddingBottom={{ xs: 0, sm: 4 }}
       >
         {renderLogo({ xs: 12, sm: 0 })}
         <Typography sx={{ fontWeight: 'bold', fontSize: { xs: '7vw', sm: '2.8vw' }, m: 6 }}>
           {[label]}
         </Typography>
-        <Grid2 item sx={{ width: { xs: '70%', sm: '50%' } }}>
+        <Grid2 item sx={{ width: { xs: '70%', sm: '50%' }}}>
           <Form fields={fields} submit={submit}>
             {children}
           </Form>
         </Grid2>
       </Grid2>
-      {renderLogo({ xs: 0, sm: 6 }, { bgcolor: 'common.black', height: '100%' })}
+      {renderLogo({ xs: 0, sm: 6 }, { bgcolor: 'common.black', height: '100vh' })}
     </Grid2 >
   )
 }

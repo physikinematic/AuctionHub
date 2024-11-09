@@ -12,7 +12,7 @@ const Main = ({ items }) => {
   const { isAuthenticated } = useAccount();
   const navigate = useNavigate();
   const smUp = useUp('sm');
-  const tooSmall = useMediaQuery('only screen and (max-width: 370px)');
+  const tooSmall = useMediaQuery('only screen and (max-width: 434px)');
 
   const drawerItems = items.map(item => {
     return { ...item, onClick: () => { navigate(item.path); } }
@@ -26,7 +26,11 @@ const Main = ({ items }) => {
     <Grid2 container direction='row' sx={{ height: '100vh' }}>
       <Grid2 item >
         <Hidden smDown>
-          <Sidebar items={items} />
+          <Sidebar 
+          withLabels 
+          items={items}
+          top='80px' 
+          />
         </Hidden>
       </Grid2>
       <Grid2 item container direction="column" size='grow'>
@@ -54,10 +58,10 @@ const Main = ({ items }) => {
                     horizontal: 'center',
                   }} />
               </Grid2>}
-            {!isAuthenticated() && smUp &&
-              <Grid2 item container size='auto'>
-                <Button component={Link} to={'/signin'} sx={{ height: [smUp ? 55 : 'auto'] }}>
-                  <Typography sx={{ fontWeight: 'bold' }}>{'Sign in'}</Typography>
+            {!isAuthenticated() &&
+              <Grid2 item container size={tooSmall && 'grow'} justifyContent='flex-end'>
+                <Button component={Link} to={'/signin'} sx={{ height: [smUp ? 55 : 36] }}>
+                  <Typography fontSize={tooSmall ? '3vw' : {xs: '3vw', sm: '2vw', md: '1.5vw', lg: '1vw'}} fontWeight='bold'>{'Sign in'}</Typography>
                 </Button>
               </Grid2>
             }
