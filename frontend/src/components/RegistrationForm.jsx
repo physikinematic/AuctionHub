@@ -28,6 +28,7 @@ const RegistrationForm = ({ fields, submit, label, includeLogo, children }) => {
       justifyContent="center"
       alignItems="center"
       minHeight='100vh'
+      bgcolor='background.paper'
     >
       <Grid2
         item

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
-import { blue, brown, common, grey, red } from "@mui/material/colors";
+import { blue, grey, red } from "@mui/material/colors";
 
 import { Main, Settings, Separate } from './pages';
 import { AccountProvider } from "./contexts";

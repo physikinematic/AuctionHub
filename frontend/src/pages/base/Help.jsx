@@ -5,7 +5,7 @@ const Help = () => {
   const text = ({ t, size, weight, br }) => {
     return (
       <>
-        <Typography fontSize={size || '1vw'} fontWeight={weight || 'normal'}>
+        <Typography fontSize={size || {xs: '3vw', sm: '1vw'}} fontWeight={weight || 'normal'}>
           {t}
         </Typography>
         {br && [...Array(br)].map((_, i) => <br key={i} />)}
@@ -30,7 +30,7 @@ const Help = () => {
               t: '1. Getting Started',
               weight: 'bold',
               br: 1,
-              size: '1.1vw'
+              size: {xs: '3.5vw', sm: '1.1vw'}
             })}
             {text({
               t: 'To get started with Auction Hub, you need to create an account and log in. Once logged in, you can start browsing items, place bids, and manage your account.',
@@ -40,7 +40,7 @@ const Help = () => {
               t: '2. How to Place a Bid',
               weight: 'bold',
               br: 1,
-              size: '1.1vw'
+              size: {xs: '3.5vw', sm: '1.1vw'}
             })}
             {text({
               t: 'Find an item you are interested in, set your bid amount, and submit your bid. Make sure to check the auction end time and ensure your bid is placed before it closes.',
@@ -59,7 +59,7 @@ const Help = () => {
               t: '1. Can\'t Log In',
               weight: 'bold',
               br: 1,
-              size: '1.1vw'
+              size: {xs: '3.5vw', sm: '1.1vw'}
             })}
             {text({
               t: 'If you\'re having trouble logging in, make sure you are using the correct username and password. If you\'ve forgotten your password, use the "Forgot Password" feature to reset it.',
@@ -69,7 +69,7 @@ const Help = () => {
               t: '2. Bid Not Submitting',
               weight: 'bold',
               br: 1,
-              size: '1.1vw'
+              size: {xs: '3.5vw', sm: '1.1vw'}
             })}
             {text({
               t: 'If your bid is not submitting, check your internet connection and ensure you are meeting all bid requirements. If the problem persists, contact support.',
