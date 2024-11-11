@@ -7,17 +7,17 @@ import { useRedirect } from '../../hooks';
 
 const regex = {
   'email': /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  'password': /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
-  'first name': /^[a-zA-Z]+$/,
-  'last name': /^[a-zA-Z]+$/
+  'password': /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,16}$/,
+  'firstName': /^[a-zA-Z]+$/,
+  'lastName': /^[a-zA-Z]+$/
 };
 
 const layouts = {
   signin: {
     label: 'Sign In',
     fields: [
-      { label: 'Email', required: true, type: 'email', validate: true },
-      { label: 'Password', required: true, type: 'password' },
+      { name: 'email', label: 'Email', required: true, type: 'email', validate: true },
+      { name: 'password', label: 'Password', required: true, type: 'password' },
     ],
     altText: {
       text: "Don't have an account?",
@@ -27,10 +27,10 @@ const layouts = {
   signup: {
     label: 'Sign Up',
     fields: [
-      { label: 'First Name', required: true, type: 'text', validate: true, size: 6 },
-      { label: 'Last Name', required: true, type: 'text', validate: true, size: 6 },
-      { label: 'Email', required: true, type: 'text', validate: true },
-      { label: 'Password', required: true, type: 'password', validate: true, autocomplete: false },
+      { name: 'firstName', label: 'First Name', required: true, type: 'text', validate: true, size: 6 },
+      { name: 'lastName', label: 'Last Name', required: true, type: 'text', validate: true, size: 6 },
+      { name: 'email', label: 'Email', required: true, type: 'text', validate: true },
+      { name: 'password', label: 'Password', required: true, type: 'password', validate: true, autocomplete: false },
     ],
     altText: {
       text: "Already have an account?",
@@ -73,7 +73,7 @@ const SignIn = () => {
     let message = '';
     switch (field.label) {
       case 'Password':
-        message = `${field.label} shall be a minimum of 8 characters, and contain at least one capital letter, one small letter, and one symbol.`;
+        message = `${field.label} shall be between 8 and 16 characters, and contain at least one capital letter, one small letter, and one special character.`;
         break;
       default:
         message = `${field.label} is not valid.`;
@@ -99,8 +99,8 @@ const SignIn = () => {
           break;
         case 'Sign Up':
           success = !! await signup({
-            'first name': formValues['first name'],
-            'last name': formValues['last name'],
+            'firstName': formValues['firstName'],
+            'lastName': formValues['lastName'],
             'email': formValues['email'],
             'password': formValues['password'],
           });
@@ -116,10 +116,9 @@ const SignIn = () => {
         layout.fields.forEach(field => {
           Object.assign(field, {
             onChange: handleInputChange,
-            error: field.validate && formErrors[field.label.toLowerCase()],
-            helperText: field.validate && formErrors[field.label.toLowerCase()] ? handleInputErrorMessage(field) : '',
-            name: field.label.toLowerCase(),
-            value: formValues[field.label.toLowerCase()]
+            error: field.validate && formErrors[field.name],
+            helperText: field.validate && formErrors[field.name] ? handleInputErrorMessage(field) : '',
+            value: formValues[field.name]
           });
         });
         return [key, layout];

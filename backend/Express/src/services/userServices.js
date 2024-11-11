@@ -7,8 +7,8 @@ const RequestError = require('../utils/errors/RequestError');
 const limitData = (data) => {
   return {
     '_id': data['_id'],
-    'first name': data['first name'],
-    'last name': data['last name'],
+    'firstName': data['firstName'],
+    'lastName': data['lastName'],
     'email': data['email'],
   };
 };
@@ -58,7 +58,7 @@ const getOne = async (body) => {
 }
 
 const addOne = async (body) => {
-  const { firstName = body['first name'], lastName = body['last name'], email, password } = body;
+  const { firstName = body['firstName'], lastName = body['lastName'], email, password } = body;
   
   if (
     !(validate('text', firstName) &&
@@ -71,8 +71,8 @@ const addOne = async (body) => {
 
   const encryptedPassword = encrypt(password);
   const newUser = await new User({
-    'first name': firstName,
-    'last name': lastName,
+    'firstName': firstName,
+    'lastName': lastName,
     'email': email,
     'password': encryptedPassword,
     'role': 'user',

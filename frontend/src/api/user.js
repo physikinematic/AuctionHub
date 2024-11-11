@@ -1,6 +1,6 @@
 import { get, post, _delete } from "./helpers/request";
 
-const mainPath = '/user';
+const mainPath = '/auth';
 
 const getAll = async (page, limit) => {
   return await get({

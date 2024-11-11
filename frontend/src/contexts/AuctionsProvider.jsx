@@ -20,13 +20,13 @@ export const AuctionsProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      api.auction.getOwned(user['_id'], 1, 20).then((res) => setOwnedAuctions(res.data));
+      api.auction.getOwned(user['id'], 1, 20).then((res) => setOwnedAuctions(res.data));
     }
   }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (isAuthenticated()) {
-      api.auction.getBidded(user['_id'], 1, 20).then((res) => setBidAuctions(res.data));
+      api.auction.getBidded(user['id'], 1, 20).then((res) => setBidAuctions(res.data));
     }
   }, [isAuthenticated, user]);
 

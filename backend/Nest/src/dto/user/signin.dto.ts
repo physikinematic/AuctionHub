@@ -6,6 +6,6 @@ export const signinSchema = z.object({
   password: z.string()
     .min(8, 'Password must be at least 8 characters long')
     .max(16, 'Password must not exceed 16 characters')
-}).required();
+}).strict();
 
 export type SigninDto = z.infer<typeof signinSchema>;

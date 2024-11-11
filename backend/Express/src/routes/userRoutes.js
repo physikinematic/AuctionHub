@@ -3,9 +3,9 @@ const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware')
 const router = express.Router();
 
-router.get('/user/all/:id', authMiddleware, userController.getAll);
-router.post('/user/signin', userController.signIn);
-router.post('/user/signup', userController.signUp);
-router.delete('/user/:id', userController.deleteOne);
+router.get('/auth/all/:id', authMiddleware, userController.getAll);
+router.post('/auth/signin', userController.signIn);
+router.post('/auth/signup', userController.signUp);
+router.delete('/auth/:id', userController.deleteOne);
 
 module.exports = router;

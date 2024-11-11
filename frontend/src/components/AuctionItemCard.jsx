@@ -22,8 +22,8 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   };
 
   const buttonState = isAuthenticated() ? {
-    owned: type.owned || item['ownerId'] === user['_id'],
-    bid: type.bid || item.bids.some(bid => bid['ownerId'] === user['_id'])
+    owned: type.owned || item['ownerId'] === user['id'],
+    bid: type.bid || item.bids.some(bid => bid['ownerId'] === user['id'])
   } : null;
 
   const actionButton = (label, color) => {

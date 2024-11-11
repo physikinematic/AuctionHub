@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const signupSchema = z.object({
-  'first name': z.string()
+  firstName: z.string()
     .min(1)
     .max(20),
-  'last name': z.string()
+  lastName: z.string()
     .min(1)
     .max(20),
   email: z.string()
@@ -16,6 +16,6 @@ export const signupSchema = z.object({
     .regex(/[A-Z]/, 'Password must contain at least one capital letter')
     .regex(/[0-9]/, 'Password must contain at least one number')
     .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character'),
-}).required();
+}).strict();
 
 export type SignupDto = z.infer<typeof signupSchema>;
