@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "../user/user.entity";
+import { Account } from "../account/account.entity";
 import { Bid } from "../bid/bid.entity";
 
 @Entity()
@@ -10,8 +10,8 @@ export class Auction {
   @Column()
   name: string;
 
-  @ManyToOne(() => User, user => user.auctions)
-  owner: User;
+  @ManyToOne(() => Account, user => user.auctions)
+  owner: Account;
   
   @Column()
   endDate: Date;

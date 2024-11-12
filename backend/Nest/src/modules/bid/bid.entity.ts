@@ -1,14 +1,14 @@
 import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Auction } from "../auction/auction.entity";
-import { User } from "../user/user.entity";
+import { Account } from "../account/account.entity";
 
 @Entity()
 export class Bid {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, user => user.bids)
-  owner: User;
+  @ManyToOne(() => Account, user => user.bids)
+  owner: Account;
 
   @Column()
   value: number;
