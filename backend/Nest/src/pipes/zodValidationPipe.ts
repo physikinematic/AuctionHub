@@ -1,7 +1,7 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform, UsePipes } from "@nestjs/common";
-import { ZodSchema } from "zod";
+import { ZodSchema, ZodTypeDef } from "zod";
 
-export function Validate(schema) {
+export function Validate(schema: ZodSchema<any, ZodTypeDef, any>) {
   return UsePipes(new ZodValidationPipe(schema))
 }
 

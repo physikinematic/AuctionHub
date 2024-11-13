@@ -13,17 +13,17 @@ class SerializeInterceptor implements NestInterceptor {
     if (result.success) {
       return result.data;
     } else {
-      throw new InternalServerErrorException({ success: false, ...result.error.format() });
+      throw new InternalServerErrorException({ ...result.error.format() });
     }
   }
 
   intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(map((res: any) => {
       if (Array.isArray(res)) {
-        return res.map((entry) => this.parse(entry.data));
+        return res.map((entry) => this.parse(entry));
       }
       else {
-        return this.parse(res.data);
+        return this.parse(res);
       }
     }));
   }
