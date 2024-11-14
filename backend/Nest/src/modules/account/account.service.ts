@@ -5,7 +5,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AccountService {
-  constructor(@InjectRepository(Account) private repo: Repository<Account>) { }
+  constructor(@InjectRepository(Account) protected repo: Repository<Account>) { }
+
+  setRepo(repo: Repository<Account>) {
+    this.repo = repo;
+  }
 
   async find(
     criteria: Partial<Account>,
@@ -14,14 +18,14 @@ export class AccountService {
     limit: number = 10
   ) {
     if (!criteria || Object.values(criteria).some(value => !value)) {
-      throw new BadRequestException({ message: 'Account not found' });
+      throw new BadRequestException('Account not found');
     }
 
     const total = await this.repo.count({ where: { ...criteria } });
     const pageTotal = Math.ceil(total / limit);
 
     if (page > pageTotal) {
-      throw new BadRequestException({ message: 'Page limit exceeded' });
+      throw new BadRequestException('Page limit exceeded');
     }
 
     const accounts = await this.repo.find({
@@ -32,7 +36,7 @@ export class AccountService {
     });
 
     return {
-      users: accounts,
+      accounts,
       total,
       page,
       limit,
@@ -42,12 +46,12 @@ export class AccountService {
 
   async findOne(criteria: Partial<Account>, select?: FindOptionsSelect<Account> | FindOptionsSelectByString<Account>) {
     if (!criteria || Object.values(criteria).some(value => !value)) {
-      throw new BadRequestException({ message: 'Account not found' });
+      throw new BadRequestException('Account not found');
     }
 
     const account = await this.repo.findOne({ where: { ...criteria }, select: select });
     if (!account) {
-      throw new NotFoundException({ message: 'Account not found' });
+      throw new NotFoundException('Account not found');
     }
 
     return account;
@@ -63,7 +67,7 @@ export class AccountService {
   async update(id: string, attrs: Partial<Account>) {
     const account = await this.repo.findOne({ where: { id } });
     if (!account) {
-      throw new NotFoundException({ message: 'Account not found' });
+      throw new NotFoundException('Account not found');
     }
 
     Object.assign(account, attrs);
@@ -71,10 +75,10 @@ export class AccountService {
     return account;
   }
 
-  async remove(id: string) {
-    const account = await this.repo.findOne({ where: { id } });
+  async remove(criteria: Partial<Account>) {
+    const account = await this.repo.findOne({ where: { ...criteria } });
     if (!account) {
-      throw new NotFoundException({ message: 'Account not found' });
+      throw new NotFoundException('Account not found');
     }
 
     await this.repo.remove(account);

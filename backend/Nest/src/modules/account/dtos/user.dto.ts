@@ -1,4 +1,4 @@
-import { responseSchema } from "src/dtos/response.dto";
+import { responseSchema } from "../../../dtos/response.dto";
 import { z } from "zod";
 
 export const userSchema = responseSchema.extend({

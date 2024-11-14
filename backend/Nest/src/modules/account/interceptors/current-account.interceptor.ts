@@ -1,6 +1,5 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, UnauthorizedException } from "@nestjs/common";
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { AccountService } from "../account.service";
-import { response } from "src/utils/helpers/response";
 
 @Injectable()
 export class CurrentAccountInterceptor implements NestInterceptor {
@@ -10,17 +9,9 @@ export class CurrentAccountInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const { accountId } = request.session || {};
 
-    if (!accountId) {
-      request.currentAccount = null;
-      response({ error: new UnauthorizedException({ message: 'Account not signed in' }) });
-    }
-    
-    try {
+    if (accountId) {
       const account = await this.accountService.findOne({ id: accountId }, { email: true, firstName: true, lastName: true });
       request.currentAccount = account;
-    }
-    catch (error) {
-      throw response({ error });
     }
 
     return next.handle();

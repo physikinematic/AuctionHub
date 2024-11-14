@@ -1,6 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Auction } from "../auction/auction.entity";
-import { Bid } from "../bid/bid.entity";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 enum Role {
   admin = 'admin',
@@ -8,7 +6,7 @@ enum Role {
 }
 
 @Entity()
-export class Account {
+export abstract class Account {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -26,10 +24,4 @@ export class Account {
 
   @Column({ default: Role.user })
   role: Role;
-
-  @OneToMany(() => Auction, auction => auction.owner)
-  auctions: Auction[]
-
-  @OneToMany(() => Bid, bid => bid.owner)
-  bids: Bid[]
 }

@@ -13,7 +13,8 @@ const encrypt = async (password: string) => {
 const compare = async (plain: string, encrypted: string) => {
   const [salt, storedHash] = encrypted.split('.');
   const hash = (await scrypt(plain, salt, 32)) as Buffer;
-  return storedHash === hash.toString('hex');
+  const match = storedHash === hash.toString('hex');
+  return match;
 };
 
 export { encrypt, compare };
