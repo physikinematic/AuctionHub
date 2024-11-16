@@ -1,9 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 
-import { Main, Settings, Separate } from './pages';
+import { Main, Settings, Separate } from "./pages";
 import { AccountProvider } from "./contexts";
 import { AuctionsProvider } from "./contexts/";
 import { useNavItems } from "./hooks";
@@ -12,11 +12,11 @@ const Layout = () => {
   const location = useLocation();
   const { main, separate, settings } = useNavItems();
 
-  if (main.some(item => item.path === location.pathname)) {
+  if (main.some((item) => item.path === location.pathname)) {
     return <Main items={main} />;
   }
 
-  if (settings.some(item => item.path === location.pathname)) {
+  if (settings.some((item) => item.path === location.pathname)) {
     return <Settings items={settings} />;
   }
 
@@ -41,17 +41,17 @@ const App = () => {
       border: {
         lightGrey: grey[400],
         grey: grey[700],
-      }
+      },
     },
     typography: {
-      fontFamily: 'Montserrat',
+      fontFamily: "Montserrat",
       customResponsive: {
-        fontSize: '2.5vw',
-        '@media (min-width:600px)': {
-          fontSize: '1.2vw',
+        fontSize: "2.5vw",
+        "@media (min-width:600px)": {
+          fontSize: "1.2vw",
         },
-        '@media (min-width:900px)': {
-          fontSize: '0.8vw',
+        "@media (min-width:900px)": {
+          fontSize: "0.8vw",
         },
       },
     },
@@ -63,67 +63,67 @@ const App = () => {
             margin: 0,
             padding: 0,
           },
-          '*': {
-            scrollbarColor: `${grey[400]} ${grey[100]}`,  // Thumb color #888, track color #f0f0f0
-            scrollbarWidth: 'thin',  // Firefox thin width
+          "*": {
+            scrollbarColor: `${grey[400]} ${grey[100]}`, // Thumb color #888, track color #f0f0f0
+            scrollbarWidth: "thin", // Firefox thin width
           },
           // Webkit scrollbar styling for Chrome, Edge, Safari, etc.
-          '*::-webkit-scrollbar': {
-            width: '8px',
-            height: '8px',
+          "*::-webkit-scrollbar": {
+            width: "8px",
+            height: "8px",
           },
-          '*::-webkit-scrollbar-track': {
-            backgroundColor: '#f0f0f0',
+          "*::-webkit-scrollbar-track": {
+            backgroundColor: "#f0f0f0",
           },
-          '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#888',
-            borderRadius: '4px',
+          "*::-webkit-scrollbar-thumb": {
+            backgroundColor: "#888",
+            borderRadius: "4px",
           },
-          '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#555',
+          "*::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#555",
           },
         },
       },
       MuiButton: {
         defaultProps: {
-          variant: 'outlined',
+          variant: "outlined",
         },
         styleOverrides: {
           root: {
             color: grey[700],
             borderColor: grey[700],
-            '&:hover': {
+            "&:hover": {
               borderColor: red[500],
-              color: red[500]
+              color: red[500],
             },
-            fontWeight: 'bold',
-            textTransform: 'none',
+            fontWeight: "bold",
+            textTransform: "none",
           },
         },
       },
       MuiPaper: {
         defaultProps: {
-          elevation: 0
-        }
+          elevation: 0,
+        },
       },
       MuiTextField: {
         styleOverrides: {
           root: {
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
                 borderColor: grey[500],
               },
-              '&:hover fieldset': {
+              "&:hover fieldset": {
                 borderColor: red[800],
               },
-              '&.Mui-focused fieldset': {
+              "&.Mui-focused fieldset": {
                 borderColor: grey[500],
               },
             },
-            '& .MuiInputLabel-root': {
+            "& .MuiInputLabel-root": {
               color: grey[400],
-              fontSize: { xs: '2vw', sm: '1vw' },
-              '&.Mui-focused': {
+              fontSize: { xs: "2vw", sm: "1vw" },
+              "&.Mui-focused": {
                 color: grey[500],
               },
             },
@@ -140,16 +140,16 @@ const App = () => {
       MuiDivider: {
         styleOverrides: {
           root: {
-            bgcolor: 'common.black',
+            bgcolor: "common.black",
           },
         },
       },
       MuiSvgIcon: {
         styleOverrides: {
           root: {
-            fontSize: '1.5rem',
-          }
-        }
+            fontSize: "1.5rem",
+          },
+        },
       },
     },
   });

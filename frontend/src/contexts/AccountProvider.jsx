@@ -5,7 +5,7 @@ const AccountContext = createContext();
 
 export const useAccount = () => {
   return useContext(AccountContext);
-}
+};
 
 export const AccountProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -31,8 +31,10 @@ export const AccountProvider = ({ children }) => {
   const isAuthenticated = () => !!user;
 
   return (
-    <AccountContext.Provider value={{ user, signin, signup, signout, isAuthenticated }}>
+    <AccountContext.Provider
+      value={{ user, signin, signup, signout, isAuthenticated }}
+    >
       {children}
     </AccountContext.Provider>
   );
-}
+};

@@ -6,7 +6,7 @@ const AuctionsContext = createContext();
 
 export const useAuctions = () => {
   return useContext(AuctionsContext);
-}
+};
 
 export const AuctionsProvider = ({ children }) => {
   const [ownedAuctions, setOwnedAuctions] = useState([]);
@@ -20,13 +20,17 @@ export const AuctionsProvider = ({ children }) => {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      api.auction.getOwned(user['id'], 1, 20).then((res) => setOwnedAuctions(res.data));
+      api.auction
+        .getOwned(user["id"], 1, 20)
+        .then((res) => setOwnedAuctions(res.data));
     }
   }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (isAuthenticated()) {
-      api.auction.getBidded(user['id'], 1, 20).then((res) => setBidAuctions(res.data));
+      api.auction
+        .getBidded(user["id"], 1, 20)
+        .then((res) => setBidAuctions(res.data));
     }
   }, [isAuthenticated, user]);
 
@@ -35,7 +39,10 @@ export const AuctionsProvider = ({ children }) => {
       const intervalId = setInterval(() => {
         setAuctions((prevAuctions) =>
           prevAuctions.map((auction) => {
-            const remainingTime = Math.max(0, new Date(auction.endDate).getTime() - Date.now());
+            const remainingTime = Math.max(
+              0,
+              new Date(auction.endDate).getTime() - Date.now()
+            );
             auction.remainingTime = remainingTime;
             return auction;
           })
@@ -43,19 +50,18 @@ export const AuctionsProvider = ({ children }) => {
       }, 1000);
       return () => clearInterval(intervalId);
     }
-
   }, [auctions]);
 
   const addAuction = (auctionData) => {
     setAuctions((prevAuctions) => [...prevAuctions, auctionData]);
   };
 
-  const addBid = (bidData) => {
-    
-  };
+  const addBid = (bidData) => {};
 
   return (
-    <AuctionsContext.Provider value={{ auctions, ownedAuctions, bidAuctions, addAuction, addBid }}>
+    <AuctionsContext.Provider
+      value={{ auctions, ownedAuctions, bidAuctions, addAuction, addBid }}
+    >
       {children}
     </AuctionsContext.Provider>
   );

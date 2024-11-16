@@ -8,5 +8,5 @@ export const useRedirect = (condition, dependencies, path) => {
     if (condition()) {
       navigate(path);
     }
-  }, dependencies)
-}
+  }, dependencies);
+};

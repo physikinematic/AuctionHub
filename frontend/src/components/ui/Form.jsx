@@ -16,7 +16,7 @@ const Form = ({ fields, submit, children }) => {
               variant="outlined"
               fullWidth
               label={field.label}
-              value={field.value || ''}
+              value={field.value || ""}
               type={field.type}
               required={field.required}
               error={field.error}
@@ -24,35 +24,46 @@ const Form = ({ fields, submit, children }) => {
               name={field.name}
               onChange={field.onChange}
               onBlur={field.onBlur}
-              onKeyDown={(event) => { if (event.key === 'Enter') submit.onClick(event) }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") submit.onClick(event);
+              }}
               slotProps={{
                 input: {
                   sx: {
-                    fontSize: { xs: '2.5vw', sm: '1.2vw', md: '0.8vw' }
-                  }
+                    fontSize: { xs: "2.5vw", sm: "1.2vw", md: "0.8vw" },
+                  },
                 },
                 inputLabel: {
                   sx: {
-                    fontSize: { xs: '2.5vw', sm: '1.2vw', md: '0.8vw' }
-                  }
+                    fontSize: { xs: "2.5vw", sm: "1.2vw", md: "0.8vw" },
+                  },
                 },
                 formHelperText: {
                   sx: {
-                    fontSize: { xs: '1.5vw', sm: '0.8vw', md: '0.6vw' }
-                  }
+                    fontSize: { xs: "1.5vw", sm: "0.8vw", md: "0.6vw" },
+                  },
                 },
               }}
             />
-          </Grid2>)
+          </Grid2>
+        );
       })}
-      <Button onClick={submit.onClick} variant="contained" color="primary" fullWidth>
-        <Typography fontSize={{ xs: '3vw', sm: '1.2vw', md: '1vw' }} color='white'>
+      <Button
+        onClick={submit.onClick}
+        variant="contained"
+        color="primary"
+        fullWidth
+      >
+        <Typography
+          fontSize={{ xs: "3vw", sm: "1.2vw", md: "1vw" }}
+          color="white"
+        >
           {submit.label}
         </Typography>
       </Button>
       {children}
     </Grid2>
-  )
-}
+  );
+};
 
 export default Form;

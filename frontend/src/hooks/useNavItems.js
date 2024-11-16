@@ -1,53 +1,84 @@
 import { useEffect, useState } from "react";
 
-import HomeIcon from '@mui/icons-material/Home';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import CardMembershipIcon from '@mui/icons-material/CardMembership';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import InfoIcon from '@mui/icons-material/Info';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import HomeIcon from "@mui/icons-material/Home";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import InfoIcon from "@mui/icons-material/Info";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useAccount } from "../contexts";
 
-import { About, Contact, Help, Home, Auctions, Bids, Payment, SignIn, Legal, PrivacyPolicy, Profile } from '../pages';
+import {
+  About,
+  Contact,
+  Help,
+  Home,
+  Auctions,
+  Bids,
+  Payment,
+  SignIn,
+  Legal,
+  PrivacyPolicy,
+  Profile,
+} from "../pages";
 
-
-const navItems = () => (
+const navItems = () => ({
+  main: [
+    { path: "/", label: "Home", icon: <HomeIcon />, element: <Home /> },
     {
-        main: [
-            { path: '/', label: 'Home', icon: <HomeIcon />, element: <Home /> },
-            { path: '/auctions', label: 'Auctions', icon: <LocalOfferIcon />, element: <Auctions /> },
-            { path: '/bids', label: 'Bids', icon: <CardMembershipIcon />, element: <Bids /> },
-            { path: '/help', label: 'Help', icon: <HelpOutlineIcon />, element: <Help /> },
-            { path: '/about', label: 'About', icon: <InfoIcon />, element: <About /> },
-            { path: '/contact', label: 'Contact', icon: <LocalPhoneIcon />, element: <Contact /> },
-        ],
-        settings: [
-            { path: '/profile', label: 'Profile', element: <Profile /> },
-            { path: '/payment', label: 'Payment', element: <Payment /> },
-        ],
-        separate: [
-            { path: '/signin', element: <SignIn /> },
-            { path: '/legal', element: <Legal /> },
-            { path: '/privacy-policy', element: <PrivacyPolicy /> },
-        ],
-    }
-);
+      path: "/auctions",
+      label: "Auctions",
+      icon: <LocalOfferIcon />,
+      element: <Auctions />,
+    },
+    {
+      path: "/bids",
+      label: "Bids",
+      icon: <CardMembershipIcon />,
+      element: <Bids />,
+    },
+    {
+      path: "/help",
+      label: "Help",
+      icon: <HelpOutlineIcon />,
+      element: <Help />,
+    },
+    { path: "/about", label: "About", icon: <InfoIcon />, element: <About /> },
+    {
+      path: "/contact",
+      label: "Contact",
+      icon: <LocalPhoneIcon />,
+      element: <Contact />,
+    },
+  ],
+  settings: [
+    { path: "/profile", label: "Profile", element: <Profile /> },
+    { path: "/payment", label: "Payment", element: <Payment /> },
+  ],
+  separate: [
+    { path: "/signin", element: <SignIn /> },
+    { path: "/legal", element: <Legal /> },
+    { path: "/privacy-policy", element: <PrivacyPolicy /> },
+  ],
+});
 
 export const useNavItems = () => {
-    const n = navItems()
-    const { isAuthenticated } = useAccount();
-    const [main, setMain] = useState(n.main);
+  const n = navItems();
+  const { isAuthenticated } = useAccount();
+  const [main, setMain] = useState(n.main);
 
-    useEffect(() => {
-        const filteredNavItems = isAuthenticated()
-            ? n.main
-            : n.main.filter(item => !['Auctions', 'Bids', 'Payment'].includes(item.label));
-        setMain(filteredNavItems);
-    }, [isAuthenticated])
+  useEffect(() => {
+    const filteredNavItems = isAuthenticated()
+      ? n.main
+      : n.main.filter(
+          (item) => !["Auctions", "Bids", "Payment"].includes(item.label)
+        );
+    setMain(filteredNavItems);
+  }, [isAuthenticated]);
 
-    return {
-        main,
-        separate: n.separate,
-        settings: n.settings
-    };
+  return {
+    main,
+    separate: n.separate,
+    settings: n.settings,
+  };
 };

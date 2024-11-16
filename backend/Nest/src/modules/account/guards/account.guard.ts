@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, UnauthorizedException, UseGuards } from 
 import { Observable } from "rxjs";
 import { response } from "../../../utils/helpers/response";
 
-export function IsAuthenticated() {
+export function IsAuthenticatedGuard() {
   return UseGuards(AccountGuard);
 }
 

@@ -1,5 +1,5 @@
-import { auction } from './auctions';
-import { user } from './user';
+import { auction } from "./auctions";
+import { user } from "./user";
 
 const api = {
   auction,

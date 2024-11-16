@@ -1,6 +1,5 @@
 import { IconButton, InputAdornment, TextField } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
-
+import SearchIcon from "@mui/icons-material/Search";
 
 const Searchbar = (props) => {
   return (
@@ -21,7 +20,7 @@ const Searchbar = (props) => {
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
 export default Searchbar;

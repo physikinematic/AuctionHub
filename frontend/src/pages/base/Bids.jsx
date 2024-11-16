@@ -6,11 +6,15 @@ const Bids = () => {
   const { bidAuctions } = useAuctions();
   const { isAuthenticated } = useAccount();
 
-  useRedirect(() => !isAuthenticated(), [isAuthenticated], '/');
+  useRedirect(() => !isAuthenticated(), [isAuthenticated], "/");
 
   return (
-    <AuctionItemSection items={bidAuctions} label={'My Bids'} type={{bid: true}} />
+    <AuctionItemSection
+      items={bidAuctions}
+      label={"My Bids"}
+      type={{ bid: true }}
+    />
   );
-}
+};
 
 export default Bids;

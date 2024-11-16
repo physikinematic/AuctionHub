@@ -1,7 +1,13 @@
-import { Avatar, Button, Grid2, IconButton, Menu, MenuItem } from "@mui/material";
+import { Button, Grid2, Menu, MenuItem } from "@mui/material";
 import React, { useState } from "react";
 
-const MenuButton = ({ button = <Button>ButtonMenu</Button>, menuOptions, handleItemClick, transformOrigin, anchorOrigin }) => {
+const MenuButton = ({
+  button = <Button>ButtonMenu</Button>,
+  menuOptions,
+  handleItemClick,
+  transformOrigin,
+  anchorOrigin,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -20,7 +26,7 @@ const MenuButton = ({ button = <Button>ButtonMenu</Button>, menuOptions, handleI
   const clonedButton = React.cloneElement(button, { onClick: handleMenuOpen });
 
   return (
-    <Grid2 item container alignItems='center' justifyContent='center'>
+    <Grid2 item container alignItems="center" justifyContent="center">
       {clonedButton}
 
       <Menu

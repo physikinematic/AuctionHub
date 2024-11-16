@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FaCrown } from "react-icons/fa6";
 
-import { Grid2, Paper, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 
-import Logo from '../static/images/hublogo.png';
+import Logo from "../static/images/hublogo.png";
 
 import { ActionButton, ItemCard } from "./";
 import { useAccount } from "../contexts";
@@ -21,24 +21,38 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
     console.log(id);
   };
 
-  const buttonState = isAuthenticated() ? {
-    owned: type.owned || item['ownerId'] === user['id'],
-    bid: type.bid || item.bids.some(bid => bid['ownerId'] === user['id'])
-  } : null;
+  const buttonState = isAuthenticated()
+    ? {
+        owned: type.owned || item["ownerId"] === user["id"],
+        bid: type.bid || item.bids.some((bid) => bid["ownerId"] === user["id"]),
+      }
+    : null;
 
   const actionButton = (label, color) => {
-    return <ActionButton size={{ xs: 12, sm: 'grow' }} sx={{ height: { xs: '8vw', sm: '5vw', md: '2.5vw' }, ...textStyle }} color={color} label={label} onClick={() => handleDetailsClick(item.id)} />
-  }
+    return (
+      <ActionButton
+        size={{ xs: 12, sm: "grow" }}
+        sx={{ height: { xs: "8vw", sm: "5vw", md: "2.5vw" }, ...textStyle }}
+        color={color}
+        label={label}
+        onClick={() => handleDetailsClick(item.id)}
+      />
+    );
+  };
 
   const actions = (
-    <Grid2 container spacing={1} sx={{ width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
+    <Grid2
+      container
+      spacing={1}
+      sx={{ width: "100%", height: "100%" }}
+      alignItems="center"
+      justifyContent="center"
+    >
       {buttonState?.owned && // does the user own the item?
-        actionButton('Remove')
-      }
+        actionButton("Remove")}
       {buttonState?.bid && // is user placing bid on item?
-        actionButton('Withdraw')
-      }
-      {actionButton('Detials', 'secondary')}
+        actionButton("Withdraw")}
+      {actionButton("Detials", "secondary")}
     </Grid2>
   );
 
@@ -48,7 +62,6 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
     );
     setHighestBid(highest);
   }, [item.bids]);
-
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -78,66 +91,99 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
 
   const { days, hours, minutes, seconds } = formatTimeLeft(timeLeft);
 
-  const closeToEndColor = days === 0 && hours === 0 && minutes === 0 && 'primary';
+  const closeToEndColor =
+    days === 0 && hours === 0 && minutes === 0 && "primary";
 
   const timePaper = (children, size, bgcolor, fontColor) => {
     return (
-      <Grid2 item container size={size || 'grow'} alignItems='center'>
-        <Paper sx={{
-          bgcolor: [bgcolor],
-          width: '100%',
-          height: { xs: '8vw', sm: '5.5vw', md: '3vw' },
-          borderRadius: 0,
-          boxShadow: 'rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;',
-        }}
+      <Grid2 item container size={size || "grow"} alignItems="center">
+        <Paper
+          sx={{
+            bgcolor: [bgcolor],
+            width: "100%",
+            height: { xs: "8vw", sm: "5.5vw", md: "3vw" },
+            borderRadius: 0,
+            boxShadow:
+              "rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;",
+          }}
         >
-          <Grid2 item container height='100%' alignItems='center' justifyContent='center'>
-            <Typography color={fontColor} fontWeight='bold' {...textStyle}>
+          <Grid2
+            item
+            container
+            height="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Typography color={fontColor} fontWeight="bold" {...textStyle}>
               {children}
             </Typography>
           </Grid2>
         </Paper>
       </Grid2>
-    )
-  }
+    );
+  };
 
   const containerSize = { xs: 12, md: 6, lg: 4, xl: 3 };
 
   return (
     <Grid2 item container size={containerSize}>
-      <ItemCard contents={
-        <>
-          <Tooltip title="Owned by you">
-            <Grid2 item container sx={{ position: 'absolute', fontSize: { xs: '5vw', sm: '2.5vw', md: '1.5vw' } }}>
-              {buttonState?.owned && <FaCrown color='#efbf04' />}
+      <ItemCard
+        contents={
+          <>
+            <Tooltip title="Owned by you">
+              <Grid2
+                item
+                container
+                sx={{
+                  position: "absolute",
+                  fontSize: { xs: "5vw", sm: "2.5vw", md: "1.5vw" },
+                }}
+              >
+                {buttonState?.owned && <FaCrown color="#efbf04" />}
+              </Grid2>
+            </Tooltip>
+            <Grid2 item container justifyContent="center" alignItems="center">
+              <Grid2
+                sx={{
+                  maxHeight: 250,
+                  maxWidth: 250,
+                  width: "100%",
+                  height: "100%",
+                  p: 3,
+                }}
+                component="img"
+                src={item.img || Logo}
+              />
             </Grid2>
-          </Tooltip>
-          <Grid2 item container justifyContent='center' alignItems='center'>
-            <Grid2 sx={{ maxHeight: 250, maxWidth: 250, width: '100%', height: '100%', p: 3 }} component='img' src={item.img || Logo} />
-          </Grid2>
-          <Typography {...textStyle} fontWeight='bold'>
-            {item.name}
-          </Typography>
-          <Typography {...textStyle}>
-            {highestBid ? `Current Bid: ${highestBid.value}$` : 'No bids yet'}
-          </Typography>
-          <Typography {...textStyle} color={closeToEndColor}>
-            <Grid2 container size='grow' alignItems='center' justifyContent='center' mt={1}>
-              {timePaper(`Ends in`, 3.5, 'primary.dim', 'common.white',)}
-              {timePaper(`${days}d`)}
-              {timePaper(`${String(hours).padStart(2, '0')}h`)}
-              {timePaper(`${String(minutes).padStart(2, '0')}m`)}
-              {timePaper(`${String(seconds).padStart(2, '0')}s`)}
+            <Typography {...textStyle} fontWeight="bold">
+              {item.name}
+            </Typography>
+            <Typography {...textStyle}>
+              {highestBid ? `Current Bid: ${highestBid.value}$` : "No bids yet"}
+            </Typography>
+            <Typography {...textStyle} color={closeToEndColor}>
+              <Grid2
+                container
+                size="grow"
+                alignItems="center"
+                justifyContent="center"
+                mt={1}
+              >
+                {timePaper(`Ends in`, 3.5, "primary.dim", "common.white")}
+                {timePaper(`${days}d`)}
+                {timePaper(`${String(hours).padStart(2, "0")}h`)}
+                {timePaper(`${String(minutes).padStart(2, "0")}m`)}
+                {timePaper(`${String(seconds).padStart(2, "0")}s`)}
+              </Grid2>
+            </Typography>
+            <Grid2 item container mt={1.5}>
+              {actions}
             </Grid2>
-          </Typography>
-          <Grid2 item container mt={1.5}>
-            {actions}
-          </Grid2>
-        </>
-      }
+          </>
+        }
       />
     </Grid2>
   );
-}
+};
 
 export default AuctionItemCard;

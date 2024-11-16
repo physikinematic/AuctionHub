@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
 import { AuctionController } from './auction.controller';
 import { AuctionService } from './auction.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Auction } from './auction.entity';
-import { BidModule } from '../bid/bid.module';
-import { AccountModule } from '../account/account.module';
+import { Auction, AuctionSchema } from './auction.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Auction]), BidModule, AccountModule],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: Auction.name,
+        schema: AuctionSchema,
+      },
+    ]),
+  ],
   controllers: [AuctionController],
-  providers: [AuctionService]
+  providers: [AuctionService],
 })
 export class AuctionModule {}

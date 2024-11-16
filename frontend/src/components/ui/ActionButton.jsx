@@ -2,23 +2,24 @@ import { Button, Grid2 } from "@mui/material";
 
 const ActionButton = ({ label, size, color, onClick, sx }) => {
   return (
-    <Grid2 item size={size || 'grow'}>
+    <Grid2 item size={size || "grow"}>
       <Button
         color={color}
-        variant='contained'
+        variant="contained"
         onClick={onClick}
         sx={{
-          width: '100%',
-          color: 'common.white',
-          '&:hover': {
-            color: 'common.white'
+          width: "100%",
+          color: "common.white",
+          "&:hover": {
+            color: "common.white",
           },
-          ...sx
-        }}>
+          ...sx,
+        }}
+      >
         {label}
       </Button>
     </Grid2>
-  )
-}
+  );
+};
 
 export default ActionButton;

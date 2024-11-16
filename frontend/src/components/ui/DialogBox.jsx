@@ -1,4 +1,9 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 const DialogBox = ({ open, setOpen, title, content, actions }) => {
   return (

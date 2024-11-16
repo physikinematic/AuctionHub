@@ -1,8 +1,5 @@
 const AddAuction = () => {
-  return (
-    <>
-    </>
-  );
-}
+  return <></>;
+};
 
 export default AddAuction;
