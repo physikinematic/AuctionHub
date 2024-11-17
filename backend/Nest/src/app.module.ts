@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AccountModule } from './modules/account/account.module';
 import { AuctionModule } from './modules/auction/auction.module';
 import { BidModule } from './modules/bid/bid.module';
-import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [

@@ -1,77 +1,135 @@
 import {
-  BadRequestException,
   ConflictException,
+  ForbiddenException,
+  GoneException,
   Injectable,
   NotFoundException,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { Account } from './account.schema';
-import { compare, encrypt } from '../../utils/helpers/encryption';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { SignupDto } from './dtos/signup.dto';
-import { SigninDto } from './dtos/signin.dto';
+import { response } from 'src/utils/helpers/response';
+import { compare, encrypt } from '../../utils/helpers/encryption';
+import { Account } from './account.schema';
+import { SigninDto } from './dtos/signin.zod.dto';
+import { SignupDto } from './dtos/signup.zod.dto';
+import { RolesEnum } from './roles.schema';
+import { RolesService } from './roles.service';
 
 @Injectable()
 export class AccountService {
-  constructor(@InjectModel(Account.name) protected model: Model<Account>) {}
+  constructor(
+    @InjectModel(Account.name) protected model: Model<Account>,
+    protected roles: RolesService,
+  ) {}
 
-  async signin(body: SigninDto) {
-    const { email, password } = body;
-    const account = await this.model.findOne({ email });
+  async signup(body: SignupDto, session: { accountId: string }) {
+    try {
+      const { email, password, firstName, lastName } = body;
+      const existingAccount = await this.model.findOne({ email });
 
-    if (!account) {
-      throw new NotFoundException('Account not found');
+      if (existingAccount) {
+        throw new ConflictException(
+          'Account with this email already registered',
+        );
+      }
+
+      const hashed = await encrypt(password);
+      const role = await this.roles.findOne(RolesEnum.User);
+      const account = await new this.model({
+        firstName,
+        lastName,
+        email,
+        password: hashed,
+        role,
+      }).save();
+
+      session.accountId = account.id;
+
+      return response({
+        message: 'Account created successfully',
+      });
+    } catch (error) {
+      return response({ error });
     }
+  }
 
-    if (!(await compare(password, account.password))) {
-      throw new UnauthorizedException('Incorrect password');
+  async signin(body: SigninDto, session: { accountId: string }) {
+    try {
+      const { email, password } = body;
+      const account = await this.model.findOne({ email });
+
+      if (!account) {
+        throw new NotFoundException('Account not found');
+      }
+
+      if (account.deleted) {
+        throw new GoneException('Account deleted');
+      }
+
+      if (!(await compare(password, account.password))) {
+        throw new ForbiddenException('Incorrect password');
+      }
+
+      session.accountId = account.id;
+
+      return response({
+        message: 'Account signed in successfully',
+      });
+    } catch (error) {
+      return response({ error });
     }
-
-    return account.active && account.id;
   }
 
-  async signup(body: SignupDto) {
-    const { email, password, firstName, lastName } = body;
-    const existingAccount = await this.model.findOne({ email });
+  async info(id: string) {
+    try {
+      const account = await this.model.findById(id);
 
-    if (existingAccount) {
-      throw new ConflictException('Account with this email already registered');
+      if (!account) {
+        throw new NotFoundException('Account not found');
+      }
+
+      if (account.deleted) {
+        throw new GoneException('Account deleted');
+      }
+
+      return response({
+        message: 'Account info retrieved successfully',
+        data: account,
+      });
+    } catch (error) {
+      return response({ error });
     }
-
-    const hashedPassword = await encrypt(password);
-    const account = await this.create({
-      firstName,
-      lastName,
-      email,
-      password: hashedPassword,
-    });
-
-    return account.id;
   }
 
-  async getInfo(id: string) {
-    const account = await this.model.findOne({ id });
-    return account.active && account;
-  }
-
-  async setActive(id: string, value: boolean) {
-    return await this.update(id, { active: value });
-  }
-
-  protected async create(attrs: Partial<Account>) {
-    const account = new this.model(attrs);
-    return account.save();
-  }
-
-  protected async update(id: string, attrs: Partial<Account>) {
-    const account = await this.model.findById(id);
-
-    if (!account) {
-      throw new NotFoundException('Account not found');
+  signout(session: { accountId: string }) {
+    try {
+      session.accountId = null;
+      return response({
+        message: 'Account signed out successfully',
+      });
+    } catch (error) {
+      return response({ error });
     }
+  }
 
-    Object.assign(account, attrs);
-    return account.save();
+  async delete(session: { accountId: string }) {
+    try {
+      const account = await this.model.findById(session.accountId);
+
+      if (!account) {
+        throw new NotFoundException('Account not found');
+      }
+
+      account.deleted = true;
+      await account.save();
+
+      this.signout(session);
+
+      return response({
+        message: 'Account deleted successfully',
+      });
+    } catch (error) {
+      return response({ error });
+    }
   }
 }

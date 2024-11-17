@@ -5,15 +5,15 @@ import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 
 import Logo from "../static/images/hublogo.png";
 
-import { ActionButton, ItemCard } from "./";
 import { useAccount } from "../contexts";
+import { ActionButton, ItemCard } from "./";
 
 const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   const [highestBid, setHighestBid] = useState({});
   const theme = useTheme();
   const cardTime = new Date(item.endDate);
   const [timeLeft, setTimeLeft] = useState(cardTime.getTime() - Date.now());
-  const { user, isAuthenticated } = useAccount();
+  const { account, isAuthenticated } = useAccount();
 
   const textStyle = { fontSize: theme.typography.customResponsive };
 
@@ -23,8 +23,9 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
 
   const buttonState = isAuthenticated()
     ? {
-        owned: type.owned || item["ownerId"] === user["id"],
-        bid: type.bid || item.bids.some((bid) => bid["ownerId"] === user["id"]),
+        owned: type.owned || item["ownerId"] === account["id"],
+        bid:
+          type.bid || item.bids.some((bid) => bid["ownerId"] === account["id"]),
       }
     : null;
 
@@ -52,7 +53,7 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
         actionButton("Remove")}
       {buttonState?.bid && // is user placing bid on item?
         actionButton("Withdraw")}
-      {actionButton("Detials", "secondary")}
+      {actionButton("Details", "secondary")}
     </Grid2>
   );
 

@@ -1,18 +1,18 @@
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import {
+  Button,
   Grid2,
   Hidden,
   Typography,
-  Button,
   useMediaQuery,
 } from "@mui/material";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
-import { Header, Sidebar } from "../sections";
 import { ProfileMenuButton, Searchbar } from "../components";
 import { useAccount } from "../contexts";
 import { useUp } from "../hooks";
+import { Header, Sidebar } from "../sections";
 
 const Main = ({ items }) => {
   const { isAuthenticated } = useAccount();

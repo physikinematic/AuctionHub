@@ -1,12 +1,11 @@
 import { BrowserRouter as Router, useLocation } from "react-router-dom";
 
-import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 
-import { Main, Settings, Separate } from "./pages";
-import { AccountProvider } from "./contexts";
-import { AuctionsProvider } from "./contexts/";
+import { AccountProvider, AuctionsProvider } from "./contexts";
 import { useNavItems } from "./hooks";
+import { Main, Separate, Settings } from "./pages";
 
 const Layout = () => {
   const location = useLocation();

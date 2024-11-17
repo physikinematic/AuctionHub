@@ -1,8 +1,8 @@
+import { Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Autocomplete, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { CustomLink, RegistrationForm } from "../../components";
 import { useAccount } from "../../contexts";
-import { useNavigate } from "react-router-dom";
 import { useRedirect } from "../../hooks";
 
 const regex = {
@@ -77,7 +77,7 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
   const [updatedLayouts, setUpdatedLayouts] = useState({});
   const [targetLayout, setTargetLayout] = useState(layouts.signin);
-  const { isAuthenticated, signin, signup, user } = useAccount();
+  const { isAuthenticated, signin, signup, account } = useAccount();
   const navigate = useNavigate();
 
   useRedirect(
@@ -85,7 +85,7 @@ const SignIn = () => {
       const auth = isAuthenticated();
       return auth;
     },
-    [user],
+    [account],
     "/"
   );
 

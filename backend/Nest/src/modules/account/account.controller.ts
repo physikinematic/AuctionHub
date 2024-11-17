@@ -1,70 +1,44 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Session,
-  UseInterceptors,
-} from '@nestjs/common';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { AccountService } from './account.service';
-import { userSchema } from './dtos/user.dto';
-import { CurrentAccountInterceptor } from './interceptors/current-account.interceptor';
-import { IsAuthenticatedGuard } from './guards/account.guard';
-import { CurrentAccount } from './decorators/current-account.decorator';
+import { Body, Controller, Delete, Get, Post, Session } from '@nestjs/common';
+import { SerializeResponse } from 'src/interceptors/serialize.interceptor';
 import { Validate } from 'src/pipes/zodValidationPipe';
-import { SigninDto, signinSchema } from './dtos/signin.dto';
-import { SignupDto, signupSchema } from './dtos/signup.dto';
-import { response } from 'src/utils/helpers/response';
-import { Account } from './account.schema';
+import { AccountService } from './account.service';
+import { accountResponseZodSchema } from './dtos/account-response.zod.dto';
+import { SigninDto, signinZodSchema } from './dtos/signin.zod.dto';
+import { SignupDto, signupZodSchema } from './dtos/signup.zod.dto';
+import { IsAuthenticatedGuard } from './guards/authenticated.guard';
 
 @Controller('auth')
-@Serialize(userSchema)
-@UseInterceptors(CurrentAccountInterceptor)
+@SerializeResponse(accountResponseZodSchema)
 export class AccountController {
-  constructor(private readonly authService: AccountService) {}
+  constructor(private readonly service: AccountService) {}
 
-  @Get('whoami')
+  @Get('info')
   @IsAuthenticatedGuard()
-  async whoAmI(@CurrentAccount() account: Partial<Account>) {
-    return response({
-      message: 'Account info retrieved successfully',
-      data: account,
-    });
+  async info(@Session() session: any) {
+    return this.service.info(session.accountId);
   }
 
   @Post('signin')
-  @Validate(signinSchema)
+  @Validate(signinZodSchema)
   async signin(@Body() body: SigninDto, @Session() session: any) {
-    const userId = await this.authService.signin(body);
-    session.accountId = userId;
-    return response({ message: 'Account signed in successfully' });
+    return await this.service.signin(body, session);
   }
 
   @Post('signup')
-  @Validate(signupSchema)
+  @Validate(signupZodSchema)
   async signup(@Body() body: SignupDto, @Session() session: any) {
-    try {
-      const userId = await this.authService.signup(body);
-      session.accountId = userId;
-      return response({ message: 'Account signed up successfully' });
-    } catch (error) {
-      response({ error });
-    }
+    return await this.service.signup(body, session);
   }
 
   @Post('signout')
-  @UseInterceptors(CurrentAccountInterceptor)
-  async signout(@Session() session: any) {
-    session.accountId = null;
-    return response({ message: 'Account signed out successfully' });
+  @IsAuthenticatedGuard()
+  signout(@Session() session: any) {
+    return this.service.signout(session);
   }
 
   @Delete()
-  async removeUser(@Session() session: any) {
-    await this.authService.setActive(session.accountId, false);
-    session.accountId = null;
-    return response({ message: 'Account removed successfully' });
+  @IsAuthenticatedGuard()
+  async remove(@Session() session: any) {
+    return await this.service.delete(session);
   }
 }

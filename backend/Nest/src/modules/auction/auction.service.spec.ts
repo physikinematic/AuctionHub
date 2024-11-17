@@ -1,18 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { AuctionService } from './auction.service';
 
-describe('AuctionService', () => {
+describe('AccountService', () => {
   let service: AuctionService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [AuctionService],
     }).compile();
 
-    service = module.get<AuctionService>(AuctionService);
+    service = module.get(AuctionService);
   });
 
-  it('should be defined', () => {
+  /// General
+  it('can create an instance of account service', async () => {
     expect(service).toBeDefined();
   });
+  /// End General
 });

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { useAccount } from "../contexts";
-import MenuButton from "./ui/MenuButton";
 import { Avatar, Button, Grid2, IconButton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAccount } from "../contexts";
 import { DialogBox } from "./";
+import MenuButton from "./ui/MenuButton";
 
 const menuOptions = {
   loggedIn: ["Profile", "Sign Out"],
@@ -53,7 +53,7 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
             }}
           >
             <Avatar
-              alt="User Avatar"
+              alt="Account Avatar"
               src=""
               sx={{ width: "100%", height: "100%" }}
             />

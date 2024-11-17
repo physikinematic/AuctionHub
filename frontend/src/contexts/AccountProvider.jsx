@@ -8,31 +8,31 @@ export const useAccount = () => {
 };
 
 export const AccountProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [account, setAccount] = useState(null);
 
   const signin = (data) => {
-    api.user.signIn(data).then((res) => {
-      setUser(res.data);
+    api.account.signIn(data).then((res) => {
+      setAccount(res.data);
       return res.data;
     });
   };
 
   const signup = (data) => {
-    api.user.signUp(data).then((res) => {
-      setUser(res.data);
+    api.account.signUp(data).then((res) => {
+      setAccount(res.data);
       return res.data;
     });
   };
 
   const signout = () => {
-    setUser(null);
+    setAccount(null);
   };
 
-  const isAuthenticated = () => !!user;
+  const isAuthenticated = () => !!account;
 
   return (
     <AccountContext.Provider
-      value={{ user, signin, signup, signout, isAuthenticated }}
+      value={{ account, signin, signup, signout, isAuthenticated }}
     >
       {children}
     </AccountContext.Provider>

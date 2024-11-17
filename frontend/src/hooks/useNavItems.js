@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 
-import HomeIcon from "@mui/icons-material/Home";
-import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useAccount } from "../contexts";
 
 import {
   About,
+  Auctions,
+  Bids,
   Contact,
   Help,
   Home,
-  Auctions,
-  Bids,
-  Payment,
-  SignIn,
   Legal,
+  Payment,
   PrivacyPolicy,
   Profile,
+  SignIn,
 } from "../pages";
 
 const navItems = () => ({

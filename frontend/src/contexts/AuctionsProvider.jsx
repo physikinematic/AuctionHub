@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { useAccount } from "./";
 import { api } from "../api";
+import { useAccount } from "./";
 
 const AuctionsContext = createContext();
 
@@ -12,7 +12,7 @@ export const AuctionsProvider = ({ children }) => {
   const [ownedAuctions, setOwnedAuctions] = useState([]);
   const [bidAuctions, setBidAuctions] = useState([]);
   const [auctions, setAuctions] = useState([]);
-  const { user, isAuthenticated } = useAccount();
+  const { account, isAuthenticated } = useAccount();
 
   useEffect(() => {
     api.auction.getAll(1, 20).then((res) => setAuctions(res.data));
@@ -21,18 +21,18 @@ export const AuctionsProvider = ({ children }) => {
   useEffect(() => {
     if (isAuthenticated()) {
       api.auction
-        .getOwned(user["id"], 1, 20)
+        .getOwned(account["id"], 1, 20)
         .then((res) => setOwnedAuctions(res.data));
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, account]);
 
   useEffect(() => {
     if (isAuthenticated()) {
       api.auction
-        .getBidded(user["id"], 1, 20)
+        .getBidded(account["id"], 1, 20)
         .then((res) => setBidAuctions(res.data));
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, account]);
 
   useEffect(() => {
     if (auctions?.length > 0) {

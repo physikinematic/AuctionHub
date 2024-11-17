@@ -7,4 +7,4 @@ const _fetch = async (url, request) => {
   }
 };
 
-export {_fetch as fetch};
+export { _fetch as fetch };

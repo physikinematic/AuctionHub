@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, Grid2 } from "@mui/material";
+import { Card, CardActions, CardContent } from "@mui/material";
 
 const ItemCard = ({ contents, actions }) => {
   return (

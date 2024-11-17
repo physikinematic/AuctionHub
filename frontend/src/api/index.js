@@ -1,9 +1,9 @@
+import { account } from "./account";
 import { auction } from "./auctions";
-import { user } from "./user";
 
 const api = {
   auction,
-  user,
+  account,
 };
 
 export { api };
