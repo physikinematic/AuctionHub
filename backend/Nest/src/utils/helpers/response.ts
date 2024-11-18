@@ -1,12 +1,19 @@
 import { HttpException } from '@nestjs/common';
 
-export function response(o: { message?: string; data?: any; error?: Error }) {
+export function formatResponse(o: {
+  message?: string;
+  data?: any;
+  pagination?: any;
+  error?: Error;
+}) {
+  const { message, data, pagination, error } = o;
+
   if (!o.error) {
-    return { success: true, message: o.message, data: o.data };
+    return { success: true, message, data, pagination };
   }
 
   throw new HttpException(
-    { success: false, message: o.message || o.error.message },
-    o.error instanceof HttpException ? o.error.getStatus() : 500,
+    { success: false, message: message || error.message },
+    error instanceof HttpException ? error.getStatus() : 500,
   );
 }

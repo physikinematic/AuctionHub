@@ -128,7 +128,7 @@ const addBid = async (params, body) => {
   //   throw new RequestError(400, 'Invalid Value');
   // } TODO
 
-  const bid = { ownerId, value /* dateAdded: new Date() TODO */ };
+  const bid = { ownerId, value /* createdAt: new Date() TODO */ };
   auction.bids.push(bid);
 
   await auction.save();

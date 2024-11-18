@@ -59,7 +59,7 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
 
   useEffect(() => {
     const highest = item.bids.reduce((highest, bid) =>
-      bid.dateAdded > highest.dateAdded ? bid : highest
+      bid.createdAt > highest.createdAt ? bid : highest
     );
     setHighestBid(highest);
   }, [item.bids]);
