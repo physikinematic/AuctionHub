@@ -1,8 +1,19 @@
+import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
 import { useAuctions } from "../../contexts";
 
 const Home = () => {
-  const { auctions } = useAuctions();
+  const { getAll } = useAuctions();
+  const [auctions, setAuctions] = useState([]);
+
+  const setup = async () => {
+    const auctions = await getAll(1, 20);
+    setAuctions(auctions);
+  };
+
+  useEffect(() => {
+    setup();
+  }, []);
   return <AuctionItemSection items={auctions} label="Recommended" />;
 };
 

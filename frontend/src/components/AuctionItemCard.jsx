@@ -5,7 +5,7 @@ import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 
 import Logo from "../static/images/hublogo.png";
 
-import { useAccount } from "../contexts";
+import { useAccount, useAuctions, useBids } from "../contexts";
 import { ActionButton, ItemCard } from "./";
 
 const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
@@ -14,6 +14,8 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   const cardTime = new Date(item.endDate);
   const [timeLeft, setTimeLeft] = useState(cardTime.getTime() - Date.now());
   const { account, isAuthenticated } = useAccount();
+  const { getBidded } = useAuctions();
+  const { getAuction } = useBids();
 
   const textStyle = { fontSize: theme.typography.customResponsive };
 
@@ -23,9 +25,13 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
 
   const buttonState = isAuthenticated()
     ? {
-        owned: type.owned || item["ownerId"] === account["id"],
+        owned: type.owned || item.owner === account.id,
         bid:
-          type.bid || item.bids.some((bid) => bid["ownerId"] === account["id"]),
+          type.bid ||
+          (async () => {
+            const bidAuctions = await getBidded();
+            return bidAuctions.some((auction) => auction.id === item.id);
+          })(),
       }
     : null;
 
@@ -58,10 +64,11 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   );
 
   useEffect(() => {
-    const highest = item.bids.reduce((highest, bid) =>
-      bid.createdAt > highest.createdAt ? bid : highest
-    );
-    setHighestBid(highest);
+    const highest = async () =>
+      (await getAuction(item.id)).reduce((highest, bid) =>
+        bid.createdAt > highest.createdAt ? bid : highest
+      );
+    setHighestBid(highest());
   }, [item.bids]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuctionOwnerAuthGuard } from 'src/guards/auctionOwnerAuth.guard';
 import { Auction, AuctionSchema } from 'src/schemas/auction.schema';
@@ -19,9 +19,10 @@ import { BidModule } from './bid.module';
         schema: CategorySchema,
       },
     ]),
-    BidModule,
+    forwardRef(() => BidModule),
   ],
   controllers: [AuctionController],
   providers: [AuctionService, AuctionOwnerAuthGuard],
+  exports: [AuctionService],
 })
 export class AuctionModule {}

@@ -1,36 +1,33 @@
-import { _delete, get, post } from "./helpers/request";
+import { _delete, post } from "./helpers/request";
 
-const mainPath = "/auth";
-
-const getAll = async (page, limit) => {
-  return await get({
-    path: `${mainPath}/all`,
-    query: { page, limit },
-  });
-};
+const path = "/auth";
 
 const signIn = async (data) => {
   return await post({
-    path: `${mainPath}/signin`,
+    path: `${path}/signin`,
     body: data,
   });
 };
 
-const signOut = async () => {};
+const signOut = async () => {
+  return await post({
+    path: `${path}/signout`,
+  });
+};
 
 const signUp = async (data) => {
   return await post({
-    path: `${mainPath}/signup`,
+    path: `${path}/signup`,
     body: data,
   });
 };
 
 const deleteAccount = async (id) => {
   return await _delete({
-    path: `${mainPath}/${id}`,
+    path: `${path}/${id}`,
   });
 };
 
-const account = { getAll, signIn, signOut, signUp, deleteAccount };
+const account = { signIn, signOut, signUp, deleteAccount };
 
 export { account };

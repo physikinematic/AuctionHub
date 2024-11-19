@@ -1,16 +1,27 @@
+import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
 import { useAccount, useAuctions } from "../../contexts";
 import { useRedirect } from "../../hooks";
 
 const Bids = () => {
-  const { bidAuctions } = useAuctions();
-  const { isAuthenticated } = useAccount();
+  const { getBidded } = useAuctions();
+  const [auctions, setAuctions] = useState([]);
+  const { isAuthenticated, account } = useAccount();
 
   useRedirect(() => !isAuthenticated(), [isAuthenticated], "/");
 
+  const setup = async () => {
+    const auctions = await getBidded(1, 20);
+    setAuctions(auctions);
+  };
+
+  useEffect(() => {
+    setup();
+  }, [account]);
+
   return (
     <AuctionItemSection
-      items={bidAuctions}
+      items={auctions}
       label={"My Bids"}
       type={{ bid: true }}
     />

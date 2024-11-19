@@ -5,7 +5,8 @@
 
 # testing
 **/coverage/
-**/.vscode/
+**/.vscode/*
+!**/.vscode/launch.json
 
 # production
 **/build

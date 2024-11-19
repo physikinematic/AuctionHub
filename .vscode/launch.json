@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Frontend Debugger",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Nest Debugger",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}\\backend\\Nest"
+    },
+    {
+      "type": "node-terminal",
+      "name": "Express Debugger",
+      "request": "launch",
+      "command": "npm start",
+      "cwd": "${workspaceFolder}\\backend\\Express"
+    }
+  ]
+}

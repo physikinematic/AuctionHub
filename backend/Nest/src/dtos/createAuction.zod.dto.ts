@@ -5,10 +5,12 @@ export const createAuctionZodSchema = z
     name: z.string(),
     category: z.string(),
     description: z.string().optional(),
-    owner: z.string().optional(),
+    owner: z.string(),
     initialPrice: z.number(),
     minBid: z.number(),
-    endDate: z.date(),
+    endDate: z
+      .string()
+      .regex(/(\d{4})-(\d{2})-(\d{2})T((\d{2}):(\d{2}):(\d{2}))\.(\d{3})Z/),
   })
   .strict();
 

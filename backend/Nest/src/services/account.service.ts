@@ -58,8 +58,12 @@ export class AccountService {
     }
   }
 
-  async findAndValidate(body: SigninDto, session?: { accountId: string }) {
+  async signin(body: SigninDto, session?: { accountId: string }) {
     try {
+      if (session.accountId) {
+        throw new BadRequestException('An account already signed in');
+      }
+
       const { email, password } = body;
       const account = await this.model.findOne({ email, deleted: false });
 
@@ -79,6 +83,7 @@ export class AccountService {
 
       return formatResponse({
         message: 'Account signed in successfully',
+        data: account
       });
     } catch (error) {
       formatResponse({ error });
@@ -91,7 +96,7 @@ export class AccountService {
         throw new BadRequestException('Invalid id');
       }
 
-      const account = await this.model.findOne({ id, deleted: false });
+      const account = await this.model.findOne({ _id: id, deleted: false });
 
       if (!account) {
         throw new NotFoundException('Account not found');
@@ -127,7 +132,7 @@ export class AccountService {
         throw new BadRequestException('Invalid id');
       }
 
-      const account = await this.model.findOne({ id, deleted: false });
+      const account = await this.model.findOne({ _id: id, deleted: false });
 
       if (!account) {
         throw new NotFoundException('Account not found');

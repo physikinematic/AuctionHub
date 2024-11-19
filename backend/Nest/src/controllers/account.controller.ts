@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { accountResponseZodSchema } from 'src/dtos/response/account.response.zod.dto';
 import { IsAuthenticated } from 'src/guards/authenticated.guard';
-import { IsAuthorized } from 'src/guards/authorized.guard';
+import { IsAuthorized as IsSessionAuthorized } from 'src/guards/authorized.guard';
 import { SerializeResponse } from 'src/interceptors/serialize.interceptor';
 import { Validate } from 'src/pipes/zodValidationPipe';
 import { SigninDto, signinZodSchema } from '../dtos/signin.zod.dto';
@@ -23,7 +23,7 @@ export class AccountController {
 
   @Get(':id')
   @IsAuthenticated()
-  @IsAuthorized()
+  @IsSessionAuthorized()
   async info(@Param('id') id: string) {
     return await this.service.findById(id);
   }
@@ -31,7 +31,7 @@ export class AccountController {
   @Post('signin')
   @Validate(signinZodSchema)
   async signin(@Body() body: SigninDto, @Session() session: any) {
-    return await this.service.findAndValidate(body, session);
+    return await this.service.signin(body, session);
   }
 
   @Post('signup')
@@ -48,8 +48,8 @@ export class AccountController {
 
   @Delete(':id')
   @IsAuthenticated()
-  @IsAuthorized()
-  async removeAccount(@Param() id: string, @Session() session: any) {
+  @IsSessionAuthorized()
+  async removeAccount(@Param('id') id: string, @Session() session: any) {
     const success = await this.service.delete(id);
     this.signout(session);
     return success;

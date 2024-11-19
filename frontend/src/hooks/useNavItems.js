@@ -63,22 +63,22 @@ const navItems = () => ({
 });
 
 export const useNavItems = () => {
-  const n = navItems();
-  const { isAuthenticated } = useAccount();
-  const [main, setMain] = useState(n.main);
+  const nav = navItems();
+  const { isAuthenticated, account } = useAccount();
+  const [main, setMain] = useState(nav.main);
 
   useEffect(() => {
     const filteredNavItems = isAuthenticated()
-      ? n.main
-      : n.main.filter(
+      ? nav.main
+      : nav.main.filter(
           (item) => !["Auctions", "Bids", "Payment"].includes(item.label)
         );
     setMain(filteredNavItems);
-  }, [isAuthenticated]);
+  }, [account]);
 
   return {
     main,
-    separate: n.separate,
-    settings: n.settings,
+    separate: nav.separate,
+    settings: nav.settings,
   };
 };

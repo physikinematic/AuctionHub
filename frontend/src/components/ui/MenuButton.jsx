@@ -18,8 +18,8 @@ const MenuButton = ({
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (event, index) => {
-    handleItemClick(event, index);
+  const handleMenuItemClick = (option) => {
+    handleItemClick(option);
     setAnchorEl(null);
   };
 
@@ -43,10 +43,7 @@ const MenuButton = ({
         }}
       >
         {menuOptions.map((option) => (
-          <MenuItem
-            key={option}
-            onClick={(event) => handleMenuItemClick(event, option)}
-          >
+          <MenuItem key={option} onClick={() => handleMenuItemClick(option)}>
             {option}
           </MenuItem>
         ))}

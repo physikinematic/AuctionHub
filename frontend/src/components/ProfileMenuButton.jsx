@@ -12,7 +12,7 @@ const menuOptions = {
 
 const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
   const [targetOptions, setTargetOptions] = useState(menuOptions.loggedOut);
-  const { isAuthenticated, signout } = useAccount();
+  const { isAuthenticated, signout, account } = useAccount();
   const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState();
 
@@ -20,9 +20,9 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
     setTargetOptions(
       isAuthenticated() ? menuOptions.loggedIn : menuOptions.loggedOut
     );
-  }, [isAuthenticated]);
+  }, [account]);
 
-  const handleMenuItemClick = (event, optionName) => {
+  const handleMenuItemClick = (optionName) => {
     switch (optionName) {
       case "Profile":
         navigate("/profile");
@@ -36,8 +36,8 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
     }
   };
 
-  const handleSignOut = () => {
-    signout();
+  const handleSignOut = async () => {
+    await signout();
   };
 
   return (

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 
-import { AccountProvider, AuctionsProvider } from "./contexts";
+import { AccountProvider, AuctionsProvider, BidsProvider } from "./contexts";
 import { useNavItems } from "./hooks";
 import { Main, Separate, Settings } from "./pages";
 
@@ -157,10 +157,12 @@ const App = () => {
     <Router>
       <ThemeProvider theme={theme}>
         <AccountProvider>
-          <AuctionsProvider>
-            <CssBaseline />
-            <Layout />
-          </AuctionsProvider>
+          <BidsProvider>
+            <AuctionsProvider>
+              <CssBaseline />
+              <Layout />
+            </AuctionsProvider>
+          </BidsProvider>
         </AccountProvider>
       </ThemeProvider>
     </Router>

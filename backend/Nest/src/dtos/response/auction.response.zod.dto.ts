@@ -11,7 +11,7 @@ const auctionSchema = z
     initialPrice: z.number().optional(),
     minBid: z.number().optional(),
     endDate: z.date().optional(),
-    createAt: z.date().optional(),
+    createdAt: z.date().optional(),
   })
   .strip();
 

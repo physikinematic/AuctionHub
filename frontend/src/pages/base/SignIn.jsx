@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomLink, RegistrationForm } from "../../components";
 import { useAccount } from "../../contexts";
-import { useRedirect } from "../../hooks";
 
 const regex = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -80,15 +79,6 @@ const SignIn = () => {
   const { isAuthenticated, signin, signup, account } = useAccount();
   const navigate = useNavigate();
 
-  useRedirect(
-    () => {
-      const auth = isAuthenticated();
-      return auth;
-    },
-    [account],
-    "/"
-  );
-
   const altTextEvents = {
     "Sign In": () => setTargetLayout(updatedLayouts.signup),
     "Sign Up": () => setTargetLayout(updatedLayouts.signin),
@@ -126,23 +116,23 @@ const SignIn = () => {
     return noEmptyFields && noErrors;
   };
 
-  const handlSubmit = async (action) => {
+  const handleSubmit = async (action) => {
     let success;
 
     if (validateInput())
       switch (action) {
         case "Sign In":
           success = !!(await signin({
-            email: formValues["email"],
-            password: formValues["password"],
+            email: formValues.email,
+            password: formValues.password,
           }));
           break;
         case "Sign Up":
           success = !!(await signup({
-            firstName: formValues["firstName"],
-            lastName: formValues["lastName"],
-            email: formValues["email"],
-            password: formValues["password"],
+            firstName: formValues.firstName,
+            lastName: formValues.lastName,
+            email: formValues.email,
+            password: formValues.password,
           }));
           break;
       }
@@ -181,7 +171,7 @@ const SignIn = () => {
       fields={targetLayout.fields}
       submit={{
         label: "Submit",
-        onClick: () => handlSubmit(targetLayout.label),
+        onClick: () => handleSubmit(targetLayout.label),
       }}
       includeLogo
     >

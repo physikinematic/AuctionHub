@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import { api } from "../api";
 import { useAccount } from "./";
 
@@ -9,58 +9,67 @@ export const useAuctions = () => {
 };
 
 export const AuctionsProvider = ({ children }) => {
-  const [ownedAuctions, setOwnedAuctions] = useState([]);
-  const [bidAuctions, setBidAuctions] = useState([]);
-  const [auctions, setAuctions] = useState([]);
   const { account, isAuthenticated } = useAccount();
 
-  useEffect(() => {
-    api.auction.getAll(1, 20).then((res) => setAuctions(res.data));
-  }, []);
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      api.auction
-        .getOwned(account["id"], 1, 20)
-        .then((res) => setOwnedAuctions(res.data));
-    }
-  }, [isAuthenticated, account]);
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      api.auction
-        .getBidded(account["id"], 1, 20)
-        .then((res) => setBidAuctions(res.data));
-    }
-  }, [isAuthenticated, account]);
-
-  useEffect(() => {
-    if (auctions?.length > 0) {
-      const intervalId = setInterval(() => {
-        setAuctions((prevAuctions) =>
-          prevAuctions.map((auction) => {
-            const remainingTime = Math.max(
-              0,
-              new Date(auction.endDate).getTime() - Date.now()
-            );
-            auction.remainingTime = remainingTime;
-            return auction;
-          })
-        );
-      }, 1000);
-      return () => clearInterval(intervalId);
-    }
-  }, [auctions]);
-
-  const addAuction = (auctionData) => {
-    setAuctions((prevAuctions) => [...prevAuctions, auctionData]);
+  const setRemainingTime = (auction) => {
+    const remainingTime = Math.max(
+      0,
+      new Date(auction.endDate).getTime() - Date.now()
+    );
+    auction.remainingTime = remainingTime;
+    return auction;
   };
 
-  const addBid = (bidData) => {};
+  const getAll = async (page, limit) => {
+    const response = await api.auction.getAll(page, limit);
+    if (response.success) {
+      const { data } = response;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    }
+  };
+
+  const getOwned = async (page, limit) => {
+    if (!isAuthenticated()) return;
+    const response = await api.auction.getOwned(account.id, page, limit);
+    if (response.success) {
+      const { data } = response;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    }
+  };
+
+  const getBidded = async (page, limit) => {
+    if (!isAuthenticated()) return;
+    const response = await api.auction.getBidded(account.id, page, limit);
+    if (response.success) {
+      const { data } = response;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    }
+  };
+
+  const addAuction = async (auctionData) => {
+    if (!isAuthenticated()) return;
+    const response = await api.auction.addAuction(auctionData);
+    if (response.success) return response.data;
+  };
+
+  const deleteAuction = async (id) => {
+    if (!isAuthenticated()) return;
+    const response = await api.auction.deleteAuction(id);
+    return response.success;
+  };
 
   return (
     <AuctionsContext.Provider
-      value={{ auctions, ownedAuctions, bidAuctions, addAuction, addBid }}
+      value={{
+        getAll,
+        getOwned,
+        getBidded,
+        addAuction,
+        deleteAuction,
+      }}
     >
       {children}
     </AuctionsContext.Provider>

@@ -31,7 +31,7 @@ export class AuctionController {
   @Get()
   @Validate(paginationZodSchema)
   async getAll(@Query() query: PaginationDto) {
-    return await this.service.find(query);
+    return await this.service.find({ query });
   }
 
   @Get(':id')
@@ -39,9 +39,7 @@ export class AuctionController {
     return await this.service.findById(param.id);
   }
 
-  @Get('owner/:ownerId')
-  @IsAuthenticated()
-  @Validate(paginationZodSchema)
+  @Get('owned/:ownerId')
   async getOwned(
     @Param('ownerId') ownerId: string,
     @Query() query: PaginationDto,
@@ -49,17 +47,16 @@ export class AuctionController {
     return await this.service.findByOwner(ownerId, query);
   }
 
-  @Get('bid/:ownerId')
+  @Get('bidded/:bidOwnerId')
   @IsAuthenticated()
-  @Validate(paginationZodSchema)
   async getBidded(
-    @Param('ownerId') ownerId: string,
+    @Param('bidOwnerId') bidOwnerId: string,
     @Query() query: PaginationDto,
   ) {
-    return await this.service.findBidded(ownerId, query);
+    return await this.service.findBidded(bidOwnerId, query);
   }
 
-  @Post('create')
+  @Post()
   @Validate(createAuctionZodSchema)
   @IsAuthenticated()
   async createAuction(@Body() body: CreateAuctionDto, @Session() session: any) {
