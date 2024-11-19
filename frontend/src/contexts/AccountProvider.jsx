@@ -10,33 +10,58 @@ export const useAccount = () => {
 export const AccountProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
 
-  const signin = async (data) => {
-    const response = await api.account.signIn(data);
-    if (response.success) setAccount(response.data);
+  const signin = async (signinData) => {
+    const { success, data } = await api.account.signIn(signinData);
+
+    if (!success) return;
+
+    setAccount(data);
+    return data;
   };
 
-  const signup = async (data) => {
-    const response = await api.account.signUp(data);
-    if (response.success) setAccount(response.data);
+  const signup = async (signupData) => {
+    const { success, data } = await api.account.signUp(signupData);
+
+    if (!success) return;
+
+    setAccount(data);
+    return data;
   };
 
   const signout = async () => {
     if (!account) return;
-    const response = await api.account.signOut();
-    if (response.success) setAccount(null);
+
+    const { success } = await api.account.signOut();
+
+    if (!success) return;
+
+    setAccount(null);
+    return true;
   };
 
   const deleteAccount = async () => {
     if (!account) return;
-    const response = await api.account.deleteAccount(account.id);
-    if (response.success) setAccount(null);
+
+    const { success } = await api.account.deleteAccount(account.id);
+
+    if (!success) return;
+
+    setAccount(null);
+    return true;
   };
 
   const isAuthenticated = () => account !== null && account !== undefined;
 
   return (
     <AccountContext.Provider
-      value={{ account, signin, signup, signout, isAuthenticated, deleteAccount }}
+      value={{
+        account,
+        signin,
+        signup,
+        signout,
+        isAuthenticated,
+        deleteAccount,
+      }}
     >
       {children}
     </AccountContext.Provider>

@@ -5,7 +5,8 @@ import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 
 import Logo from "../static/images/hublogo.png";
 
-import { useAccount, useAuctions, useBids } from "../contexts";
+import { useAccount } from "../contexts";
+import { useAuctions, useBids } from "../hooks";
 import { ActionButton, ItemCard } from "./";
 
 const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
@@ -14,8 +15,9 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   const cardTime = new Date(item.endDate);
   const [timeLeft, setTimeLeft] = useState(cardTime.getTime() - Date.now());
   const { account, isAuthenticated } = useAccount();
-  const { getBidded } = useAuctions();
-  const { getAuction } = useBids();
+  const { getByAuction } = useBids();
+  const { isAccountJoined } = useAuctions();
+  const [buttonState, setButtonState] = useState({ owned: false, bid: false });
 
   const textStyle = { fontSize: theme.typography.customResponsive };
 
@@ -23,17 +25,19 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
     console.log(id);
   };
 
-  const buttonState = isAuthenticated()
-    ? {
+  useEffect(() => {
+    const fetchButtonState = async () => {
+      const isJoined = await isAccountJoined();
+      setButtonState({
         owned: type.owned || item.owner === account.id,
-        bid:
-          type.bid ||
-          (async () => {
-            const bidAuctions = await getBidded();
-            return bidAuctions.some((auction) => auction.id === item.id);
-          })(),
-      }
-    : null;
+        bid: type.bid || isJoined,
+      });
+    };
+
+    if (isAuthenticated()) {
+      fetchButtonState();
+    }
+  }, [account]);
 
   const actionButton = (label, color) => {
     return (
@@ -64,12 +68,20 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
   );
 
   useEffect(() => {
-    const highest = async () =>
-      (await getAuction(item.id)).reduce((highest, bid) =>
-        bid.createdAt > highest.createdAt ? bid : highest
-      );
-    setHighestBid(highest());
-  }, [item.bids]);
+    const fetchHighestBid = async () => {
+      const bids = await getByAuction(item.id);
+      if (bids && bids.length > 0) {
+        const highest = bids.reduce((highest, bid) =>
+          bid.createdAt > highest.createdAt ? bid : highest
+        );
+        setHighestBid(highest);
+      } else {
+        setHighestBid(null); // Set to null if no bids
+      }
+    };
+
+    fetchHighestBid();
+  }, [item]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

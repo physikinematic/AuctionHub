@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
-import { useAccount, useAuctions } from "../../contexts";
-import { useRedirect } from "../../hooks";
+import { useAccount } from "../../contexts";
+import { useAuctions, useRedirect } from "../../hooks";
 
 const Auctions = () => {
   const { getOwned } = useAuctions();

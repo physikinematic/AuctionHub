@@ -7,7 +7,8 @@
       "reAttach": true,
       "name": "Frontend Debugger",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}\\frontend",
+      "preLaunchTask": "npm: start"
     },
     {
       "type": "node-terminal",

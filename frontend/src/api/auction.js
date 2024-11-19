@@ -23,6 +23,12 @@ const getBidded = async (ownerId, page, limit) => {
   });
 };
 
+const isAccountJoined = async (auctionId) => {
+  return await get({
+    path: `${path}/joined/${auctionId}`,
+  });
+};
+
 const create = async (data) => {
   return await post({
     path: `${path}`,
@@ -40,6 +46,7 @@ const auction = {
   getAll,
   getBidded,
   getOwned,
+  isAccountJoined,
   create,
   deleteAuction,
 };

@@ -79,9 +79,9 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
               No
             </Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
                 setDialogOpen(false);
-                handleSignOut();
+                await handleSignOut();
               }}
             >
               Yes

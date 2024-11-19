@@ -1,4 +1,9 @@
-import { BadRequestException, forwardRef, Inject } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateAuctionDto } from 'src/dtos/createAuction.zod.dto';
@@ -36,6 +41,26 @@ export class AuctionService extends ItemService<Auction> {
       return await this.find({
         filter: { _id: { $in: auctions }, query },
       });
+    } catch (error) {
+      formatResponse({ error });
+    }
+  }
+
+  async findIfJoined(auction: string, owner: string) {
+    try {
+      if (!auction) {
+        throw new BadRequestException('Invalid auction id');
+      }
+
+      const bids = await this.bidService.findByAuction(auction);
+
+      const match = bids.data.some((bid: Bid) => bid.owner.id === owner);
+
+      if (!match) {
+        throw new NotFoundException('Match not found');
+      }
+
+      return formatResponse({ message: 'Match found' });
     } catch (error) {
       formatResponse({ error });
     }

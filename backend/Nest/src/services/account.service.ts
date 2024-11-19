@@ -48,7 +48,7 @@ export class AccountService {
         role,
       }).save();
 
-      if (session) session.accountId = account.id;
+      session.accountId = account.id;
 
       return formatResponse({
         message: 'Account created successfully',
@@ -79,11 +79,11 @@ export class AccountService {
         throw new ForbiddenException('Incorrect password');
       }
 
-      if (session) session.accountId = account.id;
+      session.accountId = account.id;
 
       return formatResponse({
         message: 'Account signed in successfully',
-        data: account
+        data: account,
       });
     } catch (error) {
       formatResponse({ error });

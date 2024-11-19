@@ -29,7 +29,7 @@ export class BidService extends ItemService<Bid> {
   ) {
     try {
       if (!auction) {
-        throw new BadRequestException('Invalid owner id');
+        throw new BadRequestException('Invalid auction id');
       }
       return await this.find({ filter: { auction }, query });
     } catch (error) {

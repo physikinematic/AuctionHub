@@ -56,6 +56,15 @@ export class AuctionController {
     return await this.service.findBidded(bidOwnerId, query);
   }
 
+  @Get('joined/:auctionId/')
+  @IsAuthenticated()
+  async isOwnerJoined(
+    @Param('auctionId') auctionId: string,
+    @Session() session: { accountId: string },
+  ) {
+    return await this.service.findIfJoined(auctionId, session.accountId);
+  }
+
   @Post()
   @Validate(createAuctionZodSchema)
   @IsAuthenticated()

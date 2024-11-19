@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
-import { useAuctions } from "../../contexts";
+import { useAuctions } from "../../hooks";
 
 const Home = () => {
   const { getAll } = useAuctions();

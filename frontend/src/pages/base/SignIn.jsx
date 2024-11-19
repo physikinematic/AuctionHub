@@ -76,7 +76,7 @@ const SignIn = () => {
   const [formErrors, setFormErrors] = useState({});
   const [updatedLayouts, setUpdatedLayouts] = useState({});
   const [targetLayout, setTargetLayout] = useState(layouts.signin);
-  const { isAuthenticated, signin, signup, account } = useAccount();
+  const { signin, signup } = useAccount();
   const navigate = useNavigate();
 
   const altTextEvents = {
@@ -122,18 +122,18 @@ const SignIn = () => {
     if (validateInput())
       switch (action) {
         case "Sign In":
-          success = !!(await signin({
+          success = await signin({
             email: formValues.email,
             password: formValues.password,
-          }));
+          });
           break;
         case "Sign Up":
-          success = !!(await signup({
+          success = await signup({
             firstName: formValues.firstName,
             lastName: formValues.lastName,
             email: formValues.email,
             password: formValues.password,
-          }));
+          });
           break;
       }
 

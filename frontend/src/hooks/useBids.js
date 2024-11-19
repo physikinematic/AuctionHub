@@ -1,31 +1,27 @@
-import { createContext, useContext } from "react";
 import { api } from "../api";
-import { useAccount } from "./AccountProvider";
-
-const BidsContext = createContext();
+import { useAccount } from "../contexts/AccountProvider";
 
 export const useBids = () => {
-  return useContext(BidsContext);
-};
-
-export const BidsProvider = ({ children }) => {
   const { account, isAuthenticated } = useAccount();
 
-  const getAuction = async (auctionId) => {
+  const getByAuction = async (auctionId) => {
     const response = await api.bid.getAuction(auctionId);
-    if (response.success) return response.data;
+    if (!response.success) return;
+    return response.data;
   };
 
   const getOwned = async (page, limit) => {
     if (!isAuthenticated()) return;
     const response = await api.bid.getOwned(account.id, page, limit);
-    if (response.success) return response.data;
+    if (!response.success) return;
+    return response.data;
   };
 
   const addBid = async (data) => {
     if (!isAuthenticated()) return;
     const response = await api.bid.create(data);
-    if (response.success) return response.data;
+    if (!response.success) return;
+    return response.data;
   };
 
   const deleteBid = async (bidId) => {
@@ -34,9 +30,10 @@ export const BidsProvider = ({ children }) => {
     return response.success;
   };
 
-  return (
-    <BidsContext.Provider value={{ getAuction, getOwned, addBid, deleteBid }}>
-      {children}
-    </BidsContext.Provider>
-  );
+  return {
+    getByAuction,
+    getOwned,
+    addBid,
+    deleteBid,
+  };
 };
