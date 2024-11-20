@@ -36,6 +36,7 @@ const App = () => {
       background: {
         default: grey[300],
         paper: grey[200],
+        loading: "rgba(255, 255, 255, 0.5)",
       },
       border: {
         lightGrey: grey[400],
