@@ -52,6 +52,7 @@ export class AccountService {
 
       return formatResponse({
         message: 'Account created successfully',
+        data: account,
       });
     } catch (error) {
       formatResponse({ error });

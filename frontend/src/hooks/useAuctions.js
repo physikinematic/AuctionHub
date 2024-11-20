@@ -32,6 +32,14 @@ export const useAuctions = () => {
     return data;
   };
 
+  const getNotOwned = async (page, limit) => {
+    if (!isAuthenticated()) return;
+    const { data, success } = await api.auction.getNotOwned(page, limit);
+    if (!success) return;
+    data.map((item) => setRemainingTime(item));
+    return data;
+  };
+
   const getBidded = async (page, limit) => {
     if (!isAuthenticated()) return;
     const { data, success } = await api.auction.getBidded(
@@ -46,8 +54,9 @@ export const useAuctions = () => {
 
   const isAccountJoined = async (auctionId) => {
     if (!isAuthenticated()) return;
-    const { success } = await api.auction.isAccountJoined(auctionId);
-    return success;
+    const { success, data } = await api.auction.isAccountJoined(auctionId);
+    if (!success) return;
+    return data;
   };
 
   const addAuction = async (auctionData) => {
@@ -66,6 +75,7 @@ export const useAuctions = () => {
   return {
     getAll,
     getOwned,
+    getNotOwned,
     getBidded,
     isAccountJoined,
     addAuction,

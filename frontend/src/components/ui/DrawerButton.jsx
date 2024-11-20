@@ -1,9 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import ListIcon from "@mui/icons-material/List";
 import { Button, Divider, Drawer, Grid2, Typography } from "@mui/material";
 
-const DrawerButton = ({ label, includeIcon = true, lists }) => {
+const DrawerButton = ({
+  label,
+  includeIcon = true,
+  lists,
+  anchor = "left",
+}) => {
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
@@ -23,7 +28,7 @@ const DrawerButton = ({ label, includeIcon = true, lists }) => {
           item
           container
           size="grow"
-          sx={{ maxHeight: `${list.length * 12}%` }}
+          sx={{ maxHeight: `${list.length * 10}%` }}
           direction="column"
         >
           {list.map((item) => (
@@ -34,14 +39,19 @@ const DrawerButton = ({ label, includeIcon = true, lists }) => {
                   width: "100%",
                   height: "100%",
                   borderRadius: 0,
-                  justifyContent: "flex-start",
+                  justifyContent: [anchor],
                   borderColor: "transparent",
                 }}
               >
-                {item.icon}
-                <Typography sx={{ paddingInlineStart: 1 }}>
+                {anchor === "left" &&
+                  item.icon &&
+                  React.cloneElement(item.icon, { sx: { fontSize: "4vw" } })}
+                <Typography fontSize={"2.5vw"} sx={{ px: 1 }}>
                   {item.label}
                 </Typography>
+                {anchor === "right" &&
+                  item.icon &&
+                  React.cloneElement(item.icon, { sx: { fontSize: "4vw" } })}
               </Button>
             </Grid2>
           ))}
@@ -66,7 +76,7 @@ const DrawerButton = ({ label, includeIcon = true, lists }) => {
         )}
       </Button>
       <Drawer
-        anchor="right"
+        anchor={anchor}
         open={open}
         onClose={toggleDrawer(false)}
         sx={{

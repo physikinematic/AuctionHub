@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../api";
 
 const AccountContext = createContext();
@@ -9,6 +9,16 @@ export const useAccount = () => {
 
 export const AccountProvider = ({ children }) => {
   const [account, setAccount] = useState(null);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      const { data, success } = await api.account.getUserInfo();
+      if (!success) return;
+      setAccount(data);
+    };
+
+    fetchUserInfo();
+  }, []);
 
   const signin = async (signinData) => {
     const { success, data } = await api.account.signIn(signinData);
@@ -50,7 +60,7 @@ export const AccountProvider = ({ children }) => {
     return true;
   };
 
-  const isAuthenticated = () => account !== null && account !== undefined;
+  const isAuthenticated = () => !!account;
 
   return (
     <AccountContext.Provider

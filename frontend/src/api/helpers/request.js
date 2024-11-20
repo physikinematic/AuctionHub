@@ -12,9 +12,10 @@ const request = async (method, path, queries, headers, body) => {
   body = typeof body === "object" ? JSON.stringify(body) : body;
 
   return await fetch(fullPath, {
-    method: method,
+    method,
     headers: headers || { "Content-Type": "application/json" },
-    body: body,
+    body,
+    credentials: "include",
   });
 };
 
@@ -47,3 +48,4 @@ const options = async ({ path, queries, body, headers }) => {
 };
 
 export { _delete, get, head, options, patch, post, put };
+

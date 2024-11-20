@@ -21,11 +21,10 @@ import { AccountService } from '../services/account.service';
 export class AccountController {
   constructor(private readonly service: AccountService) {}
 
-  @Get(':id')
-  @IsAuthenticated()
+  @Get('info')
   @IsSessionAuthorized()
-  async info(@Param('id') id: string) {
-    return await this.service.findById(id);
+  async info(@Session() session: any) {
+    return await this.service.findById(session.accountId);
   }
 
   @Post('signin')

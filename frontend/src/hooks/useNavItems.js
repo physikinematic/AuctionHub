@@ -74,7 +74,7 @@ export const useNavItems = () => {
           (item) => !["Auctions", "Bids", "Payment"].includes(item.label)
         );
     setMain(filteredNavItems);
-  }, [account]);
+  }, [account, isAuthenticated]);
 
   return {
     main,

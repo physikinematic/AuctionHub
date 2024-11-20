@@ -1,7 +1,7 @@
 import { Grid2, Typography } from "@mui/material";
 import { AuctionItemCard, ItemSection } from ".";
 
-const AuctionItemSection = ({ items, label, type }) => {
+const AuctionItemSection = ({ items, label }) => {
   return (
     <Grid2
       item
@@ -19,7 +19,7 @@ const AuctionItemSection = ({ items, label, type }) => {
               <Grid2 item container size={12} spacing={{ xs: 4, sm: 3 }} pb={2}>
                 {items?.length ? (
                   items.map((item) => (
-                    <AuctionItemCard key={item.id} item={item} type={type} />
+                    <AuctionItemCard key={item.id} item={item} />
                   ))
                 ) : (
                   <Typography

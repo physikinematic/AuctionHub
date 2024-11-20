@@ -25,7 +25,7 @@ const Settings = ({ items }) => {
             withLabels
             top="calc(3vw + 26px)"
             items={items}
-            width={{ sm: "16.9vw", md: "15.9vw", lg: "13.6vw" }}
+            width={{ sm: "23.3vw", md: "22.3vw", lg: "20vw" }}
             tabMaxHeight={50}
             tabDivider
           />
@@ -33,11 +33,17 @@ const Settings = ({ items }) => {
       </Grid2>
       <Grid2 item container direction="column" size="grow">
         <Header fullLogo drawerLists={[drawerItems]}>
-          <Grid2 item container size="grow">
+          <Grid2
+            item
+            container
+            size="grow"
+            justifyContent={{ xs: "flex-end", sm: "flex-start" }}
+          >
             <Typography
               color="primary.main"
               fontWeight="bold"
-              fontSize={{ xs: "7vw", sm: "3vw", md: "2vw", lg: "1.4vw" }}
+              px={"5.2vw"}
+              fontSize={{ xs: "4vw", sm: "3vw", md: "2vw", lg: "1.4vw" }}
             >
               Settings
             </Typography>

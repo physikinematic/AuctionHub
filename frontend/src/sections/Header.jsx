@@ -3,7 +3,7 @@ import { Grid2 } from "@mui/material";
 import { DrawerButton, LogoButton } from "../components";
 import { useUp } from "../hooks";
 
-const Header = ({ drawerLists, children, fullLogo }) => {
+const Header = ({ drawerLists, children }) => {
   const smUp = useUp("sm");
 
   return (
@@ -15,31 +15,34 @@ const Header = ({ drawerLists, children, fullLogo }) => {
         zIndex: 999,
         top: 0,
         width: "100%",
-        height: "auto",
+        height: { xs: 60, sm: "10.2vw", md: "8.2vw", lg: "6.2vw", xl: "5.2vw" },
         bgcolor: "background.paper",
         alignItems: "center",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         px: { xs: "7vw", sm: "4.3vw", md: "3.3vw", lg: "2vw" },
-        py: 1.6,
+        py: "1vw",
         boxShadow:
           "rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px",
       }}
     >
-      <Grid2
-        container
-        width={fullLogo ? { xs: "20vw", sm: "9.6vw" } : 40}
-        height={fullLogo ? { xs: "6vw", sm: "3vw" } : 40}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <LogoButton fullLogo={fullLogo} glowOff />
-      </Grid2>
-      {children}
       {!smUp && (
-        <Grid2 item container justifyContent="flex-end" size="grow">
-          <DrawerButton lists={drawerLists} />
+        <Grid2 item container justifyContent="flex-start" size="grow">
+          <DrawerButton
+            fontSize={{ xs: "3vw", sm: "2vw", md: "1.5vw", lg: "1vw" }}
+            lists={drawerLists}
+          />
         </Grid2>
       )}
+      <LogoButton
+        sx={{
+          width: { xs: "7.5vw", sm: "22vw", md: "17vw", lg: "11.5vw" },
+          minWidth: 35,
+          position: "fixed",
+        }}
+        fullLogo={smUp}
+        glowOff
+      />
+      {children}
     </Grid2>
   );
 };

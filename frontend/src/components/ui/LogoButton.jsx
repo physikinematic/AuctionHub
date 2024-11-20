@@ -15,6 +15,8 @@ const LogoButton = ({ glowOff, sx, fullLogo }) => {
         alignItems: "center",
         justifyContent: "center",
         textDecoration: "none",
+        maxHeight: "100%",
+        maxWidth: "100%",
         ...sx,
       }}
     >
@@ -25,8 +27,8 @@ const LogoButton = ({ glowOff, sx, fullLogo }) => {
         alt="Logo"
         sx={{
           transition: "filter 0.3s ease",
-          width: "100%",
-          height: "100%",
+          maxHeight: "100%",
+          maxWidth: "100%",
           ":hover": {
             filter: !glowOff && "drop-shadow(0 0 10px rgba(255, 0, 0, 1))",
           },

@@ -14,9 +14,10 @@ const auctionSchema = z
     createdAt: z.date().optional(),
   })
   .strip();
-
 export const auctionResponseZodSchema = responseZodSchema.extend({
-  data: z.union([auctionSchema, z.array(auctionSchema)]).optional(),
+  data: z
+    .union([auctionSchema, z.array(auctionSchema), z.boolean()])
+    .optional(),
 });
 
 export type AuctionResponseDto = z.infer<typeof auctionResponseZodSchema>;

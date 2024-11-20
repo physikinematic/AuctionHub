@@ -7,5 +7,5 @@ export const useRedirect = (condition, dependencies, path) => {
   useEffect(() => {
     if (!condition()) return;
     navigate(path);
-  }, dependencies);
+  }, [...dependencies, condition, path, navigate]);
 };

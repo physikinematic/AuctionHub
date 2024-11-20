@@ -1,6 +1,12 @@
-import { _delete, post } from "./helpers/request";
+import { _delete, get, post } from "./helpers/request";
 
 const path = "/auth";
+
+const getUserInfo = async () => {
+  return await get({
+    path: `${path}/info`,
+  });
+};
 
 const signIn = async (data) => {
   return await post({
@@ -28,6 +34,6 @@ const deleteAccount = async (id) => {
   });
 };
 
-const account = { signIn, signOut, signUp, deleteAccount };
+const account = { getUserInfo, signIn, signOut, signUp, deleteAccount };
 
 export { account };

@@ -10,22 +10,15 @@ const Auctions = () => {
 
   useRedirect(() => !isAuthenticated(), [isAuthenticated], "/");
 
-  const setup = async () => {
-    const auctions = await getOwned(1, 20);
-    setAuctions(auctions);
-  };
-
   useEffect(() => {
-    setup();
+    const fetchAuctions = async () => {
+      const auctions = await getOwned(1, 20);
+      setAuctions(auctions);
+    };
+    fetchAuctions();
   }, [account]);
 
-  return (
-    <AuctionItemSection
-      items={auctions}
-      label={"My Auctions"}
-      type={{ owned: true }}
-    />
-  );
+  return <AuctionItemSection items={auctions} label={"My Auctions"} />;
 };
 
 export default Auctions;

@@ -1,24 +1,24 @@
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import {
-  Button,
-  Grid2,
-  Hidden,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Button, Grid2, Hidden, Typography } from "@mui/material";
 
+import { useEffect, useState } from "react";
 import { ProfileMenuButton, Searchbar } from "../components";
 import { useAccount } from "../contexts";
 import { useUp } from "../hooks";
 import { Header, Sidebar } from "../sections";
 
 const Main = ({ items }) => {
-  const { isAuthenticated } = useAccount();
+  const { isAuthenticated, account } = useAccount();
+  const [signedIn, setSignedIn] = useState(isAuthenticated());
   const navigate = useNavigate();
   const smUp = useUp("sm");
-  const tooSmall = useMediaQuery("only screen and (max-width: 434px)");
+  const mdUp = useUp("md");
+
+  useEffect(() => {
+    setSignedIn(isAuthenticated());
+  }, [account]);
 
   const drawerItems = items.map((item) => {
     return {
@@ -29,7 +29,7 @@ const Main = ({ items }) => {
     };
   });
 
-  const signinDrawerItems = !isAuthenticated()
+  const signinDrawerItems = !signedIn
     ? [
         {
           path: "/signin",
@@ -46,7 +46,7 @@ const Main = ({ items }) => {
     <Grid2 container direction="row" sx={{ height: "100vh" }}>
       <Grid2 item>
         <Hidden smDown>
-          <Sidebar withLabels items={items} top="80px" />
+          <Sidebar withLabels items={items} />
         </Hidden>
       </Grid2>
       <Grid2 item container direction="column" size="grow">
@@ -58,22 +58,23 @@ const Main = ({ items }) => {
             sx={{
               height: "100%",
               alignItems: "center",
-              justifyContent: { xs: "flex-start", sm: "flex-end" },
+              justifyContent: "center",
             }}
           >
-            {!tooSmall && (
-              <Grid2 item container size={{ xs: "grow", sm: "auto" }}>
+            {smUp && (
+              <Grid2 item container justifyContent="flex-start" size="grow">
                 <Searchbar
-                  size={smUp ? "medium" : "small"}
-                  sx={{ width: "100%" }}
+                  size={mdUp ? "medium" : "small"}
+                  sx={{ width: "50%" }}
                 />
               </Grid2>
             )}
-            {isAuthenticated() && (
+            {signedIn && (
               <Grid2
                 item
                 container
-                size={tooSmall ? "grow" : "auto"}
+                maxHeight="100%"
+                size="grow"
                 alignItems="center"
                 justifyContent="flex-end"
               >
@@ -89,27 +90,20 @@ const Main = ({ items }) => {
                 />
               </Grid2>
             )}
-            {!isAuthenticated() && (
-              <Grid2
-                item
-                container
-                size={tooSmall && "grow"}
-                justifyContent="flex-end"
-              >
-                <Button
-                  component={Link}
-                  to={"/signin"}
-                  sx={{ height: [smUp ? 55 : 36] }}
-                >
+            {!signedIn && (
+              <Grid2 item container size="grow" justifyContent="flex-end">
+                <Button size="large" component={Link} to={"/signin"}>
                   <Typography
-                    fontSize={
-                      tooSmall
-                        ? "3vw"
-                        : { xs: "3vw", sm: "2vw", md: "1.5vw", lg: "1vw" }
-                    }
+                    fontSize={{
+                      xs: 13,
+                      sm: 15,
+                      md: "2vw",
+                      lg: "1.5vw",
+                      xl: "1.2vw",
+                    }}
                     fontWeight="bold"
                   >
-                    {"Sign in"}
+                    Sign in
                   </Typography>
                 </Button>
               </Grid2>

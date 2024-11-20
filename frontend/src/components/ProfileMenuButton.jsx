@@ -20,7 +20,7 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
     setTargetOptions(
       isAuthenticated() ? menuOptions.loggedIn : menuOptions.loggedOut
     );
-  }, [account]);
+  }, [account, isAuthenticated]);
 
   const handleMenuItemClick = (optionName) => {
     switch (optionName) {
@@ -46,10 +46,10 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
         button={
           <IconButton
             sx={{
-              minHeight: { xs: 40, sm: 30 },
-              minWidth: { xs: 40, sm: 30 },
-              width: { xs: "10vw", sm: "6vw", md: "5vw", lg: "3vw" },
-              height: { xs: "10vw", sm: "6vw", md: "5vw", lg: "3vw" },
+              minHeight: { xs: 35, sm: 30 },
+              minWidth: { xs: 35, sm: 30 },
+              width: { xs: 50, sm: "6.5vw", md: "5vw", lg: "4vw", xl: "3vw" },
+              height: { xs: 50, sm: "6.5vw", md: "5vw", lg: "4vw", xl: "3vw" },
             }}
           >
             <Avatar

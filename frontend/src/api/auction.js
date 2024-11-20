@@ -16,6 +16,13 @@ const getOwned = async (ownerId, page, limit) => {
   });
 };
 
+const getNotOwned = async (page, limit) => {
+  return await get({
+    path: `${path}/not-owned`,
+    query: { page, limit },
+  });
+};
+
 const getBidded = async (ownerId, page, limit) => {
   return await get({
     path: `${path}/bidded/${ownerId}`,
@@ -46,6 +53,7 @@ const auction = {
   getAll,
   getBidded,
   getOwned,
+  getNotOwned,
   isAccountJoined,
   create,
   deleteAuction,

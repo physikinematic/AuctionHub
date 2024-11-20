@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Grid2, Tab, Tabs, Typography } from "@mui/material";
 
 const Sidebar = ({
-  top,
   items,
   withLabels,
   width,
@@ -14,13 +13,21 @@ const Sidebar = ({
 }) => {
   const location = useLocation();
 
+  const top = { xs: 60, sm: "10.2vw", md: "8.2vw", lg: "6.2vw", xl: "5.2vw" };
+
   return (
     <Grid2
       container
       direction="column"
       top={top}
       sx={{
-        height: `calc(100vh - ${top})`,
+        height: {
+          xs: `calc(100vh - ${top.xs})`,
+          sm: `calc(100vh - ${top.sm})`,
+          md: `calc(100vh - ${top.md})`,
+          lg: `calc(100vh - ${top.lg})`,
+          lg: `calc(100vh - ${top.xl})`,
+        },
         position: "fixed",
         zIndex: 998,
       }}
@@ -37,6 +44,7 @@ const Sidebar = ({
           height: "100%",
           "& .MuiTabs-flexContainer": {
             height: "100%",
+            width: "100%",
             flexGrow: 1,
           },
         }}
@@ -74,6 +82,7 @@ const Sidebar = ({
             sx={{
               flexGrow: 1,
               maxHeight: tabMaxHeight,
+              minWidth: "100%",
               textTransform: "none",
               borderBottom: tabDivider && "1px solid #ccc",
             }}

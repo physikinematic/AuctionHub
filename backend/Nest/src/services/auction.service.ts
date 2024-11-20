@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  forwardRef,
-  Inject,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateAuctionDto } from 'src/dtos/createAuction.zod.dto';
@@ -35,11 +30,30 @@ export class AuctionService extends ItemService<Auction> {
       const bids = await this.bidService.findByOwner(owner);
 
       const auctions = Array.from(
-        new Set(bids.data.map((bid: Bid) => bid.auction)),
+        new Set(bids.data.map((bid: Bid) => bid.auction.toString())),
       );
 
       return await this.find({
-        filter: { _id: { $in: auctions }, query },
+        filter: { _id: { $in: auctions } },
+        query,
+      });
+    } catch (error) {
+      formatResponse({ error });
+    }
+  }
+
+  async findExcludingOwner(
+    owner: string,
+    query: PaginationDto = { page: -1, limit: -1 },
+  ) {
+    try {
+      if (!owner) {
+        throw new BadRequestException('Invalid account id');
+      }
+
+      return await this.find({
+        filter: { owner: { $ne: owner } },
+        query,
       });
     } catch (error) {
       formatResponse({ error });
@@ -54,13 +68,14 @@ export class AuctionService extends ItemService<Auction> {
 
       const bids = await this.bidService.findByAuction(auction);
 
-      const match = bids.data.some((bid: Bid) => bid.owner.id === owner);
+      const match = bids.data.some(
+        (bid: Bid) => bid.owner.toString() === owner,
+      );
 
-      if (!match) {
-        throw new NotFoundException('Match not found');
-      }
-
-      return formatResponse({ message: 'Match found' });
+      return formatResponse({
+        message: `Match ${match ? '' : 'not'} found`,
+        data: match,
+      });
     } catch (error) {
       formatResponse({ error });
     }

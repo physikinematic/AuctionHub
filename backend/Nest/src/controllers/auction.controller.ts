@@ -34,7 +34,7 @@ export class AuctionController {
     return await this.service.find({ query });
   }
 
-  @Get(':id')
+  @Get('one/:id')
   async getOne(@Param() param: { id: string }) {
     return await this.service.findById(param.id);
   }
@@ -45,6 +45,12 @@ export class AuctionController {
     @Query() query: PaginationDto,
   ) {
     return await this.service.findByOwner(ownerId, query);
+  }
+
+  @Get('not-owned')
+  @IsAuthenticated()
+  async getNotOwned(@Session() session: any, @Query() query: PaginationDto) {
+    return await this.service.findExcludingOwner(session.accountId, query);
   }
 
   @Get('bidded/:bidOwnerId')

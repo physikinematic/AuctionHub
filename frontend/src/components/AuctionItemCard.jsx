@@ -9,7 +9,7 @@ import { useAccount } from "../contexts";
 import { useAuctions, useBids } from "../hooks";
 import { ActionButton, ItemCard } from "./";
 
-const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
+const AuctionItemCard = ({ item }) => {
   const [highestBid, setHighestBid] = useState({});
   const theme = useTheme();
   const cardTime = new Date(item.endDate);
@@ -27,16 +27,19 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
 
   useEffect(() => {
     const fetchButtonState = async () => {
-      const isJoined = await isAccountJoined();
+      const isJoined = await isAccountJoined(item.id);
       setButtonState({
-        owned: type.owned || item.owner === account.id,
-        bid: type.bid || isJoined,
+        owned: item.owner === account.id,
+        bid: isJoined,
       });
     };
 
-    if (isAuthenticated()) {
-      fetchButtonState();
+    if (!isAuthenticated()) {
+      setButtonState({ owned: false, bid: false });
+      return;
     }
+
+    fetchButtonState();
   }, [account]);
 
   const actionButton = (label, color) => {
@@ -72,7 +75,7 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
       const bids = await getByAuction(item.id);
       if (bids && bids.length > 0) {
         const highest = bids.reduce((highest, bid) =>
-          bid.createdAt > highest.createdAt ? bid : highest
+          bid.value > highest.value ? bid : highest
         );
         setHighestBid(highest);
       } else {
@@ -81,7 +84,7 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
     };
 
     fetchHighestBid();
-  }, [item]);
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -179,7 +182,7 @@ const AuctionItemCard = ({ item, type = { owned: false, bid: false } }) => {
               {item.name}
             </Typography>
             <Typography {...textStyle}>
-              {highestBid ? `Current Bid: ${highestBid.value}$` : "No bids yet"}
+              {highestBid ? `Highest Bid: ${highestBid.value}$` : "No bids yet"}
             </Typography>
             <Typography {...textStyle} color={closeToEndColor}>
               <Grid2
