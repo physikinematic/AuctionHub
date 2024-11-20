@@ -117,7 +117,14 @@ const AuctionItemCard = ({ item }) => {
   const closeToEndColor =
     days === 0 && hours === 0 && minutes === 0 && "primary";
 
-  const timePaper = (children, size, bgcolor, fontColor) => {
+  const timePaper = ({
+    children,
+    size,
+    bgcolor,
+    fontColor,
+    border = "1px solid",
+    borderColor = "border.grey",
+  }) => {
     return (
       <Grid2 item container size={size || "grow"} alignItems="center">
         <Paper
@@ -126,8 +133,8 @@ const AuctionItemCard = ({ item }) => {
             width: "100%",
             height: { xs: "8vw", sm: "5.5vw", md: "3vw" },
             borderRadius: 0,
-            boxShadow:
-              "rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;",
+            border: [border],
+            borderColor: [borderColor],
           }}
         >
           <Grid2
@@ -192,11 +199,24 @@ const AuctionItemCard = ({ item }) => {
                 justifyContent="center"
                 mt={1}
               >
-                {timePaper(`Ends in`, 3.5, "primary.dim", "common.white")}
-                {timePaper(`${days}d`)}
-                {timePaper(`${String(hours).padStart(2, "0")}h`)}
-                {timePaper(`${String(minutes).padStart(2, "0")}m`)}
-                {timePaper(`${String(seconds).padStart(2, "0")}s`)}
+                {timePaper({
+                  children: `Ends in`,
+                  size: 3.5,
+                  bgcolor: "primary.dim",
+                  fontColor: "common.white",
+                })}
+                {timePaper({
+                  children: `${days}d`,
+                })}
+                {timePaper({
+                  children: `${String(hours).padStart(2, "0")}h`,
+                })}
+                {timePaper({
+                  children: `${String(minutes).padStart(2, "0")}m`,
+                })}
+                {timePaper({
+                  children: `${String(seconds).padStart(2, "0")}s`,
+                })}
               </Grid2>
             </Typography>
             <Grid2 item container mt={1.5}>

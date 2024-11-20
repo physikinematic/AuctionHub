@@ -1,6 +1,6 @@
 import { Grid2, Typography } from "@mui/material";
 
-const LoadingScreen = ({ text }) => {
+const LoadingScreen = ({ text = "Loading" }) => {
   return (
     <Grid2
       container
@@ -9,6 +9,9 @@ const LoadingScreen = ({ text }) => {
       alignItems="center"
       minHeight="100vh"
       minWidth="100vw"
+      direction="column"
+      bgcolor="background.loading"
+      zIndex={9999}
     >
       <Grid2
         sx={{

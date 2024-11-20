@@ -4,6 +4,7 @@ const ActionButton = ({ label, size, color, onClick, sx }) => {
   return (
     <Grid2 item size={size || "grow"}>
       <Button
+        disableElevation
         color={color}
         variant="contained"
         onClick={onClick}

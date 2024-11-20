@@ -26,7 +26,7 @@ const Sidebar = ({
           sm: `calc(100vh - ${top.sm})`,
           md: `calc(100vh - ${top.md})`,
           lg: `calc(100vh - ${top.lg})`,
-          lg: `calc(100vh - ${top.xl})`,
+          xl: `calc(100vh - ${top.xl})`,
         },
         position: "fixed",
         zIndex: 998,
