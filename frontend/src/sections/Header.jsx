@@ -20,7 +20,7 @@ const Header = ({ drawerLists, children }) => {
         alignItems: "center",
         justifyContent: "center",
         px: { xs: "7vw", sm: "4.3vw", md: "3.3vw", lg: "2vw" },
-        py: "1vw",
+        py: "0.5vw",
         boxShadow:
           "rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px",
       }}

@@ -14,6 +14,9 @@ const request = async (method, path, queries, body) => {
   return await fetch(fullPath, {
     method,
     body,
+    headers: {
+      "Content-Type": "application/json",
+    },
     credentials: "include",
   });
 };

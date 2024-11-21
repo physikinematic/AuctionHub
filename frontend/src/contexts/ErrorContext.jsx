@@ -1,6 +1,7 @@
-import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import React, { createContext, useContext, useState } from "react";
 import { DialogBox } from "../components";
+import { DialogType } from "../components/ui/DialogBox";
 
 const ErrorContext = createContext();
 
@@ -23,20 +24,24 @@ export const ErrorProvider = ({ children }) => {
         <DialogBox
           key={key}
           title={key}
-          content={text}
+          type={DialogType.ERROR}
+          content={
+            <Typography fontSize={{ xs: "2.5vw", sm: "1vw" }}>
+              {text}
+            </Typography>
+          }
           open={openDialogs[key]}
           setOpen={(open) =>
             setOpenDialogs((prev) => ({ ...prev, [key]: open }))
           }
-          actions={
-            <Button
-              onClick={() =>
-                setOpenDialogs((prev) => ({ ...prev, [key]: false }))
-              }
-            >
-              OK
-            </Button>
-          }
+          actions={[
+            {
+              onClick: () => {
+                setOpenDialogs((prev) => ({ ...prev, [key]: false }));
+              },
+              text: "OK",
+            },
+          ]}
         />
       ))}
       {children}

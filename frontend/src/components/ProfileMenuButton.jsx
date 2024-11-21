@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid2, IconButton, Typography } from "@mui/material";
+import { Avatar, Grid2, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAccount, useError, useLoading } from "../contexts";
@@ -78,26 +78,26 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
         title="Confirm Signout"
         open={dialogOpen}
         setOpen={setDialogOpen}
-        content={<Typography>Are you sure you want to sign out?</Typography>}
-        actions={
-          <>
-            <Button
-              onClick={() => {
-                setDialogOpen(false);
-              }}
-            >
-              No
-            </Button>
-            <Button
-              onClick={async () => {
-                setDialogOpen(false);
-                await handleSignOut();
-              }}
-            >
-              Yes
-            </Button>
-          </>
+        content={
+          <Typography fontSize={{ xs: "2.5vw", sm: "1vw" }}>
+            Are you sure you want to sign out?
+          </Typography>
         }
+        actions={[
+          {
+            onClick: () => {
+              setDialogOpen(false);
+            },
+            text: "No",
+          },
+          {
+            onClick: async () => {
+              setDialogOpen(false);
+              await handleSignOut();
+            },
+            text: "Yes",
+          },
+        ]}
       />
     </Grid2>
   );

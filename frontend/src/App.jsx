@@ -43,7 +43,7 @@ const App = () => {
         grey: grey[700],
       },
       error: {
-        main: red[600],
+        main: red[700],
       },
     },
     typography: {

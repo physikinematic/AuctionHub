@@ -14,12 +14,13 @@ export const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const { data, success } = await api.account.getUserInfo();
-      if (!success) return;
+      const { data, success, message } = await api.account.getUserInfo();
+      if (!success) throw new Error(message);
       setAccount(data);
     };
 
     try {
+      if (!isAuthenticated()) return;
       fetchUserInfo();
     } catch (error) {
       setError("Unable to fetch user info", error.message);
@@ -28,9 +29,9 @@ export const AccountProvider = ({ children }) => {
 
   const signin = async (signinData) => {
     try {
-      const { success, data } = await api.account.signIn(signinData);
+      const { success, data, message } = await api.account.signIn(signinData);
 
-      if (!success) return;
+      if (!success) throw new Error(message);
 
       setAccount(data);
       return data;
@@ -42,9 +43,9 @@ export const AccountProvider = ({ children }) => {
 
   const signup = async (signupData) => {
     try {
-      const { success, data } = await api.account.signUp(signupData);
+      const { success, data, message } = await api.account.signUp(signupData);
 
-      if (!success) return;
+      if (!success) throw new Error(message);
 
       setAccount(data);
       return data;
@@ -56,11 +57,11 @@ export const AccountProvider = ({ children }) => {
 
   const signout = async () => {
     try {
-      if (!account) return;
+      if (!account) throw new Error("Account not signed in");
 
-      const { success } = await api.account.signOut();
+      const { success, message } = await api.account.signOut();
 
-      if (!success) return;
+      if (!success) throw new Error(message);
 
       setAccount(null);
       return true;
@@ -72,11 +73,11 @@ export const AccountProvider = ({ children }) => {
 
   const deleteAccount = async () => {
     try {
-      if (!account) return;
+      if (!account) throw new Error("Account not signed in");
 
-      const { success } = await api.account.deleteAccount(account.id);
+      const { success, message } = await api.account.deleteAccount(account.id);
 
-      if (!success) return;
+      if (!success) throw new Error(message);
 
       setAccount(null);
       return true;
