@@ -1,7 +1,7 @@
 import { Avatar, Button, Grid2, IconButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAccount } from "../contexts";
+import { useAccount, useError, useLoading } from "../contexts";
 import { DialogBox } from "./";
 import MenuButton from "./ui/MenuButton";
 
@@ -15,6 +15,8 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
   const { isAuthenticated, signout, account } = useAccount();
   const navigate = useNavigate();
   const [dialogOpen, setDialogOpen] = useState();
+  const { setLoading } = useLoading();
+  const { setError } = useError();
 
   useEffect(() => {
     setTargetOptions(
@@ -37,7 +39,15 @@ const ProfileMenuButton = ({ anchorOrigin, transformOrigin }) => {
   };
 
   const handleSignOut = async () => {
-    await signout();
+    setLoading("signOut", true);
+
+    try {
+      await signout();
+    } catch (error) {
+      setError("Unable to sign out", error.message);
+    }
+
+    setLoading("signOut", false);
   };
 
   return (

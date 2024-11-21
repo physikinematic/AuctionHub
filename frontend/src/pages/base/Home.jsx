@@ -6,7 +6,7 @@ import { useAuctions } from "../../hooks";
 const Home = () => {
   const { account, isAuthenticated } = useAccount();
   const { getNotOwned, getAll } = useAuctions();
-  const [auctions, setAuctions] = useState([]);
+  const [auctions, setAuctions] = useState(null);
 
   useEffect(() => {
     const fetchAuctions = async () => {

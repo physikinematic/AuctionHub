@@ -1,6 +1,8 @@
 import { Grid2, Typography } from "@mui/material";
 
-const LoadingScreen = ({ text = "Loading" }) => {
+const LoadingScreen = ({ text = "Loading..." }) => {
+  const shapeSize = { xs: "16vw", sm: "6vw" };
+
   return (
     <Grid2
       container
@@ -10,13 +12,21 @@ const LoadingScreen = ({ text = "Loading" }) => {
       minHeight="100vh"
       minWidth="100vw"
       direction="column"
+      spacing={5}
       bgcolor="background.loading"
       zIndex={9999}
+      top={0}
+      left={0}
+      right={0}
+      bottom={0}
     >
       <Grid2
         sx={{
-          width: "60px",
-          height: `calc(0.866 * 60px)`,
+          width: shapeSize,
+          height: {
+            xs: `calc(0.866 * (${shapeSize.xs}))`,
+            sm: `calc(0.866 * (${shapeSize.sm}))`,
+          },
           color: "#F40000",
           background: `
           conic-gradient(from 149deg at top, transparent, currentColor 2deg 59deg, transparent 61deg) top,
@@ -35,7 +45,9 @@ const LoadingScreen = ({ text = "Loading" }) => {
           },
         }}
       />
-      <Typography>{text}</Typography>
+      <Typography fontSize={{ xs: "5vw", sm: "1.5vw" }} color="common.white">
+        {text}
+      </Typography>
     </Grid2>
   );
 };

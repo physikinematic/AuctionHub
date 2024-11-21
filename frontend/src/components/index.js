@@ -1,4 +1,5 @@
 export { default as AuctionItemCard } from "./AuctionItemCard";
+export { default as AuctionItemCardSkeleton } from "./AuctionItemCardSkeleton";
 export { default as AuctionItemSection } from "./AuctionItemSection";
 export { default as ProfileMenuButton } from "./ProfileMenuButton";
 export { default as RegistrationForm } from "./RegistrationForm";

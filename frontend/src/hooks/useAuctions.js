@@ -1,8 +1,9 @@
 import { api } from "../api";
-import { useAccount } from "../contexts";
+import { useAccount, useError } from "../contexts";
 
 export const useAuctions = () => {
   const { account, isAuthenticated } = useAccount();
+  const { setError } = useError();
 
   const setRemainingTime = (auction) => {
     const remainingTime = Math.max(
@@ -14,62 +15,100 @@ export const useAuctions = () => {
   };
 
   const getAll = async (page, limit) => {
-    const { data, success } = await api.auction.getAll(page, limit);
-    if (!success) return;
-    data.map((item) => setRemainingTime(item));
-    return data;
+    try {
+      const { data, success } = await api.auction.getAll(page, limit);
+      if (!success) return;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    } catch (error) {
+      setError("Unable to fetch auctions", error.message);
+      return;
+    }
   };
 
   const getOwned = async (page, limit) => {
     if (!isAuthenticated()) return;
-    const { data, success } = await api.auction.getOwned(
-      account.id,
-      page,
-      limit
-    );
-    if (!success) return;
-    data.map((item) => setRemainingTime(item));
-    return data;
+    try {
+      const { data, success } = await api.auction.getOwned(
+        account.id,
+        page,
+        limit
+      );
+      if (!success) return;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    } catch (error) {
+      setError("Unable to fetch auctions", error.message);
+      return;
+    }
   };
 
   const getNotOwned = async (page, limit) => {
     if (!isAuthenticated()) return;
-    const { data, success } = await api.auction.getNotOwned(page, limit);
-    if (!success) return;
-    data.map((item) => setRemainingTime(item));
-    return data;
+    try {
+      const { data, success } = await api.auction.getNotOwned(page, limit);
+      if (!success) return;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    } catch (error) {
+      setError("Unable to fetch auctions", error.message);
+      return;
+    }
   };
 
   const getBidded = async (page, limit) => {
     if (!isAuthenticated()) return;
-    const { data, success } = await api.auction.getBidded(
-      account.id,
-      page,
-      limit
-    );
-    if (!success) return;
-    data.map((item) => setRemainingTime(item));
-    return data;
+
+    try {
+      const { data, success } = await api.auction.getBidded(
+        account.id,
+        page,
+        limit
+      );
+      if (!success) return;
+      data.map((item) => setRemainingTime(item));
+      return data;
+    } catch (error) {
+      setError("Unable to fetch auctions", error.message);
+      return;
+    }
   };
 
   const isAccountJoined = async (auctionId) => {
     if (!isAuthenticated()) return;
-    const { success, data } = await api.auction.isAccountJoined(auctionId);
-    if (!success) return;
-    return data;
+    try {
+      const { success, data } = await api.auction.isAccountJoined(auctionId);
+      if (!success) return;
+      return data;
+    } catch (error) {
+      setError("Unable to fetch auctions", error.message);
+      return;
+    }
   };
 
   const addAuction = async (auctionData) => {
     if (!isAuthenticated()) return;
-    const { success, data } = await api.auction.addAuction(auctionData);
-    if (!success) return;
-    return data;
+
+    try {
+      const { success, data } = await api.auction.addAuction(auctionData);
+      if (!success) return;
+      return data;
+    } catch (error) {
+      setError("Unable to add auction", error.message);
+      return;
+    }
   };
 
   const deleteAuction = async (id) => {
     if (!isAuthenticated()) return;
-    const { success } = await api.auction.deleteAuction(id);
-    return success;
+
+    try {
+      const { success } = await api.auction.deleteAuction(id);
+      return success;
+    } catch (error) {
+      setError("Unable to delete auction", error.message);
+      return;
+    }
   };
 
   return {

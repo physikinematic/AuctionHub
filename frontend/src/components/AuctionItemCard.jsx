@@ -5,7 +5,7 @@ import { Grid2, Paper, Tooltip, Typography, useTheme } from "@mui/material";
 
 import Logo from "../static/images/hublogo.png";
 
-import { useAccount } from "../contexts";
+import { useAccount, useError } from "../contexts";
 import { useAuctions, useBids } from "../hooks";
 import { ActionButton, ItemCard } from "./";
 
@@ -18,6 +18,7 @@ const AuctionItemCard = ({ item }) => {
   const { getByAuction } = useBids();
   const { isAccountJoined } = useAuctions();
   const [buttonState, setButtonState] = useState({ owned: false, bid: false });
+  const { setError } = useError();
 
   const textStyle = { fontSize: theme.typography.customResponsive };
 
@@ -39,7 +40,11 @@ const AuctionItemCard = ({ item }) => {
       return;
     }
 
-    fetchButtonState();
+    try {
+      fetchButtonState();
+    } catch (error) {
+      setError("Unable to get joined status", error.message);
+    }
   }, [account]);
 
   const actionButton = (label, color) => {
@@ -83,7 +88,11 @@ const AuctionItemCard = ({ item }) => {
       }
     };
 
-    fetchHighestBid();
+    try {
+      fetchHighestBid();
+    } catch (error) {
+      setError("Unable to get highest bid", error.message);
+    }
   }, []);
 
   useEffect(() => {

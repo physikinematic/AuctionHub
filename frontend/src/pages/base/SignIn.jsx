@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomLink, RegistrationForm } from "../../components";
-import { useAccount } from "../../contexts";
+import { useAccount, useLoading } from "../../contexts";
 
 const regex = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -74,6 +74,7 @@ const layouts = {
 const SignIn = () => {
   const [formValues, setFormValues] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const { setLoading } = useLoading();
   const [updatedLayouts, setUpdatedLayouts] = useState({});
   const [targetLayout, setTargetLayout] = useState(layouts.signin);
   const { signin, signup } = useAccount();
@@ -118,6 +119,7 @@ const SignIn = () => {
 
   const handleSubmit = async (action) => {
     let success;
+    setLoading(action, true);
 
     if (validateInput())
       switch (action) {
@@ -136,6 +138,8 @@ const SignIn = () => {
           });
           break;
       }
+
+    setLoading(action, false);
 
     if (success) navigate("/");
   };

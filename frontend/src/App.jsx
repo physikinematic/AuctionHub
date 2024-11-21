@@ -3,7 +3,7 @@ import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 
-import { AccountProvider } from "./contexts";
+import { AccountProvider, ErrorProvider, LoadingProvider } from "./contexts";
 import { useNavItems } from "./hooks";
 import { Main, Separate, Settings } from "./pages";
 
@@ -36,11 +36,14 @@ const App = () => {
       background: {
         default: grey[300],
         paper: grey[200],
-        loading: "rgba(120, 120, 120, 0.5)",
+        loading: "rgba(50, 50, 50, 0.5)",
       },
       border: {
         lightGrey: grey[400],
         grey: grey[700],
+      },
+      error: {
+        main: red[600],
       },
     },
     typography: {
@@ -157,10 +160,14 @@ const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <AccountProvider>
-          <CssBaseline />
-          <Layout />
-        </AccountProvider>
+        <ErrorProvider>
+          <LoadingProvider>
+            <AccountProvider>
+              <CssBaseline />
+              <Layout />
+            </AccountProvider>
+          </LoadingProvider>
+        </ErrorProvider>
       </ThemeProvider>
     </Router>
   );
