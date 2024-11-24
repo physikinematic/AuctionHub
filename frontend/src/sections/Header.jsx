@@ -3,7 +3,13 @@ import { Grid2 } from "@mui/material";
 import { DrawerButton, LogoButton } from "../components";
 import { useUp } from "../hooks";
 
-const Header = ({ drawerLists, children }) => {
+const Header = ({
+  drawerLists,
+  maxScreenForDrawer = "sm",
+  homePath = "/",
+  children,
+}) => {
+  const hideDrawerSize = useUp(maxScreenForDrawer);
   const smUp = useUp("sm");
 
   return (
@@ -21,11 +27,11 @@ const Header = ({ drawerLists, children }) => {
         justifyContent: "center",
         px: { xs: "7vw", sm: "4.3vw", md: "3.3vw", lg: "2vw" },
         py: "0.5vw",
-        boxShadow:
-          "rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px",
+        border: "1px solid",
+        borderColor: "border.lightGrey",
       }}
     >
-      {!smUp && (
+      {!hideDrawerSize && (
         <Grid2 item container justifyContent="flex-start" size="grow">
           <DrawerButton
             fontSize={{ xs: "3vw", sm: "2vw", md: "1.5vw", lg: "1vw" }}
@@ -34,13 +40,14 @@ const Header = ({ drawerLists, children }) => {
         </Grid2>
       )}
       <LogoButton
+        fullLogo={smUp}
+        glowOff
+        path={homePath}
         sx={{
           width: { xs: "7.5vw", sm: "22vw", md: "17vw", lg: "11.5vw" },
           minWidth: 35,
           position: "fixed",
         }}
-        fullLogo={smUp}
-        glowOff
       />
       {children}
     </Grid2>

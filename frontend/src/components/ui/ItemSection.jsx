@@ -11,12 +11,11 @@ const ItemSection = ({ sections = [] }) => {
   return (
     <Paper
       sx={{
-        minHeight: "100%",
         minWidth: "100%",
-        p: { xs: 4, sm: 6 },
+        maxWidth: 0,
+        p: { xs: 4, sm: "4vw" },
         bgcolor: "background.paper",
         borderRadius: 4,
-        mb: 10,
         boxShadow:
           "rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset",
       }}
@@ -24,26 +23,35 @@ const ItemSection = ({ sections = [] }) => {
       {sections.map((section) => {
         return (
           <>
-            <Grid2 item container {...itemAlignment}>
-              <Typography
-                color={section.label.color}
-                sx={{
-                  fontWeight: "bold",
-                  fontSize: { xs: "6vw", sm: "3vw", md: "2.5vw", xl: "2vw" },
-                  mb: 4,
-                }}
-              >
-                {section.label.text}
-              </Typography>
-            </Grid2>
-            <Grid2
-              component={Divider}
-              item
-              border={1}
-              borderColor="border.lightGrey"
-              borderRadius={1}
-              mb={6}
-            />
+            {section.label && (
+              <>
+                <Grid2 item container {...itemAlignment}>
+                  <Typography
+                    color={section.label.color}
+                    sx={{
+                      fontWeight: "bold",
+                      fontSize: {
+                        xs: "5vw",
+                        sm: "2.5vw",
+                        md: "2vw",
+                        xl: "1.5vw",
+                      },
+                      mb: 4,
+                    }}
+                  >
+                    {section.label.text}
+                  </Typography>
+                </Grid2>
+                <Grid2
+                  component={Divider}
+                  item
+                  border={1}
+                  borderColor="border.lightGrey"
+                  borderRadius={1}
+                  mb={6}
+                />
+              </>
+            )}
             <Grid2 item container {...itemAlignment}>
               {section.content}
             </Grid2>

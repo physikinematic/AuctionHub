@@ -14,17 +14,14 @@ export const AccountProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const { data, success, message } = await api.account.getUserInfo();
-      if (!success) throw new Error(message);
-      setAccount(data);
+      try {
+        const { data, success, message } = await api.account.getUserInfo();
+        if (!success) throw new Error(message);
+        setAccount(data);
+      } catch {}
     };
 
-    try {
-      if (!isAuthenticated()) return;
-      fetchUserInfo();
-    } catch (error) {
-      setError("Unable to fetch user info", error.message);
-    }
+    fetchUserInfo();
   }, []);
 
   const signin = async (signinData) => {

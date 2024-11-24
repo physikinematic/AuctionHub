@@ -1,7 +1,7 @@
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { Button, Grid2, Hidden, Typography } from "@mui/material";
+import { Button, Grid2 } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import { ProfileMenuButton, Searchbar } from "../components";
@@ -43,13 +43,9 @@ const Main = ({ items }) => {
     : [];
 
   return (
-    <Grid2 container direction="row" sx={{ height: "100vh" }}>
-      <Grid2 item>
-        <Hidden smDown>
-          <Sidebar withLabels items={items} />
-        </Hidden>
-      </Grid2>
-      <Grid2 item container direction="column" size="grow">
+    <Grid2 container direction="row" minHeight="100vh">
+      <Grid2 item>{smUp && <Sidebar withLabels items={items} />}</Grid2>
+      <Grid2 item container size="grow">
         <Header drawerLists={[drawerItems, signinDrawerItems]}>
           <Grid2
             item
@@ -92,19 +88,21 @@ const Main = ({ items }) => {
             )}
             {!signedIn && (
               <Grid2 item container size="grow" justifyContent="flex-end">
-                <Button size="large" component={Link} to={"/signin"}>
-                  <Typography
-                    fontSize={{
-                      xs: 13,
-                      sm: 15,
-                      md: "2vw",
-                      lg: "1.5vw",
-                      xl: "1.2vw",
-                    }}
-                    fontWeight="bold"
-                  >
-                    Sign in
-                  </Typography>
+                <Button
+                  size="large"
+                  component={Link}
+                  to={"/signin"}
+                  sx={{
+                    height: { xs: 35, md: 50 },
+                    fontSize: {
+                      xs: "3vw",
+                      sm: "2vw",
+                      md: "1.5vw",
+                      lg: "1vw",
+                    },
+                  }}
+                >
+                  Sign in
                 </Button>
               </Grid2>
             )}
@@ -113,16 +111,13 @@ const Main = ({ items }) => {
         <Grid2
           item
           container
-          sx={{
-            m: { xs: "10%", sm: 10 },
-            mt: { xs: 15, sm: 17, md: 17 },
-            marginInlineStart: { xs: "10%", sm: 20 },
-            flexGrow: 1,
-            flexShrink: 0,
-            flexBasis: "auto",
-          }}
           justifyContent="center"
-          alignItems="center"
+          m={{ xs: "10%", sm: 7 }}
+          mt={{ xs: 15, sm: 17, md: 17 }}
+          marginInlineStart={{ xs: "10%", sm: 20 }}
+          flexGrow={1}
+          flexShrink={0}
+          flexBasis="auto"
         >
           <Routes>
             {items.map((item) => {

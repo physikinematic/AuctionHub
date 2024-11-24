@@ -90,7 +90,11 @@ const DialogBox = ({
       <DialogActions>
         <Grid2 container size="grow" justifyContent="center" pb={1} spacing={2}>
           {actions.map((action) => (
-            <Button
+            <Grid2
+              key={action.text}
+              item
+              component={Button}
+              size={4}
               sx={{
                 fontSize: { xs: "2.5vw", sm: "1vw" },
                 minWidth: "1vw",
@@ -98,7 +102,7 @@ const DialogBox = ({
               onClick={action.onClick}
             >
               {action.text}
-            </Button>
+            </Grid2>
           ))}
         </Grid2>
       </DialogActions>

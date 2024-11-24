@@ -1,6 +1,6 @@
 import { Injectable, UseGuards } from '@nestjs/common';
 import { BidService } from 'src/services/bid.service';
-import { OwnerAuthGuard } from './ownerAuth.guard';
+import { OwnerAuthGuard } from './base/ownerAuth.guard';
 
 export function IsBidOwnerAuthorized() {
   return UseGuards(BidOwnerAuthGuard);

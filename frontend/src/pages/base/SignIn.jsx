@@ -141,7 +141,7 @@ const SignIn = () => {
 
     setLoading(action, false);
 
-    if (success) navigate("/");
+    if (success) navigate("/store");
   };
 
   useEffect(() => {

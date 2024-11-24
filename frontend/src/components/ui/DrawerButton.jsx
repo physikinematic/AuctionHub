@@ -45,13 +45,20 @@ const DrawerButton = ({
               >
                 {anchor === "left" &&
                   item.icon &&
-                  React.cloneElement(item.icon, { sx: { fontSize: "4vw" } })}
-                <Typography fontSize={"2.5vw"} sx={{ px: 1 }}>
+                  React.cloneElement(item.icon, {
+                    sx: { fontSize: { xs: "4vw", sm: "3vw" } },
+                  })}
+                <Typography
+                  fontSize={{ xs: "2.5vw", sm: "2vw" }}
+                  sx={{ px: 1 }}
+                >
                   {item.label}
                 </Typography>
                 {anchor === "right" &&
                   item.icon &&
-                  React.cloneElement(item.icon, { sx: { fontSize: "4vw" } })}
+                  React.cloneElement(item.icon, {
+                    sx: { fontSize: { xs: "4vw", sm: "3vw" } },
+                  })}
               </Button>
             </Grid2>
           ))}

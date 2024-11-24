@@ -1,6 +1,6 @@
 import { Injectable, UseGuards } from '@nestjs/common';
 import { AuctionService } from 'src/services/auction.service';
-import { OwnerAuthGuard } from './ownerAuth.guard';
+import { OwnerAuthGuard } from './base/ownerAuth.guard';
 
 export function IsAuctionOwnerAuthorized() {
   return UseGuards(AuctionOwnerAuthGuard);

@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
 import { useAccount } from "../../contexts";
-import { useAuctions, useRedirect } from "../../hooks";
+import { useAuctions } from "../../hooks";
 
 const Auctions = () => {
   const { getOwned } = useAuctions();
   const [auctions, setAuctions] = useState();
   const { isAuthenticated, account } = useAccount();
-
-  useRedirect(() => !isAuthenticated(), [isAuthenticated], "/");
 
   useEffect(() => {
     const fetchAuctions = async () => {
@@ -18,7 +16,15 @@ const Auctions = () => {
     fetchAuctions();
   }, [account]);
 
-  return <AuctionItemSection items={auctions} label={"My Auctions"} />;
+  return (
+    <AuctionItemSection
+      items={auctions}
+      customEmptyText={
+        !isAuthenticated() && "You must be signed in to view your auctions."
+      }
+      label={"My Auctions"}
+    />
+  );
 };
 
 export default Auctions;

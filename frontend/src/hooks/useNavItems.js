@@ -1,18 +1,15 @@
-import { useEffect, useState } from "react";
-
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import { useAccount } from "../contexts";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import StoreIcon from "@mui/icons-material/Store";
 
 import {
   About,
   Auctions,
   Bids,
-  Contact,
   Help,
   Home,
   Legal,
@@ -20,11 +17,18 @@ import {
   PrivacyPolicy,
   Profile,
   SignIn,
+  Store,
+  Support,
 } from "../pages";
 
 const navItems = () => ({
   main: [
-    { path: "/", label: "Home", icon: <HomeIcon />, element: <Home /> },
+    {
+      path: "/store",
+      label: "Store",
+      icon: <StoreIcon />,
+      element: <Store />,
+    },
     {
       path: "/auctions",
       label: "Auctions",
@@ -37,48 +41,73 @@ const navItems = () => ({
       icon: <CardMembershipIcon />,
       element: <Bids />,
     },
+  ],
+  settings: [
+    {
+      path: "/profile",
+      label: "Profile",
+      element: <Profile />,
+    },
+    {
+      path: "/payment",
+      label: "Payment",
+      element: <Payment />,
+    },
+  ],
+  separate: [
+    {
+      path: "/signin",
+      element: <SignIn />,
+    },
+    {
+      path: "/legal",
+      element: <Legal />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
+    },
+  ],
+  welcome: [
+    {
+      path: "/",
+      label: "Home",
+      element: <Home />,
+      icon: <PlayCircleOutlineIcon />,
+    },
+    {
+      path: "/store",
+      label: "Store",
+      icon: <StoreIcon />,
+    },
     {
       path: "/help",
       label: "Help",
       icon: <HelpOutlineIcon />,
       element: <Help />,
     },
-    { path: "/about", label: "About", icon: <InfoIcon />, element: <About /> },
     {
-      path: "/contact",
-      label: "Contact",
-      icon: <LocalPhoneIcon />,
-      element: <Contact />,
+      path: "/about",
+      label: "About Us",
+      icon: <InfoIcon />,
+      element: <About />,
     },
-  ],
-  settings: [
-    { path: "/profile", label: "Profile", element: <Profile /> },
-    { path: "/payment", label: "Payment", element: <Payment /> },
-  ],
-  separate: [
-    { path: "/signin", element: <SignIn /> },
-    { path: "/legal", element: <Legal /> },
-    { path: "/privacy-policy", element: <PrivacyPolicy /> },
+    {
+      path: "/support",
+      label: "Support",
+      icon: <LocalPhoneIcon />,
+      element: <Support />,
+    },
   ],
 });
 
 export const useNavItems = () => {
   const nav = navItems();
-  const { isAuthenticated, account } = useAccount();
-  const [main, setMain] = useState(nav.main);
-
-  useEffect(() => {
-    const filteredNavItems = isAuthenticated()
-      ? nav.main
-      : nav.main.filter(
-          (item) => !["Auctions", "Bids", "Payment"].includes(item.label)
-        );
-    setMain(filteredNavItems);
-  }, [account, isAuthenticated]);
 
   return {
-    main,
+    main: nav.main,
     separate: nav.separate,
     settings: nav.settings,
+    welcome: nav.welcome,
   };
 };

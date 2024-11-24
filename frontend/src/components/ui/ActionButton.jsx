@@ -1,10 +1,17 @@
 import { Button, Grid2 } from "@mui/material";
 
-const ActionButton = ({ label, size, color, onClick, sx }) => {
+const ActionButton = ({
+  label,
+  size,
+  color,
+  onClick,
+  disableElevation = false,
+  sx,
+}) => {
   return (
     <Grid2 item size={size || "grow"}>
       <Button
-        disableElevation
+        disableElevation={disableElevation}
         color={color}
         variant="contained"
         onClick={onClick}

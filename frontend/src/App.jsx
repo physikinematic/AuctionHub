@@ -5,11 +5,11 @@ import { blue, grey, red } from "@mui/material/colors";
 
 import { AccountProvider, ErrorProvider, LoadingProvider } from "./contexts";
 import { useNavItems } from "./hooks";
-import { Main, Separate, Settings } from "./pages";
+import { Main, Separate, Settings, Welcome } from "./pages";
 
 const Layout = () => {
   const location = useLocation();
-  const { main, separate, settings } = useNavItems();
+  const { main, separate, settings, welcome } = useNavItems();
 
   if (main.some((item) => item.path === location.pathname)) {
     return <Main items={main} />;
@@ -17,6 +17,10 @@ const Layout = () => {
 
   if (settings.some((item) => item.path === location.pathname)) {
     return <Settings items={settings} />;
+  }
+
+  if (welcome.some((item) => item.path === location.pathname)) {
+    return <Welcome items={welcome} />;
   }
 
   return <Separate items={separate} />;
@@ -48,6 +52,10 @@ const App = () => {
     },
     typography: {
       fontFamily: "Montserrat",
+      fontWeightLight: 300,
+      fontWeightRegular: 400,
+      fontWeightMedium: 600,
+      fontWeightBold: 700,
       customResponsive: {
         fontSize: "2.5vw",
         "@media (min-width:600px)": {
@@ -99,7 +107,7 @@ const App = () => {
               borderColor: red[500],
               color: red[500],
             },
-            fontWeight: "bold",
+            fontWeight: "medium",
             textTransform: "none",
           },
         },

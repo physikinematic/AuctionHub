@@ -4,7 +4,7 @@ import { useRedirect } from "../../hooks";
 const Payment = () => {
   const { isAuthenticated } = useAccount();
 
-  useRedirect(() => !isAuthenticated(), [isAuthenticated], "/");
+  useRedirect(() => !isAuthenticated(), [isAuthenticated], "/store");
 
   return <></>;
 };

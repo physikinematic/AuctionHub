@@ -162,10 +162,8 @@ const AuctionItemCard = ({ item }) => {
     );
   };
 
-  const containerSize = { xs: 12, md: 6, lg: 4, xl: 3 };
-
   return (
-    <Grid2 item container size={containerSize}>
+    <Grid2 item container size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
       <ItemCard
         contents={
           <>
@@ -209,7 +207,7 @@ const AuctionItemCard = ({ item }) => {
                 mt={1}
               >
                 {timePaper({
-                  children: `Ends in`,
+                  children: `ENDS IN`,
                   size: 3.5,
                   bgcolor: "primary.dim",
                   fontColor: "common.white",

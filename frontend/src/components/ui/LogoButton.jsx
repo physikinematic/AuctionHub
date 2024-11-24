@@ -5,12 +5,12 @@ import { Grid2 } from "@mui/material";
 import Logo from "../../static/images/hublogo.png";
 import FullLogo from "../../static/images/hublogo_full.png";
 
-const LogoButton = ({ glowOff, sx, fullLogo }) => {
+const LogoButton = ({ glowOff, sx, fullLogo, path = "/" }) => {
   return (
     <Grid2
       container
       component={Link}
-      to="/"
+      to={path}
       sx={{
         alignItems: "center",
         justifyContent: "center",

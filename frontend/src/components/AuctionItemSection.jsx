@@ -1,53 +1,54 @@
 import { Grid2, Typography } from "@mui/material";
 import { AuctionItemCard, AuctionItemCardSkeleton, ItemSection } from ".";
 
-const AuctionItemSection = ({ items, label }) => {
+const AuctionItemSection = ({ items, customEmptyText, label }) => {
+  let components;
+  const fontSize = { xs: "3vw", sm: "1.2vw" };
+
+  switch (items) {
+    case null:
+    case undefined:
+      if (!customEmptyText) {
+        components = Array.from({ length: 4 }, (_, i) => (
+          <AuctionItemCardSkeleton key={i} />
+        ));
+      } else {
+        components = (
+          <Typography sx={{ fontSize: fontSize, mt: "10%" }}>
+            {customEmptyText}
+          </Typography>
+        );
+      }
+      break;
+    default:
+      if (!items.length) {
+        components = (
+          <Typography sx={{ fontSize: fontSize, mt: "10%" }}>
+            No items added yet.
+          </Typography>
+        );
+      } else {
+        components = items.map((item) => (
+          <AuctionItemCard key={item.id} item={item} />
+        ));
+      }
+  }
+
   return (
-    <Grid2
-      item
-      container
-      direction="column"
-      sx={{ width: "100%", minHeight: "100%" }}
-    >
-      <ItemSection
-        sections={[
-          {
-            label: {
-              text: label,
-            },
-            content: !items ? (
-              <Grid2 item container size={12} spacing={{ xs: 4, sm: 3 }} pb={2}>
-                {Array.from({ length: 4 }, (_, i) => (
-                  <AuctionItemCardSkeleton key={i} />
-                ))}
-              </Grid2>
-            ) : items.length ? (
-              <Grid2 item container size={12} spacing={{ xs: 4, sm: 3 }} pb={2}>
-                {items?.length ? (
-                  items.map((item) => (
-                    <AuctionItemCard key={item.id} item={item} />
-                  ))
-                ) : (
-                  <Typography
-                    color=""
-                    sx={{ fontSize: { xs: "5vw", sm: 30 }, mt: "10%" }}
-                  >
-                    No items added yet.
-                  </Typography>
-                )}
-              </Grid2>
-            ) : (
-              <Typography
-                color=""
-                sx={{ fontSize: { xs: "5vw", sm: 30 }, mt: "10%" }}
-              >
-                No items added yet.
-              </Typography>
-            ),
+    <ItemSection
+      sections={[
+        {
+          label: {
+            text: label,
           },
-        ]}
-      ></ItemSection>
-    </Grid2>
+          content: (
+            <Grid2 item container size="grow" spacing={{ xs: 4, sm: 3 }} pb={2}>
+              {components}
+            </Grid2>
+          ),
+        },
+      ]}
+    />
   );
 };
 
