@@ -1,3 +1,4 @@
+import { Grid2 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
 import { useAccount } from "../../contexts";
@@ -17,13 +18,15 @@ const Auctions = () => {
   }, [account]);
 
   return (
-    <AuctionItemSection
-      items={auctions}
-      customEmptyText={
-        !isAuthenticated() && "You must be signed in to view your auctions."
-      }
-      label={"My Auctions"}
-    />
+    <Grid2 container size="grow" spacing={2} direction="column">
+      <AuctionItemSection
+        items={auctions}
+        customEmptyText={
+          !isAuthenticated() && "You must be signed in to view your auctions."
+        }
+        label={"My Auctions"}
+      />
+    </Grid2>
   );
 };
 

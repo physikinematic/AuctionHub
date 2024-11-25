@@ -8,6 +8,7 @@ const Help = () => {
         <Typography
           fontSize={size || { xs: "3vw", sm: "1.5vw", md: "1vw" }}
           fontWeight={weight || "normal"}
+          textAlign={{ xs: "center", sm: "start" }}
         >
           {t}
         </Typography>
@@ -17,72 +18,74 @@ const Help = () => {
   };
 
   return (
-    <ItemSection
-      sections={[
-        {
-          label: {
-            text: "General Help",
-            color: "primary.main",
+    <Grid2 container size="grow" spacing={2} direction="column">
+      <ItemSection
+        sections={[
+          {
+            label: {
+              text: "General Help",
+              color: "primary.main",
+            },
+            content: (
+              <Grid2 pb={10}>
+                {text({
+                  t: "Welcome to the Auction Hub Help Center. Here you can find answers to frequently asked questions and guidance on using our platform.",
+                  br: 2,
+                })}
+                {text({
+                  t: "1. Getting Started",
+                  weight: "bold",
+                  br: 1,
+                  size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
+                })}
+                {text({
+                  t: "To get started with Auction Hub, you need to create an account and log in. Once logged in, you can start browsing items, place bids, and manage your account.",
+                  br: 3,
+                })}
+                {text({
+                  t: "2. How to Place a Bid",
+                  weight: "bold",
+                  br: 1,
+                  size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
+                })}
+                {text({
+                  t: "Find an item you are interested in, set your bid amount, and submit your bid. Make sure to check the auction end time and ensure your bid is placed before it closes.",
+                })}
+              </Grid2>
+            ),
           },
-          content: (
-            <Grid2 pb={10}>
-              {text({
-                t: "Welcome to the Auction Hub Help Center. Here you can find answers to frequently asked questions and guidance on using our platform.",
-                br: 2,
-              })}
-              {text({
-                t: "1. Getting Started",
-                weight: "bold",
-                br: 1,
-                size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
-              })}
-              {text({
-                t: "To get started with Auction Hub, you need to create an account and log in. Once logged in, you can start browsing items, place bids, and manage your account.",
-                br: 3,
-              })}
-              {text({
-                t: "2. How to Place a Bid",
-                weight: "bold",
-                br: 1,
-                size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
-              })}
-              {text({
-                t: "Find an item you are interested in, set your bid amount, and submit your bid. Make sure to check the auction end time and ensure your bid is placed before it closes.",
-              })}
-            </Grid2>
-          ),
-        },
-        {
-          label: {
-            text: "Troubleshooting",
-            color: "primary.main",
+          {
+            label: {
+              text: "Troubleshooting",
+              color: "primary.main",
+            },
+            content: (
+              <Grid2 pb={6}>
+                {text({
+                  t: "1. Can't Log In",
+                  weight: "bold",
+                  br: 1,
+                  size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
+                })}
+                {text({
+                  t: "If you're having trouble logging in, make sure you are using the correct username and password. If you've forgotten your password, use the \"Forgot Password\" feature to reset it.",
+                  br: 3,
+                })}
+                {text({
+                  t: "2. Bid Not Submitting",
+                  weight: "bold",
+                  br: 1,
+                  size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
+                })}
+                {text({
+                  t: "If your bid is not submitting, check your internet connection and ensure you are meeting all bid requirements. If the problem persists, support support.",
+                })}
+              </Grid2>
+            ),
           },
-          content: (
-            <Grid2 pb={6}>
-              {text({
-                t: "1. Can't Log In",
-                weight: "bold",
-                br: 1,
-                size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
-              })}
-              {text({
-                t: "If you're having trouble logging in, make sure you are using the correct username and password. If you've forgotten your password, use the \"Forgot Password\" feature to reset it.",
-                br: 3,
-              })}
-              {text({
-                t: "2. Bid Not Submitting",
-                weight: "bold",
-                br: 1,
-                size: { xs: "3.5vw", sm: "1.8vw", md: "1.2vw" },
-              })}
-              {text({
-                t: "If your bid is not submitting, check your internet connection and ensure you are meeting all bid requirements. If the problem persists, support support.",
-              })}
-            </Grid2>
-          ),
-        },
-      ]}
-    ></ItemSection>
+        ]}
+      />
+    </Grid2>
   );
 };
 

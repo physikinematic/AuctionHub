@@ -1,3 +1,4 @@
+import { Grid2 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AuctionItemSection } from "../../components";
 import { useAccount } from "../../contexts";
@@ -17,7 +18,11 @@ const Store = () => {
     };
     fetchAuctions();
   }, [account, isAuthenticated]);
-  return <AuctionItemSection items={auctions} label="Recommended" />;
+  return (
+    <Grid2 container size="grow" spacing={2} direction="column">
+      <AuctionItemSection items={auctions} label="Recommended" />
+    </Grid2>
+  );
 };
 
 export default Store;
