@@ -66,11 +66,11 @@ export class AuctionService extends ItemService<Auction> {
         throw new BadRequestException('Invalid auction id');
       }
 
-      const bids = await this.bidService.findByAuction(auction);
+      const total = await this.bidService.total({
+        filter: { owner, auction, deleted: false },
+      });
 
-      const match = bids.data.some(
-        (bid: Bid) => bid.owner.toString() === owner,
-      );
+      const match = total > 0;
 
       return formatResponse({
         message: `Match ${match ? '' : 'not'} found`,

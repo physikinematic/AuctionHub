@@ -48,6 +48,19 @@ export abstract class ItemService<T> {
     }
   }
 
+  async total({
+    filter = { deleted: false },
+  }: {
+    filter?: RootFilterQuery<T>;
+  }) {
+    try {
+      const total = await this.model.countDocuments(filter);
+      return total;
+    } catch (error) {
+      formatResponse({ error });
+    }
+  }
+
   async findByOwner(
     owner: string,
     query: PaginationDto = { page: -1, limit: -1 },

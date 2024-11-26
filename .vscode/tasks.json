@@ -12,7 +12,7 @@
         "panel": "shared"
       },
       "options": {
-        "cwd": "${workspaceFolder}/frontend"
+        "cwd": "${workspaceFolder}/Client"
       }
     }
   ]
